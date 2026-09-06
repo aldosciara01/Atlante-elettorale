@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mappa 2027 · Atlante elettorale</title>
+<meta name="description" content="Proiezione per provincia e municipio delle elezioni politiche italiane 2027, ricalcolata dall'ultima Supermedia AGI/YouTrend.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+
+.app{display:grid;grid-template-rows:auto 1fr auto;min-height:100vh}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 28px;padding:16px 22px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:30px;font-weight:700;letter-spacing:.01em;line-height:1}
+header .sub{color:var(--ink2);font-size:13px;margin-top:4px}
+.eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+.controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-left:auto}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel2)}
+.seg button{border:0;background:transparent;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.seg button+button{border-left:1px solid var(--line)}
+select{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+
+main{display:grid;grid-template-columns:minmax(0,1fr) 380px;min-height:0}
+@media (max-width:900px){main{grid-template-columns:1fr}}
+.mapwrap{position:sticky;top:0;height:100vh;min-height:520px;padding:10px}
+@media (max-width:900px){.mapwrap{position:relative;height:auto;aspect-ratio:760/860;max-height:90vh}}
+.mapwrap svg{width:100%;height:100%;display:block}
+.collegio{stroke:var(--ground);stroke-width:.6;vector-effect:non-scaling-stroke;cursor:pointer}
+.collegio:hover{stroke:var(--sel);stroke-width:1.4}
+.collegio.selected{stroke:var(--sel);stroke-width:2}
+.collegio:focus{outline:none;stroke:var(--focus);stroke-width:2}
+.cities{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 22px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.cities .eyebrow{margin-right:6px}
+.cities button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 11px;font-size:12.5px;cursor:pointer;color:var(--ink2)}
+.cities button:hover{border-color:var(--ink2);color:var(--ink)}
+.cities button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.kind{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--muted);margin-left:6px;vertical-align:middle}
+
+.legend{position:absolute;left:18px;bottom:18px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;box-shadow:var(--shadow);max-width:280px}
+.legend .bar{height:12px;border-radius:3px;margin:6px 0 4px}
+.legend .ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.legend .cap{font-size:11px;color:var(--ink2);margin-top:6px}
+
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;box-shadow:var(--shadow);font-size:12px;min-width:200px;display:none;z-index:5}
+.tip b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:15px;font-weight:600}
+.tip .row{display:flex;justify-content:space-between;gap:12px}
+.tip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+aside{border-left:1px solid var(--line);background:var(--panel);padding:18px 20px 24px;overflow:auto}
+@media (max-width:900px){aside{border-left:0;border-top:1px solid var(--line)}}
+aside h2{font-size:24px;font-weight:600;line-height:1.05}
+.circ{color:var(--muted);font-size:12.5px;margin-top:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px 3px 6px;font-size:12px;font-weight:600;margin-top:10px;color:#fff}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.85}
+
+.coal{margin-top:16px;display:grid;gap:8px}
+.coal .r{display:grid;grid-template-columns:118px 1fr 64px;align-items:center;gap:10px;font-size:13px}
+.coal .track{height:10px;background:var(--panel2);border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.coal .fill{height:100%;border-radius:2px}
+.coal .v{text-align:right;font-weight:600}
+
+.margin{margin-top:12px;font-size:13px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:10px}
+.margin strong{color:var(--ink)}
+
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11.5px;color:var(--muted);text-align:left;padding:6px 0 4px;border-bottom:1px solid var(--line)}
+th.n,td.n{text-align:right}
+td{padding:4px 0;border-bottom:1px solid var(--line2)}
+td .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+td.delta{color:var(--muted);font-size:12px}
+.sect{margin-top:20px}
+.sect .eyebrow{margin-bottom:2px}
+
+.contested{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.contested li{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.contested button{border:0;background:transparent;padding:2px 0;cursor:pointer;text-align:left;flex:1;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.contested button:hover{text-decoration-color:var(--ink)}
+.contested .m{width:52px;text-align:right;font-weight:600}
+.contested .sw{width:8px;height:8px;border-radius:2px;flex:none}
+
+footer{border-top:1px solid var(--line);background:var(--panel);padding:14px 22px 18px}
+.nat{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px 14px}
+.nat .t{border-left:3px solid var(--other);padding:2px 0 2px 8px}
+.nat .t .l{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nat .t .v{font-family:"Barlow Condensed",Arial,sans-serif;font-size:22px;font-weight:600;line-height:1.1}
+.nat .t .a{font-size:11.5px;color:var(--ink2)}
+.coal .v small,.tip small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
+td.v2{color:var(--ink2);font-size:12.5px}
+.note{margin-top:14px;font-size:12px;color:var(--ink2);max-width:72ch;line-height:1.5}
+.note p{margin:4px 0}
+
+.mapwrap{top:0}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a class="brand" href="../index.html">Atlante elettorale</a>
+  <a class="item" href="../mappa/index.html" aria-current="page">Mappa 2027</a>
+  <a class="item" href="../approfondimenti/index.html">Approfondimenti</a>
+  <a class="item" href="../approfondimenti/metodo.html">Metodo</a>
+  <span class="right" id="site-updated"></span>
+</nav>
+<div class="app">
+<header>
+  <div>
+    <div class="eyebrow" id="eyebrow">Proiezione · scenario Casa Riformista + centro unico</div>
+    <h1>Atlante dei collegi 2027</h1>
+    <div class="sub">Voto di lista per provincia; le 14 città metropolitane sono divise fra capoluogo, a sua volta ripartito per municipio dove esistono i dati, e resto del territorio. Rotella per lo zoom, trascina per spostare.</div>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Modalità di visualizzazione">
+      <button id="mode-coal" aria-pressed="true">Coalizione vincente</button>
+      <button id="mode-party" aria-pressed="false">Quota di lista</button>
+    </div>
+    <select id="party-select" aria-label="Lista da mappare" hidden></select>
+  </div>
+</header>
+
+<div class="cities" id="cities"><span class="eyebrow">Zoom</span></div>
+<main>
+  <div class="mapwrap">
+    <svg id="map" viewBox="0 0 760 860" role="img" aria-label="Mappa dei collegi plurinominali con la coalizione in vantaggio"></svg>
+    <div class="legend" id="legend"></div>
+    <div class="tip" id="tip"></div>
+  </div>
+  <aside id="panel"></aside>
+</main>
+
+<footer>
+  <div class="eyebrow">Risultato nazionale · Supermedia AGI/YouTrend applicata allo scenario · 27,3 milioni di voti validi (affluenza 60,5%)</div>
+  <div class="nat" id="nat"></div>
+  <div class="note">
+    <p>Metodo. I voti assoluti sono ottenuti applicando le percentuali proiettate ai voti validi di ciascuna unità: per i municipi i voti validi reali del 2022, per le altre unità una stima da popolazione e affluenza, il tutto riproporzionato a un totale nazionale di 27,3 milioni. Per ogni unità si parte dal voto di lista alla Camera del 2022 (reale per i municipi, stimato altrove) e si applica uno scorrimento proporzionale per lista, calibrato con adattamento iterativo in modo che la media nazionale ponderata coincida con i valori nazionali correnti. Questi derivano dall'ultima Supermedia AGI/YouTrend (media ponderata dei sondaggi, aggiornata ogni due settimane) tradotta nello scenario di coalizione scelto: Casa Riformista vale Italia Viva più +Europa più sei decimali per le sigle minori (PSI, PRI, Noi di Centro), la lista di centro vale Azione più sei decimali per PLD e affini, entrambi sottratti alle altre liste; la mappa viene ricalcolata e ripubblicata automaticamente ogni settimana quando esce una nuova Supermedia, mentre il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste. Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022; Casa Riformista e la lista di centro si spartiscono la base di Azione–Italia Viva, la prima con +Europa e una quota moderata del PD.</p>
+    <p>Unità territoriali. Le province sono quelle dei confini amministrativi ISTAT (per la Sardegna le otto unità precedenti la riforma). Nelle 14 città metropolitane il capoluogo è separato dal resto del territorio; per Torino, Milano, Genova, Bologna, Firenze, Roma, Napoli e Palermo il capoluogo è ripartito nei municipi attuali a partire dai risultati reali della Camera 2022 per sezione elettorale (banca dati SEI, Gabriele Pinto, Sapienza, CC BY-SA), aggregati sui poligoni delle sezioni; le vecchie circoscrizioni di Torino (10) e i vecchi quartieri di Bologna (9) sono stati accorpati nelle ripartizioni odierne, e i cinque quartieri di Firenze sono ricavati dalla numerazione delle sezioni. Per Venezia, Bari, Reggio Calabria, Messina, Catania e Cagliari non sono disponibili né i poligoni delle sezioni né i risultati per sezione: il comune compare come unità unica. Il colore indica quale coalizione prevale nell'unità; con il premio nazionale, il vantaggio locale non assegna seggi aggiuntivi.</p>
+  </div>
+</footer>
+</div>
+
+
+<footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+window.__initAtlante = function(){
+  const data = window.__UNITA__, feats = data.features, SC = window.__SCENARIO__;
+  const P27K = Object.keys(SC.targets);
+  // seed each unit from its 2022 base, then iterative proportional fitting to the national targets
+  function project(){
+    const seed = b => { const alt=Math.min(b.Altri,8);
+      return {FdI:b.FdI,PD:b.PD,M5S:b.M5S,FI:b.FI,AVS:b.AVS,Lega:b.Lega,NM:b.NM,
+        FN:0.5*b.Lega+0.25*b.FdI+0.3*alt, CasaRif:0.5*b.AzIV+1.0*b['+E']+0.15*b.PD, Centro:0.5*b.AzIV+0.1*b.FI, Altri:b.Altri}; };
+    const P = feats.map(f=>seed(f.properties.b22)); const Wt = feats.reduce((a,f)=>a+f.properties.w,0);
+    for(let it=0; it<300; it++){
+      const avg={}; P27K.forEach(k=>avg[k]=0);
+      feats.forEach((f,i)=>P27K.forEach(k=>avg[k]+=P[i][k]*f.properties.w)); P27K.forEach(k=>avg[k]/=Wt);
+      P.forEach(p=>{ P27K.forEach(k=>p[k]*=SC.targets[k]/avg[k]); let s=0; P27K.forEach(k=>s+=p[k]); P27K.forEach(k=>p[k]*=100/s); });
+    }
+    const sum=(p,ks)=>ks.reduce((a,k)=>a+p[k],0);
+    feats.forEach((f,i)=>{ const p=f.properties, q=P[i];
+      p.p={}; P27K.forEach(k=>p.p[k]=Math.round(q[k]*10)/10);
+      p.csx=Math.round(sum(q,SC.coalitions.CSX)*10)/10; p.cdx=Math.round(sum(q,SC.coalitions.CDX)*10)/10;
+      p.fn=Math.round(sum(q,SC.coalitions.FN)*10)/10; p.centro=Math.round(sum(q,SC.coalitions.CENTRO)*10)/10;
+      p.margin=Math.round((p.csx-p.cdx)*10)/10; p.winner=p.csx>p.cdx?'CSX':'CDX';
+      const b=p.b22; p.csx22=Math.round((b.PD+b.AVS+b['+E'])*10)/10; p.cdx22=Math.round((b.FdI+b.Lega+b.FI+b.NM)*10)/10; });
+  }
+  project();
+  document.getElementById('eyebrow').textContent = `Proiezione · scenario Casa Riformista + centro unico · Supermedia AGI/YouTrend del ${SC.supermedia.label} · aggiornato il ${SC.updatedLabel}`;
+  const css = getComputedStyle(document.documentElement);
+  const tok = n => css.getPropertyValue(n).trim();
+
+  const PARTIES = [
+    ['FdI','Fratelli d’Italia','#1F3F8F','CDX'],
+    ['PD','Partito Democratico','#C5303A','CSX'],
+    ['M5S','Movimento 5 Stelle','#D7A21B','CSX'],
+    ['FN','Futuro Nazionale','#5C4632','FN'],
+    ['FI','Forza Italia','#2E86C1','CDX'],
+    ['AVS','Alleanza Verdi e Sinistra','#2E8B57','CSX'],
+    ['Lega','Lega','#2F7A4F','CDX'],
+    ['CasaRif','Casa Riformista','#E0607E','CSX'],
+    ['Centro','Lista di centro (Azione–PLD)','#8E6BB8','CENTRO'],
+    ['NM','Noi Moderati','#6C8EBF','CDX'],
+    ['Altri','Altre liste','#8A8F9A','ALTRI'],
+  ];
+  const B22 = [['FdI','FdI'],['PD','PD'],['M5S','M5S'],['Lega','Lega'],['FI','FI'],['AzIV','Azione–IV'],['AVS','AVS'],['+E','+Europa'],['NM','NM'],['Altri','Altri']];
+  const COAL = {CSX:{name:'Centrosinistra',tok:'--csx',parts:'PD, M5S, AVS, Casa Riformista'},CDX:{name:'Centrodestra',tok:'--cdx',parts:'FdI, FI, Lega, NM'},FN:{name:'Futuro Nazionale',tok:'--fn'},CENTRO:{name:'Centro',tok:'--centro'}};
+  const fmt = v => v.toFixed(1).replace('.',',');
+  const fmtS = v => (v>0?'+':v<0?'−':'') + fmt(Math.abs(v));
+  const fmtN = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  const votes = (p,pct) => fmtN(p.w*1000*pct/100);
+
+  // ---- state ----
+  let mode = 'coal', party = 'FdI', selected = null;
+
+  // ---- map ----
+  const svg = d3.select('#map');
+  const W = 760, H = 860;
+  const proj = d3.geoConicConformal().parallels([38,46]).rotate([-12.5,0]).fitExtent([[14,14],[W-14,H-14]], data);
+  const path = d3.geoPath(proj);
+  const g = svg.append('g');
+  const zoom = d3.zoom().scaleExtent([1,60]).on('zoom',ev=>{g.attr('transform',ev.transform);});
+  svg.call(zoom);
+  const paths = g.selectAll('path').data(feats).join('path')
+    .attr('class','collegio').attr('d',path).attr('tabindex',0)
+    .attr('aria-label',d=>d.properties.name)
+    .on('mousemove',(ev,d)=>showTip(ev,d))
+    .on('mouseleave',hideTip)
+    .on('click',(ev,d)=>select(d))
+    .on('keydown',(ev,d)=>{ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(d);} });
+
+  function hexToRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+  function mix(hex, t){ // colour over ground at alpha t
+    const [r,g_,b]=hexToRgb(hex); const [gr,gg,gb]=hexToRgb(tok('--ground'));
+    return `rgb(${Math.round(r*t+gr*(1-t))},${Math.round(g_*t+gg*(1-t))},${Math.round(b*t+gb*(1-t))})`;
+  }
+  const MAXM = 25;
+  function coalFill(p){
+    const m = Math.abs(p.margin), t = 0.18 + 0.82*Math.min(m/MAXM,1);
+    return mix(tok(p.winner==='CSX'?'--csx':'--cdx'), t);
+  }
+  let pScale = null;
+  function partyFill(p){
+    const v = p.p[party]; return mix(partyColor(party), 0.12 + 0.88*pScale(v));
+  }
+  function partyColor(k){ return PARTIES.find(x=>x[0]===k)[2]; }
+
+  function paint(){
+    if(mode==='party'){
+      const vals = feats.map(f=>f.properties.p[party]);
+      pScale = d3.scaleLinear().domain([d3.min(vals), d3.max(vals)]).range([0,1]).clamp(true);
+    }
+    paths.attr('fill', d => mode==='coal' ? coalFill(d.properties) : partyFill(d.properties));
+    legend();
+  }
+
+  function legend(){
+    const el = document.getElementById('legend');
+    if(mode==='coal'){
+      const csx = tok('--csx'), cdx = tok('--cdx'), gnd = tok('--ground');
+      el.innerHTML = `<div class="eyebrow">Coalizione in vantaggio e margine</div>
+        <div class="bar" style="background:linear-gradient(90deg,${csx} 0%,${mix(csx,.18)} 50%,${mix(cdx,.18)} 50%,${cdx} 100%)"></div>
+        <div class="ticks"><span>CSX +25</span><span>pari</span><span>CDX +25</span></div>
+        <div class="cap">Tinta piena: margine di 25 punti o più; tinta chiara: collegio in bilico.</div>`;
+    } else {
+      const name = PARTIES.find(x=>x[0]===party)[1], c = partyColor(party);
+      const [lo,hi] = pScale.domain();
+      el.innerHTML = `<div class="eyebrow">${name}, quota per collegio</div>
+        <div class="bar" style="background:linear-gradient(90deg,${mix(c,.12)},${c})"></div>
+        <div class="ticks"><span>${fmt(lo)}%</span><span>${fmt(hi)}%</span></div>
+        <div class="cap">Scala lineare tra il minimo e il massimo proiettati.</div>`;
+    }
+  }
+
+  // ---- tooltip ----
+  const tip = document.getElementById('tip'), wrap = document.querySelector('.mapwrap');
+  function showTip(ev,d){
+    const p = d.properties, r = wrap.getBoundingClientRect();
+    let rows;
+    if(mode==='coal'){
+      rows = `<div class="row"><span><i class="sw" style="background:${tok('--csx')}"></i>Centrosinistra</span><span class="num"><b>${fmt(p.csx)}%</b> <small>${votes(p,p.csx)}</small></span></div>
+              <div class="row"><span><i class="sw" style="background:${tok('--cdx')}"></i>Centrodestra</span><span class="num"><b>${fmt(p.cdx)}%</b> <small>${votes(p,p.cdx)}</small></span></div>
+              <div class="row"><span><i class="sw" style="background:${tok('--fn')}"></i>Futuro Nazionale</span><span class="num">${fmt(p.fn)}% <small>${votes(p,p.fn)}</small></span></div>
+              <div class="row"><span><i class="sw" style="background:${tok('--centro')}"></i>Centro</span><span class="num">${fmt(p.centro)}% <small>${votes(p,p.centro)}</small></span></div>
+              <div class="row" style="margin-top:4px;color:var(--ink2)"><span>Margine</span><span class="num">${COAL[p.winner].name} ${fmtS(Math.abs(p.margin))}</span></div>`;
+    } else {
+      const nm = PARTIES.find(x=>x[0]===party)[1];
+      rows = `<div class="row"><span><i class="sw" style="background:${partyColor(party)}"></i>${nm}</span><span class="num"><b>${fmt(p.p[party])}%</b> <small>${votes(p,p.p[party])}</small></span></div>`;
+    }
+    tip.innerHTML = `<b>${p.name}</b><div style="color:var(--muted);margin-bottom:4px">${p.circ} · ${fmtN(p.w*1000)} voti validi</div>${rows}`;
+    tip.style.display='block';
+    let x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
+    if(x + tip.offsetWidth > r.width - 8) x = ev.clientX - r.left - tip.offsetWidth - 14;
+    if(y + tip.offsetHeight > r.height - 8) y = ev.clientY - r.top - tip.offsetHeight - 14;
+    tip.style.left = x+'px'; tip.style.top = y+'px';
+  }
+  function hideTip(){ tip.style.display='none'; }
+
+  // ---- panel ----
+  function select(d){
+    selected = d; paths.classed('selected', f=>f===d); renderPanel();
+    document.getElementById('panel').scrollTop = 0;
+  }
+  function bar(label, val, color, max, p){
+    return `<div class="r"><span>${label}</span><div class="track"><div class="fill" style="width:${(val/max*100).toFixed(1)}%;background:${color}"></div></div><span class="v num">${fmt(val)}%<small>${votes(p,val)}</small></span></div>`;
+  }
+  function renderPanel(){
+    const el = document.getElementById('panel');
+    const p = selected.properties, c = COAL[p.winner];
+    const max = Math.max(p.csx,p.cdx,p.fn,p.centro,50);
+    const parts = PARTIES.map(([k,name,col])=>`<tr><td><i class="sw" style="background:${col}"></i>${name}</td><td class="n num">${fmt(p.p[k])}</td><td class="n num v2">${votes(p,p.p[k])}</td></tr>`).join('');
+    const b22 = B22.map(([k,name])=>`<tr><td>${name}</td><td class="n num">${fmt(p.b22[k])}</td></tr>`).join('');
+    const isVda = p.id==='P7';
+    el.innerHTML = `
+      <div class="eyebrow">${p.circ}</div>
+      <h2>${p.name}</h2>
+      <div class="circ">${isVda?'Collegio uninominale unico: un solo deputato. ':''}${fmtN(p.w*1000)} voti validi ${p.kind==='muni'?'(2022 reali, riproporzionati)':'stimati'}${p.city&&p.kind!=='muni'&&p.kind!=='city'?' · <a href="#" data-zoom="'+p.city+'">zoom sulla città</a>':''}</div>
+      <span class="chip" style="background:${tok(c.tok)}"><i class="dot"></i>${c.name} in vantaggio di ${fmt(Math.abs(p.margin))} punti</span>
+      <div class="coal">
+        ${bar('Centrosinistra',p.csx,tok('--csx'),max,p)}
+        ${bar('Centrodestra',p.cdx,tok('--cdx'),max,p)}
+        ${bar('Futuro Nazionale',p.fn,tok('--fn'),max,p)}
+        ${bar('Centro',p.centro,tok('--centro'),max,p)}
+      </div>
+      <div class="margin">Nel 2022, sulla stessa base, il centrodestra (FdI, Lega, FI, NM) valeva <strong class="num">${fmt(p.cdx22)}%</strong> e il centrosinistra di allora (PD, AVS, +E) <strong class="num">${fmt(p.csx22)}%</strong>, con il M5S fuori coalizione al <strong class="num">${fmt(p.b22.M5S)}%</strong>.</div>
+      <div class="sect"><div class="eyebrow">Voto di lista proiettato 2027</div>
+        <table><thead><tr><th>Lista</th><th class="n">%</th><th class="n">Voti</th></tr></thead><tbody>${parts}</tbody></table></div>
+      <div class="sect"><div class="eyebrow">Base di partenza 2022 ${p.kind==='muni'?'(voti reali per sezione, fonte SEI)':'(stima)'}</div>
+        <table><thead><tr><th>Lista</th><th class="n">%</th></tr></thead><tbody>${b22}</tbody></table></div>
+      ${contested()}`;
+    el.querySelectorAll('.contested button').forEach(b=>b.addEventListener('click',()=>select(feats.find(f=>f.properties.id===b.dataset.id))));
+    el.querySelectorAll('a[data-zoom]').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();zoomCity(a.dataset.zoom);}));
+  }
+  function contested(){
+    const list = feats.filter(f=>f.properties.id!=='P7' && f.properties.kind!=='muni').slice().sort((a,b)=>Math.abs(a.properties.margin)-Math.abs(b.properties.margin)).slice(0,8);
+    return `<div class="sect"><div class="eyebrow">Collegi più contesi</div><ul class="contested">${list.map(f=>{const p=f.properties;return `<li><i class="sw" style="background:${tok(p.winner==='CSX'?'--csx':'--cdx')}"></i><button data-id="${p.id}">${p.name}</button><span class="m num">${p.winner} ${fmtS(Math.abs(p.margin))}</span></li>`;}).join('')}</ul></div>`;
+  }
+
+  // ---- national strip ----
+  (function(){
+    const T = SC.targets;
+    const el = document.getElementById('nat');
+    const cs = ks => Math.round(ks.reduce((a,k)=>a+T[k],0)*10)/10;
+    const coal = [['Centrosinistra',cs(SC.coalitions.CSX),'--csx'],['Centrodestra',cs(SC.coalitions.CDX),'--cdx'],['Futuro Nazionale',cs(SC.coalitions.FN),'--fn'],['Centro',cs(SC.coalitions.CENTRO),'--centro']];
+    const TOT = 27300000;
+    el.innerHTML = coal.map(([n,v,t])=>`<div class="t" style="border-color:${tok(t)}"><div class="l">${n}</div><div class="v num">${fmt(v)}%</div><div class="a num">${fmtN(TOT*v/100)}</div></div>`).join('') +
+      PARTIES.map(([k,n,c])=>`<div class="t" style="border-color:${c}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
+  })();
+
+  // ---- controls ----
+  const sel = document.getElementById('party-select');
+  sel.innerHTML = PARTIES.filter(x=>x[0]!=='Altri').map(([k,n])=>`<option value="${k}">${n}</option>`).join('');
+  sel.addEventListener('change',()=>{party=sel.value;paint();});
+  const bC = document.getElementById('mode-coal'), bP = document.getElementById('mode-party');
+  bC.addEventListener('click',()=>{mode='coal';bC.setAttribute('aria-pressed','true');bP.setAttribute('aria-pressed','false');sel.hidden=true;paint();});
+  bP.addEventListener('click',()=>{mode='party';bP.setAttribute('aria-pressed','true');bC.setAttribute('aria-pressed','false');sel.hidden=false;paint();});
+
+  // theme changes: repaint so ground mixing follows the theme
+  const mq = matchMedia('(prefers-color-scheme: dark)'); mq.addEventListener && mq.addEventListener('change',()=>{paint();if(selected)renderPanel();});
+  new MutationObserver(()=>{paint();if(selected)renderPanel();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+  // ---- city zoom ----
+  const CITIES = [['torino','Torino'],['milano','Milano'],['genova','Genova'],['venezia','Venezia'],['bologna','Bologna'],['firenze','Firenze'],['roma','Roma'],['napoli','Napoli'],['bari','Bari'],['reggio','Reggio Calabria'],['palermo','Palermo'],['messina','Messina'],['catania','Catania'],['cagliari','Cagliari']];
+  const cbar = document.getElementById('cities');
+  const italyBtn = document.createElement('button'); italyBtn.textContent='Italia'; italyBtn.className='on'; cbar.appendChild(italyBtn);
+  italyBtn.addEventListener('click',()=>{svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity); setOn(italyBtn);});
+  function setOn(b){cbar.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));}
+  CITIES.forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.city=k;cbar.appendChild(b);b.addEventListener('click',()=>zoomCity(k));});
+  function zoomCity(k){
+    const fs = feats.filter(f=>f.properties.city===k && (f.properties.kind==='muni'||f.properties.kind==='city'));
+    if(!fs.length) return;
+    const b = path.bounds({type:'FeatureCollection',features:fs});
+    const dx=b[1][0]-b[0][0], dy=b[1][1]-b[0][1], cx=(b[0][0]+b[1][0])/2, cy=(b[0][1]+b[1][1])/2;
+    const s = Math.min(60, 0.85/Math.max(dx/W, dy/H));
+    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(W/2-s*cx, H/2-s*cy).scale(s));
+    setOn(cbar.querySelector(`button[data-city="${k}"]`));
+    const first = fs[0]; select(first);
+  }
+  paint();
+  select(feats.find(f=>f.properties.id==='R58'));
+};
+</script>
+
+<script>
+(async function(){
+  try{
+    const [u,s] = await Promise.all([fetch('../data/unita.json').then(r=>r.json()), fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json())]);
+    window.__UNITA__ = u; window.__SCENARIO__ = s; window.__initAtlante();
+  }catch(e){ document.getElementById('panel').innerHTML = '<p>Impossibile caricare i dati della mappa (' + e.message + '). Riprova più tardi.</p>'; }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Come è costruita la mappa · Atlante elettorale</title>
+<meta name="description" content="Fonti, unità territoriali e modello della proiezione 2027.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body><nav class="site-nav">
+  <a class="brand" href="../index.html">Atlante elettorale</a>
+  <a class="item" href="../mappa/index.html">Mappa 2027</a>
+  <a class="item" href="../approfondimenti/index.html">Approfondimenti</a>
+  <a class="item" href="../approfondimenti/metodo.html" aria-current="page">Metodo</a>
+  <span class="right" id="site-updated"></span>
+</nav><main class="prose">
+<div class="meta">Metodo · 6 settembre 2026</div>
+<h1>Come è costruita la mappa</h1>
+<p class="lede">Fonti, unità territoriali e modello di scorrimento della proiezione 2027, con i suoi limiti dichiarati.</p>
+<h2>Unità territoriali</h2>
+<p>La mappa usa le province secondo i confini amministrativi ISTAT (per la Sardegna le otto unità precedenti la riforma). Nelle quattordici città metropolitane il capoluogo è separato dal resto del territorio. Per Torino, Milano, Genova, Bologna, Firenze, Roma, Napoli e Palermo il capoluogo è ripartito nei municipi attuali a partire dai risultati reali della Camera 2022 per sezione elettorale, tratti dalla banca dati SEI di Gabriele Pinto (Sapienza, licenza CC BY-SA) e aggregati sui poligoni delle sezioni; le vecchie circoscrizioni di Torino e i vecchi quartieri di Bologna sono accorpati nelle ripartizioni odierne, i cinque quartieri di Firenze sono ricavati dalla numerazione delle sezioni e i trenta quartieri di Napoli sono ricondotti alle dieci municipalità. Per Venezia, Bari, Reggio Calabria, Messina, Catania e Cagliari non sono disponibili né i poligoni né i risultati per sezione, e il comune compare come unità unica. I poligoni delle sezioni sono a loro volta ricostruiti da un algoritmo, con un errore mediano di un centinaio di metri.</p>
+<h2>Base di partenza</h2>
+<p>Per ogni unità si parte dal voto di lista alla Camera del 2022: reale per i municipi, stimato a livello provinciale altrove. I voti validi di ciascuna unità sono quelli reali del 2022 per i municipi e una stima da popolazione e affluenza per le altre unità, riproporzionati a un totale nazionale di 27,3 milioni, corrispondente a un'affluenza del 60,5%.</p>
+<h2>Scorrimento e calibrazione</h2>
+<p>Le liste nuove sono seminate sulle basi del 2022: Futuro Nazionale sull'elettorato leghista e di protesta, Casa Riformista e la lista di centro sulla base di Azione–Italia Viva, la prima con +Europa e una quota moderata del PD. A ciascuna unità si applica uno scorrimento proporzionale per lista, calibrato con adattamento iterativo in modo che la media nazionale ponderata coincida con i valori nazionali correnti. Questi derivano dall'ultima Supermedia AGI/YouTrend, tradotta nello scenario di coalizione scelto: Casa Riformista vale Italia Viva più +Europa più sei decimali per le sigle minori, la lista di centro vale Azione più sei decimali per PLD e affini, entrambi sottratti alle altre liste. Il colore indica quale coalizione prevale nell'unità; con il premio nazionale, il vantaggio locale non assegna seggi aggiuntivi.</p>
+<h2>Aggiornamento</h2>
+<p>Il file dei dati nazionali viene riscritto automaticamente ogni settimana quando esce una nuova Supermedia, e la pagina ricalcola la proiezione nel browser a ogni apertura. Il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste ufficiali.</p>
+</main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
+fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Supermedia del '+s.supermedia.label+' · aggiornato il '+s.updatedLabel; document.querySelectorAll('[data-scenario]').forEach(x=>x.textContent=s.supermedia.label);}).catch(()=>{});
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlante elettorale</title>
+<meta name="description" content="Proiezioni e analisi sulle elezioni italiane: mappa interattiva del 2027 aggiornata ogni due settimane e approfondimenti.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="./assets/site.css">
+</head>
+<body><nav class="site-nav">
+  <a class="brand" href="./index.html">Atlante elettorale</a>
+  <a class="item" href="./mappa/index.html">Mappa 2027</a>
+  <a class="item" href="./approfondimenti/index.html">Approfondimenti</a>
+  <a class="item" href="./approfondimenti/metodo.html">Metodo</a>
+  <span class="right" id="site-updated"></span>
+</nav><main class="prose">
+<div class="meta">Proiezioni e analisi sulle elezioni italiane</div>
+<h1>Atlante elettorale</h1>
+<p class="lede">Una mappa che si aggiorna da sola a ogni nuova Supermedia dei sondaggi, e una serie di approfondimenti sulle regole, i numeri e la geografia del voto.</p>
+<p>Il cuore del sito è la proiezione per le elezioni politiche del 2027: il voto di lista atteso in ciascuna provincia e, nelle città metropolitane, in ciascun municipio del capoluogo, calcolato a partire dai risultati del 2022 e ricalibrato ogni due settimane sulla media ponderata dei sondaggi di AGI e YouTrend. Attorno alla mappa si raccolgono analisi sulla legge elettorale, sugli scenari di coalizione e sulla distribuzione territoriale del consenso.</p>
+<div class="cards">
+  <a class="card" href="mappa/index.html"><div class="k">Mappa interattiva</div><h3>Proiezione 2027 per provincia e municipio</h3><p>Coalizione in vantaggio, margine, voto di lista in percentuale e in voti assoluti per 186 unità territoriali.</p><div class="d">Supermedia del <span data-scenario>…</span></div></a>
+  <a class="card" href="approfondimenti/scenari-2027.html"><div class="k">Approfondimento</div><h3>Verso il 2027: tre scenari e la soglia del 42%</h3><p>Come lo Stabilicum trasforma i voti in seggi e perché la composizione delle liste conta più dei decimali.</p><div class="d">Settembre 2026</div></a>
+  <a class="card" href="approfondimenti/metodo.html"><div class="k">Metodo</div><h3>Come è costruita la mappa</h3><p>Fonti, unità territoriali, scorrimento proporzionale e limiti della proiezione.</p><div class="d">Aggiornato a ogni modifica del modello</div></a>
+</div>
+</main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
+fetch('./data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Supermedia del '+s.supermedia.label+' · aggiornato il '+s.updatedLabel; document.querySelectorAll('[data-scenario]').forEach(x=>x.textContent=s.supermedia.label);}).catch(()=>{});
+</script>
+</body>
+</html>

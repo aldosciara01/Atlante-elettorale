@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Approfondimenti · Atlante elettorale</title>
+<meta name="description" content="Analisi e scenari sulle elezioni italiane.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body><nav class="site-nav">
+  <a class="brand" href="../index.html">Atlante elettorale</a>
+  <a class="item" href="../mappa/index.html">Mappa 2027</a>
+  <a class="item" href="../approfondimenti/index.html" aria-current="page">Approfondimenti</a>
+  <a class="item" href="../approfondimenti/metodo.html">Metodo</a>
+  <span class="right" id="site-updated"></span>
+</nav><main class="prose">
+<div class="meta">Approfondimenti</div>
+<h1>Analisi e scenari</h1>
+<p class="lede">Testi di approfondimento sulle elezioni italiane, in ordine dal più recente.</p>
+<div class="cards">
+  <a class="card" href="scenari-2027.html"><div class="k">Politiche 2027</div><h3>Verso il 2027: tre scenari e la soglia del 42%</h3><p>Simulazione dei seggi alla Camera e al Senato nei tre scenari di coalizione, con lo Stabilicum approvato dalla Camera.</p><div class="d">6 settembre 2026</div></a>
+  <a class="card" href="metodo.html"><div class="k">Metodo</div><h3>Come è costruita la mappa</h3><p>Fonti, unità territoriali e modello di scorrimento.</p><div class="d">6 settembre 2026</div></a>
+</div>
+</main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
+fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Supermedia del '+s.supermedia.label+' · aggiornato il '+s.updatedLabel; document.querySelectorAll('[data-scenario]').forEach(x=>x.textContent=s.supermedia.label);}).catch(()=>{});
+</script>
+</body>
+</html>

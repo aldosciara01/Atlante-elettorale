@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "updatedAt": "2026-09-06",
+ "updatedLabel": "6 settembre 2026",
+ "supermedia": {
+  "date": "2026-07-30",
+  "label": "30 luglio 2026",
+  "url": "https://www.youtrend.it/2026/07/30/supermedia-youtrend-agi-fdi-al-267-sale-futuro-nazionale/",
+  "lists": {
+   "Fratelli d'Italia": 26.7,
+   "Partito Democratico": 21.2,
+   "Movimento 5 Stelle": 13.0,
+   "Forza Italia": 8.0,
+   "Futuro Nazionale": 7.1,
+   "Alleanza Verdi e Sinistra": 6.4,
+   "Lega": 5.9,
+   "Azione": 3.1,
+   "Italia Viva": 2.3,
+   "+Europa": 1.4,
+   "Noi Moderati": 1.0
+  }
+ },
+ "adjustments": {
+  "CasaRif": 0.6,
+  "Centro": 0.6
+ },
+ "targets": {
+  "FdI": 26.7,
+  "PD": 21.2,
+  "M5S": 13.0,
+  "FN": 7.1,
+  "FI": 8.0,
+  "AVS": 6.4,
+  "Lega": 5.9,
+  "CasaRif": 4.3,
+  "Centro": 3.7,
+  "NM": 1.0,
+  "Altri": 2.7
+ },
+ "coalitions": {
+  "CSX": [
+   "PD",
+   "M5S",
+   "AVS",
+   "CasaRif"
+  ],
+  "CDX": [
+   "FdI",
+   "FI",
+   "Lega",
+   "NM"
+  ],
+  "FN": [
+   "FN"
+  ],
+  "CENTRO": [
+   "Centro"
+  ]
+ }
+}
