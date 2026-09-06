@@ -7,6 +7,45 @@
 <meta name="description" content="Simulazione delle elezioni regionali siciliane 2027: candidati, liste e seggi secondo i sondaggi e la stima generale.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
+<style>
+.simap{max-width:1180px;margin:0 auto 30px;padding:0 22px}
+.simap-head{border-bottom:1px solid var(--line);margin-bottom:0}
+.simap .cities{padding:8px 0;border:0;background:transparent}
+.simap-body{display:grid;grid-template-columns:minmax(0,1fr) 340px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+@media (max-width:900px){.simap-body{grid-template-columns:1fr}}
+.mapwrap.sic{position:relative;min-height:520px;background:var(--panel2);padding:8px}
+@media (max-width:900px){.mapwrap.sic{aspect-ratio:760/520;min-height:0}}
+.mapwrap.sic svg{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);display:block}
+.simap aside{padding:16px 18px;border-left:1px solid var(--line);font-size:14px;line-height:1.45}
+@media (max-width:900px){.simap aside{border-left:0;border-top:1px solid var(--line)}}
+.simap aside h3{font-family:"Barlow Condensed",Arial,sans-serif;font-size:22px;font-weight:600;margin:2px 0 2px;line-height:1.05}
+.simap .circ{color:var(--muted);font-size:12.5px}
+.simap .chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;margin-top:8px;color:#fff}
+.simap .coal{margin-top:12px;display:grid;gap:6px}
+.simap .coal .r{display:grid;grid-template-columns:110px 1fr 46px;align-items:center;gap:8px;font-size:13px}
+.simap .coal .track{height:9px;background:var(--panel2);border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.simap .coal .fill{height:100%}
+.simap .coal .v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.simap table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.simap th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted);text-align:left;padding:5px 0 3px;border-bottom:1px solid var(--line)}
+.simap th.n,.simap td.n{text-align:right}
+.simap td{padding:3px 0;border-bottom:1px solid var(--line2)}
+.simap td .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.simap .sect{margin-top:14px}
+.simap .collegio{stroke:#fff;stroke-width:.7;vector-effect:non-scaling-stroke;cursor:pointer}
+.simap .collegio:hover{stroke:var(--ink);stroke-width:1.4}
+.simap .collegio.selected{stroke:var(--ink);stroke-width:2}
+.simap .legend{position:absolute;left:14px;bottom:14px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:11.5px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.simap .legend .row{display:flex;align-items:center;gap:6px;margin:2px 0}
+.simap .legend .sw{width:10px;height:10px;border-radius:2px}
+.simap .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px;min-width:200px;display:none;z-index:5;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.simap .tip b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:15px;font-weight:600}
+.simap .tip .row{display:flex;justify-content:space-between;gap:12px}
+.simap .tip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+:root{--cl:#D0202A;--cdxs:#1F4E9C;--scn:#0F8B7A;--fns:#6E5A3B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--cl:#E4505A;--cdxs:#5B87D6;--scn:#3FB8A5;--fns:#B39268}}
+:root[data-theme="dark"]{--cl:#E4505A;--cdxs:#5B87D6;--scn:#3FB8A5;--fns:#B39268}
+</style>
 </head>
 <body><nav class="site-nav">
   <a class="brand" href="../index.html">Atlante elettorale</a>
@@ -24,11 +63,65 @@
 <p>Due rilevazioni estive concordano nel collocare in testa Ismaele La Vardera, il deputato regionale di Controcorrente: Keix (20 giugno 2026) lo stima fra il 23 e il 25%, davanti a Cateno De Luca (18-20) e al presidente uscente Renato Schifani (16-18), con Nuccio Di Paola del M5S intorno al 10 e gli altri nomi sotto il 6; BiDiMedia per Controcorrente (10-12 luglio, 600 intervistati, margine di errore ±4) dà La Vardera al 23,1, Schifani al 19,2, De Luca al 17,3, Giorgio Mulè all'11,4, Di Paola al 9,8 e Giuseppe Provenzano al 9,7, con un'affluenza attesa fra il 44 e il 48%. Sono sondaggi con molti nomi in campo, alcuni concorrenti della stessa area, e vanno letti come una misura di notorietà e gradimento più che come intenzione di voto su schede reali. Il loro segnale più solido è la debolezza dell'uscente, contestato anche dentro il centrodestra, dove Schifani rivendica la regola della riconferma dei presidenti uscenti mentre Forza Italia valuta l'alternativa Mulè.</p>
 <h2>Lo scenario simulato</h2>
 <p>La simulazione assume quattro candidati: Schifani per un centrodestra che presenta Fratelli d'Italia, Forza Italia, la lista comune fra Democrazia Cristiana e Grande Sicilia e la Lega; La Vardera per un campo largo che unisce Movimento 5 Stelle, Partito Democratico, Controcorrente, Alleanza Verdi e Sinistra e i riformisti; De Luca con Sud chiama Nord; un candidato di Futuro Nazionale. Le percentuali di lista partono dalla proiezione della mappa per la Sicilia (che con l'ultima Supermedia dà il blocco progressivo intorno al 46-47% e quello di centrodestra intorno al 41%, con il M5S ancora primo partito dell'isola) e vengono corrette per le specificità regionali: il peso di Forza Italia e delle liste autonomiste nel centrodestra, la quota personale di De Luca e di La Vardera, l'affluenza più bassa. I voti ai candidati differiscono da quelli alle liste per effetto del voto disgiunto.</p>
-<div class="tablewrap"><table><thead><tr><th class="">Lista / coalizione</th><th class="n">% stimata</th><th class="n">Seggi ARS</th></tr></thead><tbody><tr><td class="">Movimento 5 Stelle</td><td class="n">12,5</td><td class="n">9</td></tr><tr><td class="">Partito Democratico</td><td class="n">11,5</td><td class="n">9</td></tr><tr><td class="">Controcorrente</td><td class="n">8,0</td><td class="n">6</td></tr><tr><td class="">Alleanza Verdi e Sinistra</td><td class="n">3,0</td><td class="n">–</td></tr><tr><td class="">Riformisti (IV, +E, Azione)</td><td class="n">2,0</td><td class="n">–</td></tr><tr class="tot"><td class="">Campo largo (La Vardera)</td><td class="n">38,5</td><td class="n">31 (di cui 7 dal premio)</td></tr><tr><td class="">Fratelli d'Italia</td><td class="n">15,0</td><td class="n">11</td></tr><tr><td class="">Forza Italia</td><td class="n">13,0</td><td class="n">10</td></tr><tr><td class="">DC – Grande Sicilia</td><td class="n">6,5</td><td class="n">5</td></tr><tr><td class="">Lega – Prima l'Italia</td><td class="n">4,0</td><td class="n">–</td></tr><tr class="tot"><td class="">Centrodestra (Schifani)</td><td class="n">38,0</td><td class="n">27 (di cui 1 al candidato)</td></tr><tr><td class="">Sud chiama Nord</td><td class="n">11,0</td><td class="n">8</td></tr><tr class="tot"><td class="">Sud chiama Nord (De Luca)</td><td class="n">13,0</td><td class="n">8</td></tr><tr><td class="">Futuro Nazionale</td><td class="n">6,0</td><td class="n">4</td></tr><tr class="tot"><td class="">Futuro Nazionale</td><td class="n">6,5</td><td class="n">4</td></tr><tr><td class="">Altre liste</td><td class="n">7,5</td><td class="n">0</td></tr></tbody></table></div>
-<p>Nello scenario base La Vardera prevale su Schifani per mezzo punto, un margine che equivale a un pareggio statistico: il campo largo otterrebbe 31 seggi compresi i sette del premio, il centrodestra 27 compreso quello del candidato secondo, Sud chiama Nord 8 e Futuro Nazionale 4. Nessuno avrebbe la maggioranza di 36, e De Luca sarebbe l'arbitro dell'Assemblea. Le liste sotto il 5% (AVS, riformisti, la Lega se corre da sola, Noi Moderati) non eleggerebbero deputati, il che rende decisiva la capacità delle coalizioni di aggregare le sigle minori in liste comuni.</p>
+<div class="tablewrap"><table><thead><tr><th class="">Lista / candidato</th><th class="n">% stimata</th><th class="n">Seggi ARS</th></tr></thead><tbody><tr><td class="">Movimento 5 Stelle</td><td class="n">12,5</td><td class="n">11</td></tr><tr><td class="">Partito Democratico</td><td class="n">11,5</td><td class="n">9</td></tr><tr><td class="">Controcorrente</td><td class="n">8,0</td><td class="n">5</td></tr><tr><td class="">Alleanza Verdi e Sinistra</td><td class="n">3,0</td><td class="n">–</td></tr><tr><td class="">Riformisti (IV, +E, Azione)</td><td class="n">2,0</td><td class="n">–</td></tr><tr class="tot"><td class="">Campo largo · Ismaele La Vardera</td><td class="n">38,5</td><td class="n">32 (di cui 7 dal listino)</td></tr><tr><td class="">Fratelli d'Italia</td><td class="n">15,0</td><td class="n">13</td></tr><tr><td class="">Forza Italia</td><td class="n">13,0</td><td class="n">11</td></tr><tr><td class="">DC – Grande Sicilia</td><td class="n">6,5</td><td class="n">3</td></tr><tr><td class="">Lega – Prima l'Italia</td><td class="n">4,0</td><td class="n">–</td></tr><tr class="tot"><td class="">Centrodestra · Renato Schifani</td><td class="n">38,0</td><td class="n">28 (di cui 1 al candidato)</td></tr><tr><td class="">Sud chiama Nord</td><td class="n">11,0</td><td class="n">8</td></tr><tr class="tot"><td class="">Sud chiama Nord · Cateno De Luca</td><td class="n">13,0</td><td class="n">8</td></tr><tr><td class="">Futuro Nazionale</td><td class="n">6,0</td><td class="n">2</td></tr><tr class="tot"><td class="">Futuro Nazionale · candidato Futuro Nazionale</td><td class="n">6,5</td><td class="n">2</td></tr><tr><td class="">Altre liste</td><td class="n">7,5</td><td class="n">–</td></tr></tbody></table></div>
+<p>Nello scenario base La Vardera prevale su Schifani per mezzo punto, un margine che equivale a un pareggio statistico: il campo largo otterrebbe 32 seggi compresi i sette del listino, il centrodestra 28 compreso quello del candidato secondo, Sud chiama Nord 8 e Futuro Nazionale 2. Nessuno avrebbe la maggioranza di 36, e De Luca sarebbe l'arbitro dell'Assemblea. Le liste sotto il 5% (AVS, riformisti, la Lega se corre da sola) non eleggerebbero deputati, e i seggi sono ripartiti provincia per provincia, il che penalizza le liste medie nelle province con pochi seggi, il che rende decisiva la capacità delle coalizioni di aggregare le sigle minori in liste comuni.</p>
+
+<h2>La mappa: province e circoscrizioni di Palermo</h2>
+<p>La mappa mostra il candidato in vantaggio in ciascuna provincia e, per Palermo, in ciascuna delle otto circoscrizioni del capoluogo, separate dal resto della città metropolitana come Messina e Catania. La tinta si intensifica con il margine sul secondo; il pannello riporta le percentuali dei candidati, il voto di lista proiettato e la ripartizione dei seggi provinciali fra le liste sopra la soglia del 5%.</p>
+</main>
+<section class="simap" id="simap">
+  <div class="simap-head"><div class="cities" id="sic-cities"><span class="eyebrow">Zoom</span></div></div>
+  <div class="simap-body">
+    <div class="mapwrap sic"><svg id="sicmap" viewBox="0 0 760 520" role="img" aria-label="Mappa della Sicilia con il candidato in vantaggio per provincia e per circoscrizione di Palermo"></svg>
+      <div class="legend" id="sic-legend"></div><div class="tip" id="sic-tip"></div></div>
+    <aside id="sic-panel"></aside>
+  </div>
+</section>
+<main class="prose">
 <h2>Le alternative</h2>
 <p>Se il campo largo non si unisse su La Vardera e questi corresse con la sola Controcorrente, il voto progressista si dividerebbe fra due o tre candidati e Schifani, o un altro candidato del centrodestra, vincerebbe con il 36-38% pur restando sotto la maggioranza dei seggi, come nel 2022. Se invece De Luca confluisse in una delle due coalizioni, come accadde parzialmente alle politiche del 2022, il suo 12-13% deciderebbe la partita in un senso o nell'altro. La simulazione sarà aggiornata quando saranno noti i candidati ufficiali e i primi sondaggi con schede reali.</p>
-</main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
+</main><script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(async function(){
+  let data; try{ data = await fetch('../data/sicilia.json?t='+Date.now()).then(r=>r.json()); }catch(e){ document.getElementById('sic-panel').innerHTML='<p>Dati non disponibili.</p>'; return; }
+  const feats=data.features, S=data.summary;
+  const css=getComputedStyle(document.documentElement), tok=n=>css.getPropertyValue(n).trim();
+  const COL={CL:'--cl',CDX:'--cdxs',SCN:'--scn',FN:'--fns'};
+  const NAME={CL:'Campo largo · La Vardera',CDX:'Centrodestra · Schifani',SCN:'Sud chiama Nord · De Luca',FN:'Futuro Nazionale',ALTRI:'Altri'};
+  const LC={FdI:'#1F3F8F',FI:'#2E86C1',DC:'#8FB3E8',Lega:'#2F7A4F',M5S:'#D7A21B',PD:'#C5303A',CC:'#E0607E',AVS:'#2E8B57',RIF:'#8E6BB8',SCN:'#0F8B7A',FN:'#5C4632',ALTRI:'#8A8F9A'};
+  const fmt=v=>v.toFixed(1).replace('.',','), fmtN=n=>Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  const hex=h=>{h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];};
+  const mix=(h,t)=>{const [r,g,b]=hex(h),[gr,gg,gb]=hex(tok('--panel2')||'#f6f6f6');return `rgb(${Math.round(r*t+gr*(1-t))},${Math.round(g*t+gg*(1-t))},${Math.round(b*t+gb*(1-t))})`;};
+  const W=760,H=520, svg=d3.select('#sicmap');
+  const proj=d3.geoConicConformal().parallels([37,39]).rotate([-14,0]).fitExtent([[10,10],[W-10,H-10]],{type:'Polygon',coordinates:[[[12.35,36.65],[12.35,38.35],[15.7,38.35],[15.7,36.65],[12.35,36.65]]]});
+  const path=d3.geoPath(proj); const g=svg.append('g');
+  const zoom=d3.zoom().scaleExtent([1,40]).on('zoom',ev=>g.attr('transform',ev.transform)); svg.call(zoom);
+  const fill=p=>mix(tok(COL[p.winner]), 0.2+0.8*Math.min(p.margin/25,1));
+  let selected=null;
+  const paths=g.selectAll('path').data(feats).join('path').attr('class','collegio').attr('d',path).attr('fill',d=>fill(d.properties)).attr('tabindex',0)
+    .on('mousemove',(ev,d)=>tip(ev,d)).on('mouseleave',()=>{document.getElementById('sic-tip').style.display='none';}).on('click',(ev,d)=>select(d))
+    .on('keydown',(ev,d)=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(d);}});
+  document.getElementById('sic-legend').innerHTML='<div class="eyebrow" style="margin-bottom:4px">Candidato in vantaggio</div>'+['CL','CDX','SCN','FN'].map(c=>`<div class="row"><i class="sw" style="background:${tok(COL[c])}"></i>${NAME[c]}</div>`).join('')+'<div style="color:var(--muted);margin-top:4px">Tinta piena: margine di 25 punti o più</div>';
+  const wrap=document.querySelector('.mapwrap.sic'), tipEl=document.getElementById('sic-tip');
+  function tip(ev,d){const p=d.properties,r=wrap.getBoundingClientRect();
+    tipEl.innerHTML=`<b>${p.name}</b><div style="color:var(--muted);margin-bottom:4px">${p.prov} · ${fmtN(p.w*1000)} voti validi</div>`+['CL','CDX','SCN','FN'].map(c=>`<div class="row"><span><i class="sw" style="background:${tok(COL[c])}"></i>${NAME[c]}</span><span>${fmt(p.cand[c])}%</span></div>`).join('');
+    tipEl.style.display='block'; let x=ev.clientX-r.left+14,y=ev.clientY-r.top+14; if(x+tipEl.offsetWidth>r.width-8)x=ev.clientX-r.left-tipEl.offsetWidth-14; if(y+tipEl.offsetHeight>r.height-8)y=ev.clientY-r.top-tipEl.offsetHeight-14; tipEl.style.left=x+'px';tipEl.style.top=y+'px';}
+  function select(d){selected=d;paths.classed('selected',f=>f===d);panel();}
+  function panel(){const p=selected.properties, el=document.getElementById('sic-panel'); const max=Math.max(50,...Object.values(p.cand));
+    const bars=['CL','CDX','SCN','FN'].map(c=>`<div class="r"><span>${NAME[c].split(' · ')[0]}</span><div class="track"><div class="fill" style="width:${(p.cand[c]/max*100).toFixed(1)}%;background:${tok(COL[c])}"></div></div><span class="v">${fmt(p.cand[c])}%</span></div>`).join('');
+    const lists=Object.keys(S.lists).map(k=>`<tr><td><i class="sw" style="background:${LC[k]}"></i>${S.lists[k].name}</td><td class="n">${fmt(p.p[k])}</td><td class="n">${p.provseats&&p.provseats[k]!==undefined?p.provseats[k]:'–'}</td></tr>`).join('');
+    el.innerHTML=`<div class="eyebrow">${p.kind==='muni'?'Palermo · circoscrizione':(p.kind==='prov'?'Provincia':(p.kind==='city'?'Comune capoluogo':'Città metropolitana, resto'))}</div><h3>${p.name}</h3><div class="circ">${fmtN(p.w*1000)} voti validi stimati · seggi provinciali di ${p.prov}: ${S.seatsProv[p.prov]}</div>
+      <span class="chip" style="background:${tok(COL[p.winner])}">${NAME[p.winner].split(' · ')[0]} avanti di ${fmt(p.margin)} punti</span>
+      <div class="coal">${bars}</div>
+      <div class="sect"><div class="eyebrow">Voto di lista e seggi della provincia</div><table><thead><tr><th>Lista</th><th class="n">%</th><th class="n">Seggi ${p.prov}</th></tr></thead><tbody>${lists}</tbody></table></div>
+      <div class="circ" style="margin-top:8px">La percentuale è dell'unità selezionata; i seggi sono quelli dell'intera provincia, ripartiti fra le liste sopra il 5% regionale.</div>`;}
+  const cbar=document.getElementById('sic-cities'); const mk=(t,fn)=>{const b=document.createElement('button');b.textContent=t;cbar.appendChild(b);b.addEventListener('click',()=>{cbar.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');fn();});return b;};
+  const bS=mk('Sicilia',()=>svg.transition().duration(600).call(zoom.transform,d3.zoomIdentity)); bS.classList.add('on');
+  mk('Palermo',()=>{const fs=feats.filter(f=>f.properties.kind==='muni');const b=path.bounds({type:'FeatureCollection',features:fs});const dx=b[1][0]-b[0][0],dy=b[1][1]-b[0][1],cx=(b[0][0]+b[1][0])/2,cy=(b[0][1]+b[1][1])/2;const s=Math.min(40,0.85/Math.max(dx/W,dy/H));svg.transition().duration(750).call(zoom.transform,d3.zoomIdentity.translate(W/2-s*cx,H/2-s*cy).scale(s));select(fs[0]);});
+  select(feats.find(f=>f.properties.id==='R82'));
+})();
+</script>
+<footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
 fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Supermedia del '+s.supermedia.label+' · aggiornato il '+s.updatedLabel; document.querySelectorAll('[data-scenario]').forEach(x=>x.textContent=s.supermedia.label);}).catch(()=>{});
 (function(){
   const cds=[...document.querySelectorAll('.cd[data-date]')]; if(!cds.length) return;
