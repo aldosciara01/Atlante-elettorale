@@ -65,7 +65,7 @@
     const T=s.targets, el=document.getElementById('sm-strip'); if(!el) return;
     document.getElementById('sm-title').textContent='Supermedia AGI/YouTrend del '+s.supermedia.label+' · scenario Casa Riformista + centro unico'+(s.previous?' · variazioni sul '+s.previous.label:'');
     const groups=Object.entries(s.coalitions).map(([k,ps])=>({k,ps,sum:ps.reduce((a,p)=>a+T[p],0)})).sort((a,b)=>b.sum-a.sum);
-    const coalMax=groups[0].sum, listMax=Math.max(...Object.keys(P).map(k=>T[k]||0));
+    const scaleMax=groups[0].sum; // scala unica: la coalizione più forte
     const MAXW=48; // quota massima di larghezza occupata dalla barra, il resto è per il testo
     const PT=s.prevTargets||null;
     const delta=d=>{ if(d===null) return '';
@@ -76,16 +76,16 @@
     const SC=computeSeats(T,s.coalitions,392,70), SS=computeSeats(T,s.coalitions,196,35);
     const seat=(k,coal)=>{ const c=coal?SC.coal[k]:SC.lists[k], se=coal?SS.coal[k]:SS.lists[k];
       if(c===undefined) return '';
-      return `<span class="s" title="Seggi proiettati: ${c} alla Camera e ${se} al Senato (su 392 e 196 seggi nazionali)">${c}<i>/${se}</i>${coal?' seggi':''}</span>`; };
-    const tile=(cls,name,v,c,m,d,sk,isCoal)=>`<div class="t ${cls}"><div class="bar" style="width:${Math.max(v/m*MAXW,1.5).toFixed(1)}%;background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="r"><span class="v num">${fmt(v)}%</span>${delta(d)}${seat(sk,isCoal)}</div></div></div>`;
+      return `<span class="s" title="Seggi proiettati: ${c} alla Camera e ${se} al Senato (su 392 e 196 seggi nazionali)">${c}<i>/${se}</i>${coal?'<b class="sg"> seggi</b>':''}</span>`; };
+    const tile=(cls,name,v,c,m,d,sk,isCoal)=>`<div class="t ${cls}"><div class="bar" style="width:${isCoal?`calc(${Math.max(v/scaleMax*MAXW,1.5).toFixed(2)}% * var(--cmul))`:`calc(${Math.max(v/scaleMax*MAXW,0.8).toFixed(2)}% * var(--mul))`};background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="r"><span class="v num">${fmt(v)}%</span>${delta(d)}${seat(sk,isCoal)}</div></div></div>`;
     const dList=k=>PT&&PT[k]!==undefined?T[k]-PT[k]:null;
     const dCoal=ks=>PT?ks.reduce((a,k)=>a+T[k],0)-ks.reduce((a,k)=>a+(PT[k]||0),0):null;
     let html='';
     groups.forEach(g=>{
-      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],coalMax,dCoal(g.ps),g.k,true);
-      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],listMax,dList(p),p,false); });
+      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],0,dCoal(g.ps),g.k,true);
+      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],0,dList(p),p,false); });
     });
-    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],listMax,dList('Altri'),'Altri',false);
+    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],0,dList('Altri'),'Altri',false);
     el.innerHTML=html;
     const cap=document.getElementById('sm-cap');
     if(cap){ const w=SC.win, nm=w?C[w][0]:null;

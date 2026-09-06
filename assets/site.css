@@ -95,7 +95,8 @@ a.evt:hover{border-color:var(--brand)}
 /* strip supermedia (home) */
 .supermedia{margin:22px 0 6px;padding:14px 0 8px;border-top:3px solid var(--brand);border-bottom:1px solid var(--line)}
 .supermedia .eyebrow{margin-bottom:10px}
-.supermedia .nat{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px 24px}
+.supermedia .nat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px;--mul:2;--cmul:1}
+@media (max-width:680px){.supermedia .nat{grid-template-columns:1fr;--mul:.8;--cmul:.8;gap:12px}}
 .supermedia .nat .t{display:flex;align-items:stretch;gap:12px;padding:0}
 .supermedia .nat .t .bar{flex:none;border-radius:0;min-width:4px}
 .supermedia .nat .t .txt{min-width:0;display:flex;flex-direction:column;justify-content:center}
@@ -108,6 +109,8 @@ a.evt:hover{border-color:var(--brand)}
 .supermedia .nat .t .d{font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .supermedia .nat .t .s{font-size:11.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;border-left:1px solid var(--line);padding-left:8px}
 .supermedia .nat .t .s i{font-style:normal;opacity:.65}
+.supermedia .nat .t .s .sg{font-weight:inherit}
+@media (max-width:680px){.supermedia .nat .t .s{padding-left:6px}.supermedia .nat .t .s .sg{display:none}}
 .supermedia .nat .t.coal .s{font-size:12.5px;color:var(--ink2);font-weight:600}
 .sm-cap{margin:14px 0 0;font-size:12px;color:var(--ink2);line-height:1.5}
 .sm-cap b{color:var(--ink)}
