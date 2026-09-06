@@ -22,6 +22,7 @@
 <section class="supermedia" id="supermedia">
   <div class="eyebrow" id="sm-title">Supermedia AGI/YouTrend applicata allo scenario</div>
   <div class="nat" id="sm-strip"></div>
+  <p class="sm-cap" id="sm-cap"></p>
 </section>
 <div class="cards">
   <a class="card" href="mappa/index.html"><div class="k">Mappa interattiva</div><h3>Proiezione 2027 per provincia e municipio</h3><p>Coalizione in vantaggio, margine, voto di lista in percentuale e in voti assoluti per 186 unità territoriali.</p><div class="d">Supermedia del <span data-scenario>…</span></div></a>
@@ -36,29 +37,61 @@
 (function(){
   const P={FdI:['Fratelli d’Italia','#1F3F8F'],PD:['Partito Democratico','#C5303A'],M5S:['Movimento 5 Stelle','#D7A21B'],FN:['Futuro Nazionale','#5C4632'],FI:['Forza Italia','#2E86C1'],AVS:['Alleanza Verdi e Sinistra','#2E8B57'],Lega:['Lega','#2F7A4F'],CasaRif:['Casa Riformista','#E0607E'],Centro:['Lista di centro (Azione–PLD)','#8E6BB8'],NM:['Noi Moderati','#6C8EBF'],Altri:['Altre liste','#8A8F9A']};
   const C={CSX:['Centrosinistra','var(--csx)'],CDX:['Centrodestra','var(--cdx)'],FN:['Futuro Nazionale','var(--fn)'],CENTRO:['Centro','var(--centro)']};
+  // ---- seggi secondo lo Stabilicum: 392 alla Camera e 196 al Senato (esclusi estero), premio di 70/35 a chi raggiunge il 42% ----
+  function computeSeats(T, C, total, bonus){
+    const elig=new Set();
+    Object.entries(C).forEach(([c,ks])=>{
+      if(ks.length===1){ if(T[ks[0]]>=3) elig.add(ks[0]); return; }
+      if(ks.reduce((a,k)=>a+T[k],0) < 10) return;
+      ks.filter(k=>T[k]>=3).forEach(k=>elig.add(k));
+      const below=ks.filter(k=>T[k]<3).sort((a,b)=>T[b]-T[a]);
+      if(below.length) elig.add(below[0]);
+    });
+    const cifra={}; Object.entries(C).forEach(([c,ks])=>cifra[c]=ks.filter(k=>elig.has(k)).reduce((a,k)=>a+T[k],0));
+    const win=Object.keys(cifra).find(c=>cifra[c]>=42)||null;
+    const hare=(keys,n)=>{ const tot=keys.reduce((a,k)=>a+T[k],0), q={}, fl={};
+      keys.forEach(k=>{q[k]=T[k]/tot*n; fl[k]=Math.floor(q[k]);});
+      let rem=n-keys.reduce((a,k)=>a+fl[k],0);
+      keys.slice().sort((a,b)=>(q[b]-fl[b])-(q[a]-fl[a])).slice(0,rem).forEach(k=>fl[k]++);
+      return fl; };
+    const lists=hare([...elig], total-(win?bonus:0));
+    if(win) Object.entries(hare(C[win].filter(k=>elig.has(k)), bonus)).forEach(([k,v])=>lists[k]=(lists[k]||0)+v);
+    const coal={}; Object.entries(C).forEach(([c,ks])=>coal[c]=ks.reduce((a,k)=>a+(lists[k]||0),0));
+    return {lists, coal, win, cifra, majority: Math.floor(total/2)+1};
+  }
+
   const fmt=v=>v.toFixed(1).replace('.',',');
   fetch('data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{
     const T=s.targets, el=document.getElementById('sm-strip'); if(!el) return;
     document.getElementById('sm-title').textContent='Supermedia AGI/YouTrend del '+s.supermedia.label+' · scenario Casa Riformista + centro unico'+(s.previous?' · variazioni sul '+s.previous.label:'');
     const groups=Object.entries(s.coalitions).map(([k,ps])=>({k,ps,sum:ps.reduce((a,p)=>a+T[p],0)})).sort((a,b)=>b.sum-a.sum);
     const coalMax=groups[0].sum, listMax=Math.max(...Object.keys(P).map(k=>T[k]||0));
-    const MAXW=58; // quota massima di larghezza occupata dalla barra, il resto è per il testo
+    const MAXW=48; // quota massima di larghezza occupata dalla barra, il resto è per il testo
     const PT=s.prevTargets||null;
     const delta=d=>{ if(d===null) return '';
       const v=Math.round(d*10)/10;
       if(Math.abs(v)<0.05) return `<span class="d same" title="invariato rispetto alla Supermedia precedente">=</span>`;
       const up=v>0;
       return `<span class="d ${up?'up':'down'}" title="${up?'in crescita':'in calo'} rispetto alla Supermedia precedente"><span class="ar">${up?'▲':'▼'}</span>${fmt(Math.abs(v))}</span>`; };
-    const tile=(cls,name,v,c,m,d)=>`<div class="t ${cls}"><div class="bar" style="width:${Math.max(v/m*MAXW,1.5).toFixed(1)}%;background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="r"><span class="v num">${fmt(v)}%</span>${delta(d)}</div></div></div>`;
+    const SC=computeSeats(T,s.coalitions,392,70), SS=computeSeats(T,s.coalitions,196,35);
+    const seat=(k,coal)=>{ const c=coal?SC.coal[k]:SC.lists[k], se=coal?SS.coal[k]:SS.lists[k];
+      if(c===undefined) return '';
+      return `<span class="s" title="Seggi proiettati: ${c} alla Camera e ${se} al Senato (su 392 e 196 seggi nazionali)">${c}<i>/${se}</i>${coal?' seggi':''}</span>`; };
+    const tile=(cls,name,v,c,m,d,sk,isCoal)=>`<div class="t ${cls}"><div class="bar" style="width:${Math.max(v/m*MAXW,1.5).toFixed(1)}%;background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="r"><span class="v num">${fmt(v)}%</span>${delta(d)}${seat(sk,isCoal)}</div></div></div>`;
     const dList=k=>PT&&PT[k]!==undefined?T[k]-PT[k]:null;
     const dCoal=ks=>PT?ks.reduce((a,k)=>a+T[k],0)-ks.reduce((a,k)=>a+(PT[k]||0),0):null;
     let html='';
     groups.forEach(g=>{
-      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],coalMax,dCoal(g.ps));
-      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],listMax,dList(p)); });
+      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],coalMax,dCoal(g.ps),g.k,true);
+      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],listMax,dList(p),p,false); });
     });
-    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],listMax,dList('Altri'));
+    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],listMax,dList('Altri'),'Altri',false);
     el.innerHTML=html;
+    const cap=document.getElementById('sm-cap');
+    if(cap){ const w=SC.win, nm=w?C[w][0]:null;
+      cap.innerHTML = (w?`<b>${nm}</b> raggiunge il 42% della cifra elettorale e ottiene il premio di maggioranza: ${SC.coal[w]} deputati e ${SS.coal[w]} senatori, contro i ${SC.majority} e ${SS.majority} necessari.`
+                        :`Nessuna coalizione raggiunge il 42%: i seggi si ripartiscono in proporzione e la maggioranza (${SC.majority} deputati, ${SS.majority} senatori) andrebbe costruita dopo il voto.`)
+        + ` I seggi indicati sono quelli nazionali, 392 alla Camera e 196 al Senato: restano esclusi i 12 della circoscrizione estero.`; }
   }).catch(()=>{});
 })();
 </script>

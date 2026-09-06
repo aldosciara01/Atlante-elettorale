@@ -66,10 +66,11 @@ aside h2{font-size:24px;font-weight:600;line-height:1.05}
 
 table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
 th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11.5px;color:var(--muted);text-align:left;padding:6px 0 4px;border-bottom:1px solid var(--line)}
-th.n,td.n{text-align:right}
+th.n,td.n{text-align:right;padding-left:10px;white-space:nowrap}
 td{padding:4px 0;border-bottom:1px solid var(--line2)}
 td .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:-1px}
 td.delta{color:var(--muted);font-size:12px}
+tr.tot td{font-weight:600;border-top:1px solid var(--line);border-bottom:0}
 .sect{margin-top:20px}
 .sect .eyebrow{margin-bottom:2px}
 
@@ -134,7 +135,7 @@ header .eyebrow{color:var(--brand)}
   <div class="eyebrow">Risultato nazionale · Supermedia AGI/YouTrend applicata allo scenario · 27,3 milioni di voti validi (affluenza 60,5%)</div>
   <div class="nat" id="nat"></div>
   <div class="note">
-    <p><b>Metodo.</b> Per ogni unità si parte dal voto di lista alla Camera del 2022 — reale per i municipi, stimato altrove — e si applica uno scorrimento proporzionale per lista, calibrato in modo che la media nazionale ponderata coincida con l'ultima Supermedia AGI/YouTrend tradotta nello scenario di coalizione scelto (Casa Riformista vale Italia Viva più +Europa più sei decimali; la lista di centro vale Azione più sei decimali). Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022. I voti assoluti derivano da un totale nazionale di 27,3 milioni, pari a un'affluenza del 60,5%. Il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste; la mappa si aggiorna a ogni nuova Supermedia. Le percentuali sono stime, non previsioni.</p>
+    <p><b>Metodo.</b> Per ogni unità si parte dal voto di lista alla Camera del 2022 — reale per i municipi, stimato altrove — e si applica uno scorrimento proporzionale per lista, calibrato in modo che la media nazionale ponderata coincida con l'ultima Supermedia AGI/YouTrend tradotta nello scenario di coalizione scelto (Casa Riformista vale Italia Viva più +Europa più sei decimali; la lista di centro vale Azione più sei decimali). Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022. I voti assoluti derivano da un totale nazionale di 27,3 milioni, pari a un'affluenza del 60,5%. Il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste; la mappa si aggiorna a ogni nuova Supermedia. I seggi sono calcolati con le regole dello Stabilicum approvato dalla Camera: soglia del 3% per le liste e del 10% per le coalizioni, con il ripescaggio della migliore lista sottosoglia di ciascuna coalizione, ripartizione proporzionale con quoziente naturale e premio di 70 seggi alla Camera e 35 al Senato alla coalizione che raggiunge il 42%; restano esclusi i 12 seggi della circoscrizione estero. Le percentuali sono stime, non previsioni.</p>
     <p><b>Unità territoriali.</b> Province secondo i confini ISTAT; nelle 14 città metropolitane il capoluogo è separato dal resto del territorio e, per Torino, Milano, Genova, Bologna, Firenze, Roma, Napoli e Palermo, è ripartito nei municipi attuali a partire dai risultati reali per sezione elettorale del 2022 (banca dati SEI, Gabriele Pinto, Sapienza, CC BY-SA). Per Venezia, Bari, Reggio Calabria, Messina, Catania e Cagliari il comune compare come unità unica. Il colore indica quale coalizione prevale nell'unità: con il premio nazionale, il vantaggio locale non assegna seggi aggiuntivi.</p>
   </div>
 </footer>
@@ -186,6 +187,28 @@ window.__initAtlante = function(){
   ];
   const B22 = [['FdI','FdI'],['PD','PD'],['M5S','M5S'],['Lega','Lega'],['FI','FI'],['AzIV','Azione–IV'],['AVS','AVS'],['+E','+Europa'],['NM','NM'],['Altri','Altri']];
   const COAL = {CSX:{name:'Centrosinistra',tok:'--csx',parts:'PD, M5S, AVS, Casa Riformista'},CDX:{name:'Centrodestra',tok:'--cdx',parts:'FdI, FI, Lega, NM'},FN:{name:'Futuro Nazionale',tok:'--fn'},CENTRO:{name:'Centro',tok:'--centro'}};
+  // ---- seggi secondo lo Stabilicum: 392 alla Camera e 196 al Senato (esclusi estero), premio di 70/35 a chi raggiunge il 42% ----
+  function computeSeats(T, C, total, bonus){
+    const elig=new Set();
+    Object.entries(C).forEach(([c,ks])=>{
+      if(ks.length===1){ if(T[ks[0]]>=3) elig.add(ks[0]); return; }
+      if(ks.reduce((a,k)=>a+T[k],0) < 10) return;
+      ks.filter(k=>T[k]>=3).forEach(k=>elig.add(k));
+      const below=ks.filter(k=>T[k]<3).sort((a,b)=>T[b]-T[a]);
+      if(below.length) elig.add(below[0]);
+    });
+    const cifra={}; Object.entries(C).forEach(([c,ks])=>cifra[c]=ks.filter(k=>elig.has(k)).reduce((a,k)=>a+T[k],0));
+    const win=Object.keys(cifra).find(c=>cifra[c]>=42)||null;
+    const hare=(keys,n)=>{ const tot=keys.reduce((a,k)=>a+T[k],0), q={}, fl={};
+      keys.forEach(k=>{q[k]=T[k]/tot*n; fl[k]=Math.floor(q[k]);});
+      let rem=n-keys.reduce((a,k)=>a+fl[k],0);
+      keys.slice().sort((a,b)=>(q[b]-fl[b])-(q[a]-fl[a])).slice(0,rem).forEach(k=>fl[k]++);
+      return fl; };
+    const lists=hare([...elig], total-(win?bonus:0));
+    if(win) Object.entries(hare(C[win].filter(k=>elig.has(k)), bonus)).forEach(([k,v])=>lists[k]=(lists[k]||0)+v);
+    const coal={}; Object.entries(C).forEach(([c,ks])=>coal[c]=ks.reduce((a,k)=>a+(lists[k]||0),0));
+    return {lists, coal, win, cifra, majority: Math.floor(total/2)+1};
+  }
   const fmt = v => v.toFixed(1).replace('.',',');
   const fmtS = v => (v>0?'+':v<0?'−':'') + fmt(Math.abs(v));
   const fmtN = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
@@ -322,12 +345,15 @@ window.__initAtlante = function(){
     const p = {w:TOTW, csx:cs(SC.coalitions.CSX), cdx:cs(SC.coalitions.CDX), fn:cs(SC.coalitions.FN), centro:cs(SC.coalitions.CENTRO)};
     p.margin=Math.round((p.csx-p.cdx)*10)/10; p.winner=p.csx>p.cdx?'CSX':'CDX'; const c=COAL[p.winner];
     const max=Math.max(p.csx,p.cdx,p.fn,p.centro,50);
-    const parts = PARTIES.map(([k,name,col])=>`<tr><td><i class="sw" style="background:${col}"></i>${name}</td><td class="n num">${fmt(T[k])}</td><td class="n num v2">${votes(p,T[k])}</td></tr>`).join('');
+    const SEATS = computeSeats(T, SC.coalitions, 392, 70), SEN = computeSeats(T, SC.coalitions, 196, 35);
+    const parts = PARTIES.map(([k,name,col])=>`<tr><td><i class="sw" style="background:${col}"></i>${name}</td><td class="n num">${fmt(T[k])}</td><td class="n num v2">${votes(p,T[k])}</td><td class="n num">${SEATS.lists[k]!==undefined?SEATS.lists[k]:'–'}</td></tr>`).join('');
+    const coalrows = Object.keys(SC.coalitions).map(k=>`<tr><td><i class="sw" style="background:${tok(COAL[k].tok)}"></i>${COAL[k].name}${k===SEATS.win?' <small style="color:var(--muted)">+ premio</small>':''}</td><td class="n num">${SEATS.coal[k]}</td><td class="n num">${SEN.coal[k]}</td></tr>`).join('')
+      + `<tr class="tot"><td>Maggioranza</td><td class="n num">${SEATS.majority}</td><td class="n num">${SEN.majority}</td></tr>`;
     const b22 = B22.map(([k,name])=>`<tr><td>${name}</td><td class="n num">${fmt(NAT22[k])}</td></tr>`).join('');
     el.innerHTML = `
       <div class="eyebrow">Italia · risultato nazionale</div>
       <h2>Tutta l'Italia</h2>
-      <div class="circ">${fmtN(p.w*1000)} voti validi stimati · Supermedia del ${SC.supermedia.label}. Seleziona un'unità sulla mappa per il dettaglio locale.</div>
+      <div class="circ">${fmtN(p.w*1000)} voti validi stimati · Supermedia del ${SC.supermedia.label}. Seggi nazionali: 392 alla Camera e 196 al Senato, esclusi i 12 dell'estero. Seleziona un'unità sulla mappa per il dettaglio locale.</div>
       <span class="chip" style="background:${tok(c.tok)}"><i class="dot"></i>${c.name} in vantaggio di ${fmt(Math.abs(p.margin))} punti</span>
       <div class="coal">
         ${bar('Centrosinistra',p.csx,tok('--csx'),max,p)}
@@ -335,9 +361,11 @@ window.__initAtlante = function(){
         ${bar('Futuro Nazionale',p.fn,tok('--fn'),max,p)}
         ${bar('Centro',p.centro,tok('--centro'),max,p)}
       </div>
-      <div class="margin">${p.csx>=42?'Il centrosinistra supera la soglia del 42% e otterrebbe il premio di maggioranza dello Stabilicum.':'Nessuna coalizione raggiunge il 42%: i seggi si ripartirebbero integralmente in proporzione.'} Nel 2022 il centrodestra valeva <strong class="num">43,8%</strong>, PD, AVS e +Europa insieme <strong class="num">25,5%</strong>, il M5S <strong class="num">15,4%</strong>.</div>
+      <div class="margin">${SEATS.win?`${COAL[SEATS.win].name}: <strong>${SEATS.coal[SEATS.win]}</strong> deputati e <strong>${SEN.coal[SEATS.win]}</strong> senatori, oltre la maggioranza di ${SEATS.majority} e ${SEN.majority}, grazie al premio dello Stabilicum.`:`Nessuna coalizione raggiunge il 42%: i seggi si ripartirebbero in proporzione e nessuno avrebbe la maggioranza di ${SEATS.majority} deputati.`} Nel 2022 il centrodestra valeva <strong class="num">43,8%</strong>, PD, AVS e +Europa insieme <strong class="num">25,5%</strong>, il M5S <strong class="num">15,4%</strong>.</div>
+      <div class="sect"><div class="eyebrow">Seggi proiettati per coalizione</div>
+        <table><thead><tr><th>Coalizione</th><th class="n">Camera</th><th class="n">Senato</th></tr></thead><tbody>${coalrows}</tbody></table></div>
       <div class="sect"><div class="eyebrow">Voto di lista nazionale 2027</div>
-        <table><thead><tr><th>Lista</th><th class="n">%</th><th class="n">Voti</th></tr></thead><tbody>${parts}</tbody></table></div>
+        <table><thead><tr><th>Lista</th><th class="n">%</th><th class="n">Voti</th><th class="n">Seggi</th></tr></thead><tbody>${parts}</tbody></table></div>
       <div class="sect"><div class="eyebrow">Risultato nazionale 2022</div>
         <table><thead><tr><th>Lista</th><th class="n">%</th></tr></thead><tbody>${b22}</tbody></table></div>
       ${contested()}`;
