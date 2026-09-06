@@ -1,0 +1,41 @@
+{
+ "appuntamenti": [
+  {
+   "id": "politiche-2027",
+   "tipo": "Elezioni politiche",
+   "luogo": "Italia",
+   "date": null,
+   "periodo": "Primavera 2027",
+   "nota": "Ipotesi di voto anticipato; scadenza naturale in autunno",
+   "link": "mappa/index.html",
+   "shape": "italia"
+  },
+  {
+   "id": "regionali-sicilia-2027",
+   "tipo": "Elezioni regionali",
+   "luogo": "Sicilia",
+   "date": "2027-09-25T07:00:00+02:00",
+   "periodo": "Autunno 2027",
+   "nota": "Conto alla rovescia sulla scadenza naturale dell'Assemblea (25 settembre 2027); data non ancora fissata",
+   "link": "approfondimenti/regionali-sicilia-2027.html",
+   "shape": "sicilia"
+  },
+  {
+   "id": "amministrative-2027",
+   "tipo": "Elezioni amministrative",
+   "luogo": "Roma, Milano, Napoli, Torino, Bologna, Palermo e altri",
+   "date": null,
+   "periodo": "Primavera 2027",
+   "nota": "Turno ordinario fra il 15 aprile e il 15 giugno; data da fissare",
+   "link": "approfondimenti/amministrative-2027.html",
+   "shape": "italia-dots"
+  }
+ ],
+ "successivi": [
+  {
+   "tipo": "Elezioni regionali",
+   "luogo": "Lazio, Lombardia, Friuli-Venezia Giulia, Molise, Trentino-Alto Adige",
+   "periodo": "Inizio 2028"
+  }
+ ]
+}

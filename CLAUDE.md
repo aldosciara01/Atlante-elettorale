@@ -7,7 +7,8 @@ Sito statico pubblicato con GitHub Pages dal ramo `main` (cartella radice). Ness
 - `mappa/index.html`: mappa interattiva D3. Non modificarla per aggiornare i dati.
 - `data/scenario.json`: valori nazionali correnti. È l'UNICO file da riscrivere per l'aggiornamento periodico. Campi: `version` (intero, incrementare), `updatedAt` (ISO), `updatedLabel` (data in italiano), `supermedia` {`date` ISO, `label` in italiano, `url` dell'articolo, `lists` nome lista → percentuale}, `adjustments` {CasaRif, Centro}, `targets` (chiavi esattamente FdI, PD, M5S, FN, FI, AVS, Lega, CasaRif, Centro, NM, Altri; somma 100), `coalitions` (perimetri, NON cambiare finché non saranno depositate le liste ufficiali).
 - `data/unita.json`: basi 2022 e geometrie delle 186 unità. Non toccare.
-- `approfondimenti/`: un file HTML per articolo, più `index.html` (elenco) e `metodo.html`.
+- `approfondimenti/`: un file HTML per articolo, più `index.html` (elenco) e `metodo.html`. Le simulazioni degli appuntamenti elettorali (`regionali-sicilia-2027.html`, `amministrative-2027.html`) vanno aggiornate quando escono candidature ufficiali o nuovi sondaggi.
+- `data/appuntamenti.json`: gli appuntamenti mostrati nella colonna laterale della home (tipo, luogo, `date` ISO se fissata altrimenti `null` con `periodo` stimato, nota, link, forma). Il markup della colonna in `index.html` va rigenerato a mano quando cambia il file: card con silhouette SVG, titolo, conto alla rovescia (solo se `date` è valorizzata) oppure periodo stimato.
 - `assets/site.css`: stile condiviso.
 
 ## Regola di traduzione Supermedia → targets

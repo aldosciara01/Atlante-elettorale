@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Approfondimenti · Atlante elettorale</title>
-<meta name="description" content="Analisi e scenari sulle elezioni italiane.">
+<meta name="description" content="Analisi, scenari e simulazioni sulle elezioni italiane.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -16,14 +16,24 @@
   <span class="right" id="site-updated"></span>
 </nav><main class="prose">
 <div class="meta">Approfondimenti</div>
-<h1>Analisi e scenari</h1>
+<h1>Analisi, scenari e simulazioni</h1>
 <p class="lede">Testi di approfondimento sulle elezioni italiane, in ordine dal più recente.</p>
 <div class="cards">
+  <a class="card" href="regionali-sicilia-2027.html"><div class="k">Simulazione · Regionali</div><h3>Sicilia 2027: candidati, liste e seggi all'ARS</h3><p>Uno scenario a quattro poli con il campo largo unito su La Vardera, Schifani per il centrodestra e De Luca in corsa autonoma.</p><div class="d">6 settembre 2026</div></a>
+  <a class="card" href="amministrative-2027.html"><div class="k">Simulazione · Comunali</div><h3>Amministrative 2027: le grandi città al voto</h3><p>Roma, Milano, Napoli, Torino, Bologna, Palermo e le altre: uscenti, risultati precedenti e rapporti di forza proiettati.</p><div class="d">6 settembre 2026</div></a>
   <a class="card" href="scenari-2027.html"><div class="k">Politiche 2027</div><h3>Verso il 2027: tre scenari e la soglia del 42%</h3><p>Simulazione dei seggi alla Camera e al Senato nei tre scenari di coalizione, con lo Stabilicum approvato dalla Camera.</p><div class="d">6 settembre 2026</div></a>
   <a class="card" href="metodo.html"><div class="k">Metodo</div><h3>Come è costruita la mappa</h3><p>Fonti, unità territoriali e modello di scorrimento.</p><div class="d">6 settembre 2026</div></a>
 </div>
 </main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
 fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Supermedia del '+s.supermedia.label+' · aggiornato il '+s.updatedLabel; document.querySelectorAll('[data-scenario]').forEach(x=>x.textContent=s.supermedia.label);}).catch(()=>{});
+(function(){
+  const cds=[...document.querySelectorAll('.cd[data-date]')]; if(!cds.length) return;
+  const pad=n=>String(n).padStart(2,'0');
+  function tick(){ const now=Date.now(); cds.forEach(el=>{ let d=(new Date(el.dataset.date)-now)/1000; if(d<0) d=0;
+    const v=[Math.floor(d/86400), pad(Math.floor(d%86400/3600)), pad(Math.floor(d%3600/60)), pad(Math.floor(d%60))];
+    el.querySelectorAll('b').forEach((b,i)=>b.textContent=v[i]); }); }
+  tick(); setInterval(tick,1000);
+})();
 </script>
 </body>
 </html>
