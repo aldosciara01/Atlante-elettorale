@@ -42,13 +42,14 @@
     document.getElementById('sm-title').textContent='Supermedia AGI/YouTrend del '+s.supermedia.label+' · scenario Casa Riformista + centro unico';
     const groups=Object.entries(s.coalitions).map(([k,ps])=>({k,ps,sum:ps.reduce((a,p)=>a+T[p],0)})).sort((a,b)=>b.sum-a.sum);
     const coalMax=groups[0].sum, listMax=Math.max(...Object.keys(P).map(k=>T[k]||0));
-    const bar=(v,c,m)=>`<div class="bar" style="width:${Math.max(v/m*100,3).toFixed(1)}%;background:${c}"></div>`;
+    const MAXW=58; // quota massima di larghezza occupata dalla barra, il resto è per il testo
+    const tile=(cls,name,v,c,m)=>`<div class="t ${cls}"><div class="bar" style="width:${Math.max(v/m*MAXW,1.5).toFixed(1)}%;background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="v num">${fmt(v)}%</div></div></div>`;
     let html='';
     groups.forEach(g=>{
-      html+=`<div class="t coal">${bar(g.sum,C[g.k][1],coalMax)}<div class="l">${C[g.k][0]}</div><div class="v num">${fmt(g.sum)}%</div></div>`;
-      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=`<div class="t">${bar(T[p],P[p][1],listMax)}<div class="l" title="${P[p][0]}">${P[p][0]}</div><div class="v num">${fmt(T[p])}%</div></div>`; });
+      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],coalMax);
+      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],listMax); });
     });
-    html+=`<div class="t">${bar(T.Altri,P.Altri[1],listMax)}<div class="l">Altre liste</div><div class="v num">${fmt(T.Altri)}%</div></div>`;
+    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],listMax);
     el.innerHTML=html;
   }).catch(()=>{});
 })();

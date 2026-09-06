@@ -82,15 +82,14 @@ td.delta{color:var(--muted);font-size:12px}
 
 footer{border-top:1px solid var(--line);background:var(--panel);padding:14px 22px 18px}
 .nat{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px 14px}
-.nat .t{padding:0}
-.nat .t .bar{height:7px;border-radius:0 3px 3px 0;margin-bottom:5px}
-.nat .t.natcoal .bar{height:11px}
+.nat .t{border-left:3px solid var(--other);padding:2px 0 2px 8px}
 .nat .t .l{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nat .t .v{font-family:"Barlow Condensed",Arial,sans-serif;font-size:22px;font-weight:600;line-height:1.1}
 .nat .t .a{font-size:11.5px;color:var(--ink2)}
 .coal .v small,.tip small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
 td.v2{color:var(--ink2);font-size:12.5px}
-.note{margin-top:14px;font-size:12px;color:var(--ink2);max-width:72ch;line-height:1.5}
+.note{margin-top:14px;font-size:12px;color:var(--ink2);max-width:none;line-height:1.55}
+.note b{color:var(--ink);font-weight:600}
 .note p{margin:4px 0}
 
 .mapwrap{top:0}
@@ -135,8 +134,8 @@ header .eyebrow{color:var(--brand)}
   <div class="eyebrow">Risultato nazionale · Supermedia AGI/YouTrend applicata allo scenario · 27,3 milioni di voti validi (affluenza 60,5%)</div>
   <div class="nat" id="nat"></div>
   <div class="note">
-    <p>Metodo. I voti assoluti sono ottenuti applicando le percentuali proiettate ai voti validi di ciascuna unità: per i municipi i voti validi reali del 2022, per le altre unità una stima da popolazione e affluenza, il tutto riproporzionato a un totale nazionale di 27,3 milioni. Per ogni unità si parte dal voto di lista alla Camera del 2022 (reale per i municipi, stimato altrove) e si applica uno scorrimento proporzionale per lista, calibrato con adattamento iterativo in modo che la media nazionale ponderata coincida con i valori nazionali correnti. Questi derivano dall'ultima Supermedia AGI/YouTrend (media ponderata dei sondaggi, aggiornata ogni due settimane) tradotta nello scenario di coalizione scelto: Casa Riformista vale Italia Viva più +Europa più sei decimali per le sigle minori (PSI, PRI, Noi di Centro), la lista di centro vale Azione più sei decimali per PLD e affini, entrambi sottratti alle altre liste; la mappa viene ricalcolata e ripubblicata automaticamente ogni settimana quando esce una nuova Supermedia, mentre il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste. Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022; Casa Riformista e la lista di centro si spartiscono la base di Azione–Italia Viva, la prima con +Europa e una quota moderata del PD.</p>
-    <p>Unità territoriali. Le province sono quelle dei confini amministrativi ISTAT (per la Sardegna le otto unità precedenti la riforma). Nelle 14 città metropolitane il capoluogo è separato dal resto del territorio; per Torino, Milano, Genova, Bologna, Firenze, Roma, Napoli e Palermo il capoluogo è ripartito nei municipi attuali a partire dai risultati reali della Camera 2022 per sezione elettorale (banca dati SEI, Gabriele Pinto, Sapienza, CC BY-SA), aggregati sui poligoni delle sezioni; le vecchie circoscrizioni di Torino (10) e i vecchi quartieri di Bologna (9) sono stati accorpati nelle ripartizioni odierne, e i cinque quartieri di Firenze sono ricavati dalla numerazione delle sezioni. Per Venezia, Bari, Reggio Calabria, Messina, Catania e Cagliari non sono disponibili né i poligoni delle sezioni né i risultati per sezione: il comune compare come unità unica. Il colore indica quale coalizione prevale nell'unità; con il premio nazionale, il vantaggio locale non assegna seggi aggiuntivi.</p>
+    <p><b>Metodo.</b> Per ogni unità si parte dal voto di lista alla Camera del 2022 — reale per i municipi, stimato altrove — e si applica uno scorrimento proporzionale per lista, calibrato in modo che la media nazionale ponderata coincida con l'ultima Supermedia AGI/YouTrend tradotta nello scenario di coalizione scelto (Casa Riformista vale Italia Viva più +Europa più sei decimali; la lista di centro vale Azione più sei decimali). Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022. I voti assoluti derivano da un totale nazionale di 27,3 milioni, pari a un'affluenza del 60,5%. Il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste; la mappa si aggiorna a ogni nuova Supermedia. Le percentuali sono stime, non previsioni.</p>
+    <p><b>Unità territoriali.</b> Province secondo i confini ISTAT; nelle 14 città metropolitane il capoluogo è separato dal resto del territorio e, per Torino, Milano, Genova, Bologna, Firenze, Roma, Napoli e Palermo, è ripartito nei municipi attuali a partire dai risultati reali per sezione elettorale del 2022 (banca dati SEI, Gabriele Pinto, Sapienza, CC BY-SA). Per Venezia, Bari, Reggio Calabria, Messina, Catania e Cagliari il comune compare come unità unica. Il colore indica quale coalizione prevale nell'unità: con il premio nazionale, il vantaggio locale non assegna seggi aggiuntivi.</p>
   </div>
 </footer>
 </div>
@@ -356,10 +355,8 @@ window.__initAtlante = function(){
     const cs = ks => Math.round(ks.reduce((a,k)=>a+T[k],0)*10)/10;
     const coal = [['Centrosinistra',cs(SC.coalitions.CSX),'--csx'],['Centrodestra',cs(SC.coalitions.CDX),'--cdx'],['Futuro Nazionale',cs(SC.coalitions.FN),'--fn'],['Centro',cs(SC.coalitions.CENTRO),'--centro']];
     const TOT = 27300000;
-    const scale=Math.max(...coal.map(x=>x[1]), ...PARTIES.map(([k])=>T[k]));
-    const bar=(v,c,m)=>`<div class="bar" style="width:${Math.max(v/m*100,3).toFixed(1)}%;background:${c}"></div>`;
-    el.innerHTML = coal.map(([n,v,t])=>`<div class="t natcoal">${bar(v,tok(t),scale)}<div class="l">${n}</div><div class="v num">${fmt(v)}%</div><div class="a num">${fmtN(TOT*v/100)}</div></div>`).join('') +
-      PARTIES.map(([k,n,c])=>`<div class="t">${bar(T[k],c,scale)}<div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
+    el.innerHTML = coal.map(([n,v,t])=>`<div class="t" style="border-color:${tok(t)}"><div class="l">${n}</div><div class="v num">${fmt(v)}%</div><div class="a num">${fmtN(TOT*v/100)}</div></div>`).join('') +
+      PARTIES.map(([k,n,c])=>`<div class="t" style="border-color:${c}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
   })();
 
   // ---- controls ----
