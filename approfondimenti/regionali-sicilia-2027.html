@@ -115,10 +115,26 @@
       <div class="coal">${bars}</div>
       <div class="sect"><div class="eyebrow">Voto di lista e seggi della provincia</div><table><thead><tr><th>Lista</th><th class="n">%</th><th class="n">Seggi ${p.prov}</th></tr></thead><tbody>${lists}</tbody></table></div>
       <div class="circ" style="margin-top:8px">La percentuale è dell'unità selezionata; i seggi sono quelli dell'intera provincia, ripartiti fra le liste sopra il 5% regionale.</div>`;}
+
+  function renderTotal(){
+    selected=null; paths.classed('selected',false);
+    const el=document.getElementById('sic-panel'); const W2=feats.reduce((a,f)=>a+f.properties.w,0);
+    const cand={}; ['CL','CDX','SCN','FN'].forEach(c=>cand[c]=S.cand[c].pct);
+    const max=Math.max(50,...Object.values(cand));
+    const bars=['CL','CDX','SCN','FN'].map(c=>`<div class="r"><span>${NAME[c].split(' · ')[0]}</span><div class="track"><div class="fill" style="width:${(cand[c]/max*100).toFixed(1)}%;background:${tok(COL[c])}"></div></div><span class="v">${fmt(cand[c])}%</span></div>`).join('');
+    const lists=Object.keys(S.lists).map(k=>`<tr><td><i class="sw" style="background:${LC[k]}"></i>${S.lists[k].name}</td><td class="n">${fmt(S.lists[k].pct)}</td><td class="n">${S.lists[k].seats!==null&&S.lists[k].seats!==undefined?S.lists[k].seats:'–'}</td></tr>`).join('');
+    const seats=['CL','CDX','SCN','FN'].map(c=>`${NAME[c].split(' · ')[0]} ${S.cand[c].seats}`).join(' · ');
+    el.innerHTML=`<div class="eyebrow">Sicilia · risultato regionale</div><h3>Tutta la Sicilia</h3><div class="circ">${fmtN(W2*1000)} voti validi stimati · 70 seggi: ${seats}. Seleziona una provincia o una circoscrizione per il dettaglio.</div>
+      <span class="chip" style="background:${tok(COL[S.winner])}">${NAME[S.winner].split(' · ')[0]} avanti di ${fmt(S.cand[S.winner].pct-S.cand[S.second].pct)} punti</span>
+      <div class="coal">${bars}</div>
+      <div class="sect"><div class="eyebrow">Voto di lista regionale e seggi proporzionali</div><table><thead><tr><th>Lista</th><th class="n">%</th><th class="n">Seggi</th></tr></thead><tbody>${lists}</tbody></table></div>
+      <div class="circ" style="margin-top:8px">I 62 seggi proporzionali sono ripartiti provincia per provincia fra le liste sopra il 5% regionale; il listino del presidente aggiunge 7 seggi, uno va al candidato secondo.</div>`;
+  }
   const cbar=document.getElementById('sic-cities'); const mk=(t,fn)=>{const b=document.createElement('button');b.textContent=t;cbar.appendChild(b);b.addEventListener('click',()=>{cbar.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');fn();});return b;};
-  const bS=mk('Sicilia',()=>svg.transition().duration(600).call(zoom.transform,d3.zoomIdentity)); bS.classList.add('on');
+  const bS=mk('Tutta la Sicilia',()=>{svg.transition().duration(600).call(zoom.transform,d3.zoomIdentity);renderTotal();}); bS.classList.add('on');
   mk('Palermo',()=>{const fs=feats.filter(f=>f.properties.kind==='muni');const b=path.bounds({type:'FeatureCollection',features:fs});const dx=b[1][0]-b[0][0],dy=b[1][1]-b[0][1],cx=(b[0][0]+b[1][0])/2,cy=(b[0][1]+b[1][1])/2;const s=Math.min(40,0.85/Math.max(dx/W,dy/H));svg.transition().duration(750).call(zoom.transform,d3.zoomIdentity.translate(W/2-s*cx,H/2-s*cy).scale(s));select(fs[0]);});
-  select(feats.find(f=>f.properties.id==='R82'));
+  svg.on('click',ev=>{ if(ev.target===svg.node()) renderTotal(); });
+  renderTotal();
 })();
 </script>
 <footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>

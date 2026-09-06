@@ -19,7 +19,6 @@
 <div class="meta">Proiezioni e analisi sulle elezioni italiane</div>
 <h1>Atlante elettorale</h1>
 <p class="lede">Una mappa che si aggiorna da sola a ogni nuova Supermedia dei sondaggi, e una serie di approfondimenti sulle regole, i numeri e la geografia del voto.</p>
-<p>Il cuore del sito è la proiezione per le elezioni politiche del 2027: il voto di lista atteso in ciascuna provincia e, nelle città metropolitane, in ciascun municipio del capoluogo, calcolato a partire dai risultati del 2022 e ricalibrato ogni due settimane sulla media ponderata dei sondaggi di AGI e YouTrend. Attorno alla mappa si raccolgono analisi sulla legge elettorale, sugli scenari di coalizione e sulla distribuzione territoriale del consenso, e le simulazioni sugli appuntamenti elettorali in arrivo.</p>
 <section class="supermedia" id="supermedia">
   <div class="eyebrow" id="sm-title">Supermedia AGI/YouTrend applicata allo scenario</div>
   <div class="nat" id="sm-strip"></div>
@@ -42,12 +41,14 @@
     const T=s.targets, el=document.getElementById('sm-strip'); if(!el) return;
     document.getElementById('sm-title').textContent='Supermedia AGI/YouTrend del '+s.supermedia.label+' · scenario Casa Riformista + centro unico';
     const groups=Object.entries(s.coalitions).map(([k,ps])=>({k,ps,sum:ps.reduce((a,p)=>a+T[p],0)})).sort((a,b)=>b.sum-a.sum);
+    const coalMax=groups[0].sum, listMax=Math.max(...Object.keys(P).map(k=>T[k]||0));
+    const bar=(v,c,m)=>`<div class="bar" style="width:${Math.max(v/m*100,3).toFixed(1)}%;background:${c}"></div>`;
     let html='';
     groups.forEach(g=>{
-      html+=`<div class="t coal" style="border-color:${C[g.k][1]}"><div class="l">${C[g.k][0]}</div><div class="v num">${fmt(g.sum)}%</div></div>`;
-      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=`<div class="t" style="border-color:${P[p][1]}"><div class="l" title="${P[p][0]}">${P[p][0]}</div><div class="v num">${fmt(T[p])}%</div></div>`; });
+      html+=`<div class="t coal">${bar(g.sum,C[g.k][1],coalMax)}<div class="l">${C[g.k][0]}</div><div class="v num">${fmt(g.sum)}%</div></div>`;
+      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=`<div class="t">${bar(T[p],P[p][1],listMax)}<div class="l" title="${P[p][0]}">${P[p][0]}</div><div class="v num">${fmt(T[p])}%</div></div>`; });
     });
-    html+=`<div class="t" style="border-color:${P.Altri[1]}"><div class="l">Altre liste</div><div class="v num">${fmt(T.Altri)}%</div></div>`;
+    html+=`<div class="t">${bar(T.Altri,P.Altri[1],listMax)}<div class="l">Altre liste</div><div class="v num">${fmt(T.Altri)}%</div></div>`;
     el.innerHTML=html;
   }).catch(()=>{});
 })();
