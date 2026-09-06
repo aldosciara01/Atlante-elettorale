@@ -39,17 +39,25 @@
   const fmt=v=>v.toFixed(1).replace('.',',');
   fetch('data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{
     const T=s.targets, el=document.getElementById('sm-strip'); if(!el) return;
-    document.getElementById('sm-title').textContent='Supermedia AGI/YouTrend del '+s.supermedia.label+' · scenario Casa Riformista + centro unico';
+    document.getElementById('sm-title').textContent='Supermedia AGI/YouTrend del '+s.supermedia.label+' · scenario Casa Riformista + centro unico'+(s.previous?' · variazioni sul '+s.previous.label:'');
     const groups=Object.entries(s.coalitions).map(([k,ps])=>({k,ps,sum:ps.reduce((a,p)=>a+T[p],0)})).sort((a,b)=>b.sum-a.sum);
     const coalMax=groups[0].sum, listMax=Math.max(...Object.keys(P).map(k=>T[k]||0));
     const MAXW=58; // quota massima di larghezza occupata dalla barra, il resto è per il testo
-    const tile=(cls,name,v,c,m)=>`<div class="t ${cls}"><div class="bar" style="width:${Math.max(v/m*MAXW,1.5).toFixed(1)}%;background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="v num">${fmt(v)}%</div></div></div>`;
+    const PT=s.prevTargets||null;
+    const delta=d=>{ if(d===null) return '';
+      const v=Math.round(d*10)/10;
+      if(Math.abs(v)<0.05) return `<span class="d same" title="invariato rispetto alla Supermedia precedente">=</span>`;
+      const up=v>0;
+      return `<span class="d ${up?'up':'down'}" title="${up?'in crescita':'in calo'} rispetto alla Supermedia precedente"><span class="ar">${up?'▲':'▼'}</span>${fmt(Math.abs(v))}</span>`; };
+    const tile=(cls,name,v,c,m,d)=>`<div class="t ${cls}"><div class="bar" style="width:${Math.max(v/m*MAXW,1.5).toFixed(1)}%;background:${c}"></div><div class="txt"><div class="l" title="${name}">${name}</div><div class="r"><span class="v num">${fmt(v)}%</span>${delta(d)}</div></div></div>`;
+    const dList=k=>PT&&PT[k]!==undefined?T[k]-PT[k]:null;
+    const dCoal=ks=>PT?ks.reduce((a,k)=>a+T[k],0)-ks.reduce((a,k)=>a+(PT[k]||0),0):null;
     let html='';
     groups.forEach(g=>{
-      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],coalMax);
-      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],listMax); });
+      html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],coalMax,dCoal(g.ps));
+      if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],listMax,dList(p)); });
     });
-    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],listMax);
+    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],listMax,dList('Altri'));
     el.innerHTML=html;
   }).catch(()=>{});
 })();

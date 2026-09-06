@@ -1,5 +1,5 @@
 {
- "version": 1,
+ "version": 2,
  "updatedAt": "2026-09-06",
  "updatedLabel": "6 settembre 2026",
  "supermedia": {
@@ -56,5 +56,35 @@
   "CENTRO": [
    "Centro"
   ]
+ },
+ "previous": {
+  "date": "2026-07-16",
+  "label": "16 luglio 2026",
+  "lists": {
+   "Fratelli d'Italia": 27.0,
+   "Partito Democratico": 21.3,
+   "Movimento 5 Stelle": 12.8,
+   "Forza Italia": 8.1,
+   "Futuro Nazionale": 6.5,
+   "Alleanza Verdi e Sinistra": 6.5,
+   "Lega": 5.9,
+   "Azione": 3.1,
+   "Italia Viva": 2.4,
+   "+Europa": 1.3,
+   "Noi Moderati": 1.2
+  }
+ },
+ "prevTargets": {
+  "FdI": 27.0,
+  "PD": 21.3,
+  "M5S": 12.8,
+  "FN": 6.5,
+  "FI": 8.1,
+  "AVS": 6.5,
+  "Lega": 5.9,
+  "CasaRif": 4.3,
+  "Centro": 3.7,
+  "NM": 1.2,
+  "Altri": 2.7
  }
 }
