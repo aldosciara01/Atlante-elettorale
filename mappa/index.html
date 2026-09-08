@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mappa 2027 · Atlante elettorale</title>
-<meta name="description" content="Proiezione per provincia e municipio delle elezioni politiche italiane 2027, ricalcolata dall'ultima Supermedia AGI/YouTrend.">
+<meta name="description" content="Proiezione per provincia e municipio delle elezioni politiche italiane 2027, ricalcolata sulla media ponderata dei sondaggi più recenti.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
@@ -133,17 +133,17 @@ header .eyebrow{color:var(--brand)}
 </main>
 
 <footer>
-  <div class="eyebrow">Risultato nazionale · Supermedia AGI/YouTrend applicata allo scenario · 27,3 milioni di voti validi (affluenza 60,5%)</div>
+  <div class="eyebrow">Risultato nazionale · media ponderata dei sondaggi applicata allo scenario · 27,3 milioni di voti validi (affluenza 60,5%)</div>
   <div class="nat" id="nat"></div>
   <div class="note">
-    <p><b>Metodo.</b> Per ogni unità si parte dal voto di lista alla Camera del 2022 — reale per i municipi, stimato altrove — e si applica uno scorrimento proporzionale per lista, calibrato in modo che la media nazionale ponderata coincida con l'ultima Supermedia AGI/YouTrend tradotta nello scenario di coalizione scelto (Casa Riformista vale Italia Viva più +Europa più sei decimali; la lista di centro vale Azione più sei decimali). Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022. I voti assoluti derivano da un totale nazionale di 27,3 milioni, pari a un'affluenza del 60,5%. Il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste; la mappa si aggiorna a ogni nuova Supermedia. I seggi sono calcolati con le regole dello Stabilicum approvato dalla Camera: soglia del 3% per le liste e del 10% per le coalizioni, con il ripescaggio della migliore lista sottosoglia di ciascuna coalizione, ripartizione proporzionale con quoziente naturale e premio di 70 seggi alla Camera e 35 al Senato alla coalizione che raggiunge il 42%; restano esclusi i 12 seggi della circoscrizione estero. Le percentuali sono stime, non previsioni.</p>
+    <p><b>Metodo.</b> Per ogni unità si parte dal voto di lista alla Camera del 2022 — reale per i municipi, stimato altrove — e si applica uno scorrimento proporzionale per lista, calibrato in modo che la media nazionale ponderata coincida con la media dei sondaggi calcolata dall'Atlante — tutte le rilevazioni nazionali dell'ultima settimana, pesate sull'accuratezza dell'istituto — tradotta nello scenario di coalizione scelto (Casa Riformista vale Italia Viva più +Europa più sei decimali; la lista di centro vale Azione più sei decimali). Futuro Nazionale è seminato sull'elettorato leghista e di protesta del 2022. I voti assoluti derivano da un totale nazionale di 27,3 milioni, pari a un'affluenza del 60,5%. Il perimetro delle coalizioni resta quello dello scenario finché non saranno depositate le liste; la mappa si aggiorna a ogni nuova tornata di sondaggi. I seggi sono calcolati con le regole dello Stabilicum approvato dalla Camera: soglia del 3% per le liste e del 10% per le coalizioni, con il ripescaggio della migliore lista sottosoglia di ciascuna coalizione, ripartizione proporzionale con quoziente naturale e premio di 70 seggi alla Camera e 35 al Senato alla coalizione che raggiunge il 42%; restano esclusi i 12 seggi della circoscrizione estero. Le percentuali sono stime, non previsioni.</p>
     <p><b>Unità territoriali.</b> Province secondo i confini ISTAT; nelle 14 città metropolitane il capoluogo è separato dal resto del territorio e, per Torino, Milano, Genova, Bologna, Firenze, Roma, Napoli e Palermo, è ripartito nei municipi attuali a partire dai risultati reali per sezione elettorale del 2022 (banca dati SEI, Gabriele Pinto, Sapienza, CC BY-SA). Per Venezia, Bari, Reggio Calabria, Messina, Catania e Cagliari il comune compare come unità unica. Il colore indica quale coalizione prevale nell'unità: con il premio nazionale, il vantaggio locale non assegna seggi aggiuntivi.</p>
   </div>
 </footer>
 </div>
 
 
-<footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer>
+<footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: media ponderata dei sondaggi nazionali, calcolata dall'Atlante; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
 window.__initAtlante = function(){
@@ -169,7 +169,7 @@ window.__initAtlante = function(){
       const b=p.b22; p.csx22=Math.round((b.PD+b.AVS+b['+E'])*10)/10; p.cdx22=Math.round((b.FdI+b.Lega+b.FI+b.NM)*10)/10; });
   }
   project();
-  document.getElementById('eyebrow').textContent = `Proiezione · scenario Casa Riformista + centro unico · Supermedia AGI/YouTrend del ${SC.supermedia.label} · aggiornato il ${SC.updatedLabel}`;
+  document.getElementById('eyebrow').textContent = `Proiezione · scenario Casa Riformista + centro unico · media ponderata dei sondaggi del ${SC.media.label} · aggiornato ${/^(8|11|[aeiou])/i.test(SC.updatedLabel)?"l'":'il '}${SC.updatedLabel}`;
   const css = getComputedStyle(document.documentElement);
   const tok = n => css.getPropertyValue(n).trim();
 
@@ -354,7 +354,7 @@ window.__initAtlante = function(){
     el.innerHTML = `
       <div class="eyebrow">Italia · risultato nazionale</div>
       <h2>Tutta l'Italia</h2>
-      <div class="circ">${fmtN(p.w*1000)} voti validi stimati · Supermedia del ${SC.supermedia.label}. Seggi nazionali: 392 alla Camera e 196 al Senato, esclusi i 12 dell'estero. Seleziona un'unità sulla mappa per il dettaglio locale.</div>
+      <div class="circ">${fmtN(p.w*1000)} voti validi stimati · media ponderata dei sondaggi del ${SC.media.label}. Seggi nazionali: 392 alla Camera e 196 al Senato, esclusi i 12 dell'estero. Seleziona un'unità sulla mappa per il dettaglio locale.</div>
       <span class="chip" style="background:${tok(c.tok)}"><i class="dot"></i>${c.name} in vantaggio di ${fmt(Math.abs(p.margin))} punti</span>
       <div class="coal">
         ${bar('Centrosinistra',p.csx,tok('--csx'),max,p)}

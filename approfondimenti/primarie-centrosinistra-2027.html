@@ -68,7 +68,7 @@
   <div class="zc"><button type="button" id="pz-in" title="Ingrandisci" aria-label="Ingrandisci">+</button><button type="button" id="pz-out" title="Riduci" aria-label="Riduci">−</button><button type="button" class="rs" id="pz-reset" title="Torna alla vista completa" aria-label="Torna alla vista completa">↺</button></div>
   <div class="tip" id="pmap-tip"></div></div></div>
 <p class="pcap" id="pmap-cap"></p>
-<p>Il quadro è netto: il PD prevale in tutto il Nord, dove vale il 22,7% contro il 6,8% del Movimento, e nelle regioni centrali, dove il divario è di quasi quindici punti; il Movimento prevale nel Mezzogiorno, dove raccoglie il 25,2% contro il 16,5% del PD, e tocca i suoi massimi nelle municipalità settentrionali di Napoli, dove supera il cinquanta per cento, e nelle circoscrizioni periferiche di Palermo. Ne discende che l'esito della consultazione dipenderà dalla geografia della partecipazione più che dalle preferenze dichiarate: una mobilitazione diffusa nelle regioni settentrionali e centrali favorisce Schlein, un'affluenza concentrata nel Sud e sulla piattaforma digitale favorisce Conte. La pagina sarà aggiornata quando saranno fissate data e regole, e a ogni nuovo sondaggio la media verrà ricalcolata.</p>
+<p>Il quadro è netto: il PD prevale in tutto il Nord, dove vale il 22,8% contro il 6,3% del Movimento, e nelle regioni centrali, dove il divario è di oltre quindici punti; il Movimento prevale nel Mezzogiorno, dove raccoglie il 24,0% contro il 16,8% del PD, e tocca i suoi massimi nelle municipalità settentrionali di Napoli, dove supera il cinquanta per cento, e nelle circoscrizioni periferiche di Palermo. Ne discende che l'esito della consultazione dipenderà dalla geografia della partecipazione più che dalle preferenze dichiarate: una mobilitazione diffusa nelle regioni settentrionali e centrali favorisce Schlein, un'affluenza concentrata nel Sud e sulla piattaforma digitale favorisce Conte. La pagina sarà aggiornata quando saranno fissate data e regole, e a ogni nuovo sondaggio la media verrà ricalcolata.</p>
 
 <h2>La tabella di accuratezza</h2>
 <p>I pesi derivano dallo scarto medio in valore assoluto fra i sondaggi di ciascun istituto e il risultato reale, calcolato sulle politiche del 2022 e sulle europee del 2024: valori più bassi indicano stime più vicine al voto effettivo.</p>
@@ -124,8 +124,8 @@
   const n=feats.filter(f=>f.properties.gap>0).length;
   document.getElementById('pmap-cap').textContent=`Il PD è davanti in ${n} delle ${feats.length} unità, che valgono circa il 75% dei voti validi; il M5S prevale in ${feats.length-n}, quasi tutte nel Mezzogiorno.`;
 })();
-</script><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: Supermedia AGI/YouTrend; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
-fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Supermedia del '+s.supermedia.label+' · aggiornato il '+s.updatedLabel;}).catch(()=>{});
+</script><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: media ponderata dei sondaggi nazionali, calcolata dall'Atlante; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
+fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Media ponderata dei sondaggi del '+s.media.label+' · aggiornato '+(/^(8|11|[aeiou])/i.test(s.updatedLabel)?"l'":'il ')+s.updatedLabel;}).catch(()=>{});
 </script>
 </body>
 </html>
