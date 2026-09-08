@@ -385,7 +385,10 @@ window.__initAtlante = function(){
     const coal = [['Centrosinistra',cs(SC.coalitions.CSX),'--csx'],['Centrodestra',cs(SC.coalitions.CDX),'--cdx'],['Futuro Nazionale',cs(SC.coalitions.FN),'--fn'],['Centro',cs(SC.coalitions.CENTRO),'--centro']];
     const TOT = 27300000;
     el.innerHTML = coal.map(([n,v,t])=>`<div class="t" style="border-color:${tok(t)}"><div class="l">${n}</div><div class="v num">${fmt(v)}%</div><div class="a num">${fmtN(TOT*v/100)}</div></div>`).join('') +
-      PARTIES.map(([k,n,c])=>`<div class="t" style="border-color:${c}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
+      PARTIES.filter(([k,n,c,cl])=>{
+        const mem = SC.coalitions[cl];
+        return !(mem && mem.length===1 && COAL[cl] && COAL[cl].name===n);
+      }).map(([k,n,c])=>`<div class="t" style="border-color:${c}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
   })();
 
   // ---- controls ----

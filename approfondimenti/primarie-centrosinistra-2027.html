@@ -24,6 +24,12 @@
 .pmap .lg .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
 .pmap .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px;display:none;box-shadow:0 2px 10px rgba(0,0,0,.12);min-width:180px}
 .pmap .tip b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:15px}
+.pmap svg{cursor:grab;touch-action:none}
+.pmap svg.dragging{cursor:grabbing}
+.pmap .zc{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:4px}
+.pmap .zc button{width:30px;height:30px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;font-size:16px;line-height:1;cursor:pointer;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;padding:0}
+.pmap .zc button:hover{border-color:var(--brand);color:var(--brand)}
+.pmap .zc button.rs{font-size:11px;letter-spacing:.04em}
 .pmap .tip .r{display:flex;justify-content:space-between;gap:14px}
 .pmap .tip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
 .pcap{font-size:12px;color:var(--muted);margin:0 0 22px}
@@ -56,9 +62,10 @@
 <p>Izi non compare nella tabella di accuratezza e riceve perciò il valore medio degli istituti considerati, pari a 14,7; è anche la rilevazione più vecchia e la più favorevole a Conte, ed è quella che sposta la media dalla parità. Va aggiunto che le percentuali misurano l'orientamento degli elettori che si dichiarano di centrosinistra, non di un corpo elettorale realmente convocato: nel febbraio 2023 Elly Schlein vinse le primarie del PD ribaltando il pronostico proprio perché ai gazebo si presentò un elettorato diverso da quello degli iscritti, e una consultazione aperta con seggi fisici tende a premiare chi dispone della rete organizzativa più capillare.</p>
 
 <h2>La geografia del vantaggio</h2>
-<p>La rete conta perché il peso dei due partiti è distribuito in modo assai diverso sul territorio. La mappa applica la proiezione dell'atlante alle stesse 186 unità della mappa nazionale e colora ciascuna secondo il partito più forte: rosso dove prevale il PD, e dunque dove Schlein parte avvantaggiata, oro dove prevale il Movimento 5 Stelle, terreno favorevole a Conte.</p>
+<p>La rete conta perché il peso dei due partiti è distribuito in modo assai diverso sul territorio. La mappa applica la proiezione dell'atlante alle stesse 186 unità della mappa nazionale e colora ciascuna secondo il partito più forte: rosso dove prevale il PD, e dunque dove Schlein parte avvantaggiata, oro dove prevale il Movimento 5 Stelle, terreno favorevole a Conte. Si può ingrandire con la rotella o con i pulsanti in alto a destra e trascinare per spostarsi, così da leggere i singoli municipi delle grandi città.</p>
 <div class="pmap"><div class="wrap" id="pmap-wrap"><svg id="pmap" role="img" aria-label="Mappa del partito più forte fra PD e M5S"></svg>
   <div class="lg"><div><i class="sw" style="background:#C5303A"></i>PD più forte · vantaggio Schlein</div><div><i class="sw" style="background:#D7A21B"></i>M5S più forte · vantaggio Conte</div><div style="color:var(--muted);margin-top:3px">Tinta piena: distacco di 25 punti o più</div></div>
+  <div class="zc"><button type="button" id="pz-in" title="Ingrandisci" aria-label="Ingrandisci">+</button><button type="button" id="pz-out" title="Riduci" aria-label="Riduci">−</button><button type="button" class="rs" id="pz-reset" title="Torna alla vista completa" aria-label="Torna alla vista completa">↺</button></div>
   <div class="tip" id="pmap-tip"></div></div></div>
 <p class="pcap" id="pmap-cap"></p>
 <p>Il quadro è netto: il PD prevale in tutto il Nord, dove vale il 22,7% contro il 6,8% del Movimento, e nelle regioni centrali, dove il divario è di quasi quindici punti; il Movimento prevale nel Mezzogiorno, dove raccoglie il 25,2% contro il 16,5% del PD, e tocca i suoi massimi nelle municipalità settentrionali di Napoli, dove supera il cinquanta per cento, e nelle circoscrizioni periferiche di Palermo. Ne discende che l'esito della consultazione dipenderà dalla geografia della partecipazione più che dalle preferenze dichiarate: una mobilitazione diffusa nelle regioni settentrionali e centrali favorisce Schlein, un'affluenza concentrata nel Sud e sulla piattaforma digitale favorisce Conte. La pagina sarà aggiornata quando saranno fissate data e regole, e a ogni nuovo sondaggio la media verrà ricalcolata.</p>
@@ -92,7 +99,8 @@
   const path=d3.geoPath(proj);
   const tip=document.getElementById('pmap-tip'), wrap=document.getElementById('pmap-wrap');
   const fmt=v=>v.toFixed(1).replace('.',',');
-  svg.selectAll('path').data(feats).join('path').attr('class','u').attr('d',path)
+  const g=svg.append('g');
+  g.selectAll('path').data(feats).join('path').attr('class','u').attr('d',path)
     .attr('fill',d=>{const g=d.properties.gap; return mix(g>0?PDC:M5C, 0.18+0.82*Math.min(Math.abs(g)/25,1));})
     .on('mousemove',(ev,d)=>{const p=d.properties,r=wrap.getBoundingClientRect();
       tip.innerHTML=`<b>${p.name}</b><div style="color:var(--muted);margin-bottom:4px">${p.region}</div>`+
@@ -104,6 +112,15 @@
       if(y+tip.offsetHeight>r.height-8)y=ev.clientY-r.top-tip.offsetHeight-14;
       tip.style.left=x+'px'; tip.style.top=y+'px';})
     .on('mouseleave',()=>tip.style.display='none');
+  const zoom=d3.zoom().scaleExtent([1,14]).translateExtent([[0,0],[W2,H2]]).extent([[0,0],[W2,H2]])
+    .on('start',()=>svg.classed('dragging',true))
+    .on('zoom',ev=>{g.attr('transform',ev.transform); tip.style.display='none';})
+    .on('end',()=>svg.classed('dragging',false));
+  svg.call(zoom);
+  document.getElementById('pz-in').onclick=()=>svg.transition().duration(220).call(zoom.scaleBy,1.7);
+  document.getElementById('pz-out').onclick=()=>svg.transition().duration(220).call(zoom.scaleBy,1/1.7);
+  document.getElementById('pz-reset').onclick=()=>svg.transition().duration(280).call(zoom.transform,d3.zoomIdentity);
+  svg.on('dblclick.zoom',null);
   const n=feats.filter(f=>f.properties.gap>0).length;
   document.getElementById('pmap-cap').textContent=`Il PD è davanti in ${n} delle ${feats.length} unità, che valgono circa il 75% dei voti validi; il M5S prevale in ${feats.length-n}, quasi tutte nel Mezzogiorno.`;
 })();
