@@ -11,7 +11,8 @@
 
 .app{display:grid;grid-template-rows:auto 1fr auto;min-height:100vh}
 header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 28px;padding:16px 22px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
-header h1{font-size:30px;font-weight:700;letter-spacing:.01em;line-height:1}
+header h1{font-size:30px;font-weight:700;letter-spacing:.01em;line-height:1;margin-top:6px}
+@media (max-width:520px){header h1{font-size:26px;margin-top:8px}header{padding:14px 18px 12px}}
 header .sub{color:var(--ink2);font-size:13px;margin-top:4px}
 .eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
@@ -25,7 +26,7 @@ select{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid v
 main{display:grid;grid-template-columns:minmax(0,1fr) 380px;min-height:0}
 @media (max-width:900px){main{grid-template-columns:1fr}}
 .mapwrap{position:sticky;top:0;height:100vh;min-height:520px;padding:10px}
-@media (max-width:900px){.mapwrap{position:relative;height:auto;aspect-ratio:760/860;max-height:90vh}}
+@media (max-width:900px){.mapwrap{position:relative;height:auto;min-height:0;min-width:0;width:100%;aspect-ratio:760/860;max-height:90vh}}
 .mapwrap svg{width:100%;height:100%;display:block}
 .collegio{stroke:var(--ground);stroke-width:.6;vector-effect:non-scaling-stroke;cursor:pointer}
 .collegio:hover{stroke:var(--sel);stroke-width:1.4}
