@@ -11,6 +11,16 @@
    "shape": "italia"
   },
   {
+   "id": "primarie-csx-2027",
+   "tipo": "Primarie",
+   "luogo": "Centrosinistra · scelta del leader",
+   "date": "2027-06-21T09:00:00+02:00",
+   "periodo": "Entro la primavera 2027",
+   "nota": "Conto alla rovescia alla fine della primavera 2027, termine indicato dalla coalizione; data e regole non ancora fissate",
+   "link": "approfondimenti/primarie-centrosinistra-2027.html",
+   "shape": "urna"
+  },
+  {
    "id": "regionali-sicilia-2027",
    "tipo": "Elezioni regionali",
    "luogo": "Sicilia",
