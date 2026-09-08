@@ -8,28 +8,50 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-.cmap{margin:16px 0 6px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
-.cmap .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--panel2)}
-.cmap .bar .lb{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:2px}
-.cmap .bar button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 11px;font-size:12.5px;cursor:pointer;color:var(--ink2)}
-.cmap .bar button:hover{border-color:var(--ink2);color:var(--ink)}
-.cmap .bar button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
-.cmap .bar .sp{flex:1}
-.cmap .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel)}
-.cmap .seg button{border:0;border-radius:0;padding:4px 11px}
-.cmap .seg button+button{border-left:1px solid var(--line)}
-.cmap .wrap{position:relative;aspect-ratio:4/3;background:var(--panel2)}
-.cmap svg{position:absolute;inset:0;width:100%;height:100%}
-.cmap .u{stroke:#fff;stroke-width:.9;vector-effect:non-scaling-stroke;cursor:pointer}
-.cmap .u:hover{stroke:var(--ink);stroke-width:1.8}
-.cmap .lab{font-size:9px;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.35);stroke-width:2px;pointer-events:none;font-weight:600;text-anchor:middle}
-.cmap .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px;display:none;box-shadow:0 2px 10px rgba(0,0,0,.12);min-width:190px;z-index:3}
-.cmap .tip b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:14.5px}
-.cmap .tip .r{display:flex;justify-content:space-between;gap:14px}
-.cmap .tip .sw,.cmap .lg .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
-.cmap .lg{display:flex;flex-wrap:wrap;gap:4px 14px;padding:9px 12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink2)}
-.ccap{font-size:12px;color:var(--muted);margin:0 0 22px}
-@media (max-width:560px){.cmap .lab{display:none}.cmap .wrap{aspect-ratio:1/1}}
+.citymap{max-width:1180px;margin:2px auto 26px;padding:0 22px}
+.citymap .cm-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:0 0 8px;border-bottom:1px solid var(--line)}
+.citymap .cm-head .eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}
+.citymap .cm-head .sp{flex:1}
+.citymap .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel)}
+.citymap .seg button{border:0;background:transparent;padding:4px 12px;font-size:12.5px;cursor:pointer;color:var(--ink2)}
+.citymap .seg button+button{border-left:1px solid var(--line)}
+.citymap .seg button.on{background:var(--ink);color:var(--panel)}
+.citymap .cm-body{display:grid;grid-template-columns:minmax(0,1fr) 330px;border:1px solid var(--line);border-top:0;border-radius:0 0 8px 8px;overflow:hidden}
+@media (max-width:900px){.citymap .cm-body{grid-template-columns:1fr}}
+.citymap .cm-wrap{position:relative;background:var(--panel2);aspect-ratio:4/3;min-height:0}
+.citymap .cm-wrap svg{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);display:block}
+.citymap .u{stroke:#fff;stroke-width:.9;vector-effect:non-scaling-stroke;cursor:pointer}
+.citymap .u:hover{stroke:var(--ink);stroke-width:1.6}
+.citymap .u.selected{stroke:var(--ink);stroke-width:2.2}
+.citymap .lab{font-size:9.5px;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.38);stroke-width:2.2px;pointer-events:none;font-weight:600;text-anchor:middle}
+.citymap .legend{position:absolute;left:14px;bottom:14px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:11.5px;box-shadow:0 2px 10px rgba(0,0,0,.08);max-width:60%}
+.citymap .legend .row{display:flex;align-items:center;gap:6px;margin:2px 0}
+.citymap .legend .sw{width:10px;height:10px;border-radius:2px;flex:none}
+.citymap .legend .cap{color:var(--muted);margin-top:4px}
+.citymap .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px;min-width:190px;display:none;z-index:5;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.citymap .tip b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:15px;font-weight:600}
+.citymap .tip .row{display:flex;justify-content:space-between;gap:12px}
+.citymap .tip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+.citymap .cm-panel{padding:16px 18px;border-left:1px solid var(--line);font-size:14px;line-height:1.45;background:var(--panel)}
+@media (max-width:900px){.citymap .cm-panel{border-left:0;border-top:1px solid var(--line)}}
+.citymap .cm-panel h3{font-family:"Barlow Condensed",Arial,sans-serif;font-size:21px;font-weight:600;margin:2px 0;line-height:1.05}
+.citymap .cm-panel .circ{color:var(--muted);font-size:12.5px}
+.citymap .cm-panel .chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;margin-top:8px;color:#fff}
+.citymap .cm-panel .coal{margin-top:12px;display:grid;gap:6px}
+.citymap .cm-panel .coal .r{display:grid;grid-template-columns:104px 1fr 44px;align-items:center;gap:8px;font-size:13px}
+.citymap .cm-panel .coal .track{height:9px;background:var(--panel2);border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.citymap .cm-panel .coal .fill{display:block;height:100%}
+.citymap .cm-panel .coal .v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.citymap .cm-panel table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.citymap .cm-panel th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted);text-align:left;padding:5px 0 3px;border-bottom:1px solid var(--line)}
+.citymap .cm-panel th.n,.citymap .cm-panel td.n{text-align:right}
+.citymap .cm-panel td{padding:3px 0;border-bottom:1px solid var(--line2)}
+.citymap .cm-panel td .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.citymap .cm-panel .sect{margin-top:14px}
+.citymap .cm-panel .eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.citymap .cm-panel .back{margin-top:12px;border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:3px 11px;font-size:12px;cursor:pointer;color:var(--ink2)}
+.citymap .cm-panel .back:hover{border-color:var(--ink2);color:var(--ink)}
+@media (max-width:560px){.citymap{padding:0 14px}.citymap .lab{display:none}.citymap .cm-wrap{aspect-ratio:1/1}}
 </style>
 </head>
 <body><nav class="site-nav">
@@ -50,16 +72,81 @@
 <p>Il quadro che ne emerge è di forte vantaggio per il centrosinistra nelle grandi città metropolitane, dove gli uscenti Gualtieri, Sala, Manfredi, Lo Russo e Lepore partirebbero da margini fra i 17 e i 47 punti sul voto di lista, ampiamente sufficienti a una riconferma al primo turno se ricandidati; Palermo è il caso più interessante, perché il comune proietta un vantaggio progressista di quasi trenta punti nel voto di lista mentre il sindaco uscente Lagalla è di centrodestra, ma nel 2022 il centrodestra vinse al primo turno anche grazie a un campo avverso diviso in tre candidature. Trieste, Catanzaro e L'Aquila sono le città in bilico, con scarti provinciali entro i tre punti; Verona e Padova mostrano il divario tipico fra una provincia veneta saldamente di centrodestra e capoluoghi che nel 2022 hanno eletto sindaci di centrosinistra, e per esse la proiezione provinciale va letta con particolare cautela. A Messina il fattore decisivo resta Sud chiama Nord, che con Basile vinse al primo turno e che la proiezione nazionale non può rappresentare. Le schede delle singole città, con candidati e sondaggi, saranno aggiunte man mano che le candidature si definiscono.</p>
 
 <h2>Le sei città con i dati per municipio</h2>
-<p>Per Roma, Milano, Napoli, Torino, Bologna e Palermo la proiezione può scendere sotto il livello comunale, perché per questi capoluoghi disponiamo dei risultati reali della Camera 2022 aggregati sezione per sezione sui municipi attuali: cinquantasei unità in tutto, dai quindici municipi romani ai sei quartieri bolognesi. Sono le sei città che votano nella primavera 2027 e per le quali esiste, insieme ai risultati, anche una geometria delle ripartizioni interne; per Genova e Firenze, pure ricostruite nella mappa nazionale, il voto comunale non è in calendario, mentre per Trieste, Verona, Padova, Parma, Catanzaro e L'Aquila mancano del tutto i dati infracomunali. La mappa consente due letture: la coalizione in vantaggio, con l'intensità del colore proporzionale al margine, e il singolo partito più forte, che è cosa diversa e spesso più istruttiva, perché un municipio può essere saldamente progressista pur avendo Fratelli d'Italia come primo partito, o viceversa.</p>
-<div class="cmap">
-  <div class="bar" id="cm-bar"><span class="lb">Città</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" id="cm-coal" class="on" aria-pressed="true">Coalizione</button><button type="button" id="cm-part" aria-pressed="false">Partito più forte</button></span></div>
-  <div class="wrap" id="cm-wrap"><svg id="cmap" role="img" aria-label="Mappa dei municipi con la coalizione in vantaggio e il partito più forte"></svg><div class="tip" id="cm-tip"></div></div>
-  <div class="lg" id="cm-lg"></div>
-</div>
-<p class="ccap" id="cm-cap"></p>
-<p>Il confronto fra le due chiavi restituisce la geografia sociale delle grandi città meglio di qualunque media comunale, e il caso di Roma lo dimostra con nettezza. Il centrosinistra è avanti in tredici municipi su quindici — cede soltanto il VI, la Roma delle Torri, dove il centrodestra vale il 45,6%, e il XV di Cassia e Flaminia — eppure il primo partito è Fratelli d'Italia in otto municipi su quindici: il PD domina l'anello centrale, dal Centro Storico all'Appia Antica e a Monte Verde, mentre il partito di maggioranza relativa resta davanti in tutta la corona esterna, da Ostia all'Aurelio a Monte Mario, e persino a Centocelle, dove il centrosinistra vince con oltre diciotto punti di margine ma il primo partito è FdI. È il segno di un elettorato progressista che a Roma si distribuisce fra tre o quattro liste mentre quello di destra si concentra su una sola.</p>
-<p>Napoli e Palermo raccontano invece la sostituzione del PD con il Movimento 5 Stelle come partito popolare del Mezzogiorno. A Napoli il campo largo prevale ovunque, con punte di oltre settanta punti nelle municipalità orientali e settentrionali, e il Movimento è primo partito in otto municipalità su dieci, arrivando al 52% a Miano–Secondigliano e al 49% a Barra–Ponticelli, mentre il PD conserva il primato soltanto sulla collina del Vomero e nella Chiaia–Posillipo borghese: due elettorati diversissimi che alle comunali si ricompongono dietro lo stesso sindaco. A Palermo il fenomeno è ancora più marcato, perché il Movimento è primo partito in sette circoscrizioni su otto e il PD tiene solo il Politeama; il centrosinistra sarebbe avanti nell'intera città, il che rende il risultato del 2022 — vittoria del centrodestra al primo turno — un effetto quasi interamente attribuibile alla divisione del campo avverso in tre candidature.</p>
-<p>Milano, Torino e Bologna presentano al contrario un quadro di uniformità quasi completa: il centrosinistra è avanti in tutte le ripartizioni e il PD è ovunque primo partito, con il massimo assoluto del 40,7% nel quartiere bolognese di Borgo Panigale–Reno. Le differenze interne restano leggibili nel margine più che nella titolarità: a Torino le circoscrizioni cinque e sei, Vallette e Barriera di Milano, scendono intorno ai tredici punti di vantaggio contro i più di trenta del centro, e a Milano il municipio 7 di Baggio e San Siro è l'unico sotto i venti punti di scarto. Vale la pena ripetere che si tratta della proiezione del voto politico sul territorio comunale: alle comunali il candidato, le liste civiche e il ballottaggio riscrivono buona parte di questi rapporti, e la mappa serve a misurare il terreno di partenza, non l'esito.</p>
+<p>Per Roma, Milano, Napoli, Torino, Bologna e Palermo la proiezione può scendere sotto il livello comunale, perché per questi capoluoghi disponiamo dei risultati reali della Camera 2022 aggregati sezione per sezione sulle ripartizioni attuali: cinquantasei unità in tutto, dai quindici municipi romani ai sei quartieri bolognesi. Sono le sei città che votano nella primavera 2027 e per le quali esiste, insieme ai risultati, anche una geometria delle ripartizioni interne; per Genova e Firenze, pure ricostruite nella mappa nazionale, il voto comunale non è in calendario, mentre per Trieste, Verona, Padova, Parma, Catanzaro e L'Aquila mancano del tutto i dati infracomunali. Ogni mappa si legge in due modi: la coalizione in vantaggio, con l'intensità del colore proporzionale al margine, e il singolo partito più forte, che è cosa diversa e spesso più istruttiva, perché una ripartizione può essere saldamente progressista pur avendo Fratelli d'Italia o il Movimento 5 Stelle come primo partito. Il pannello laterale riporta il dettaglio dell'unità selezionata, e in assenza di selezione il totale comunale.</p>
+
+<h3>Roma</h3>
+<p>Il centrosinistra è avanti in tredici municipi su quindici e cede soltanto il VI, la Roma delle Torri, dove il centrodestra sale al 45,6%, e il XV di Cassia e Flaminia, dove il margine è di un punto e mezzo. La lettura per partito racconta però un'altra storia: Fratelli d'Italia è primo in otto municipi su quindici, dominando l'intera corona esterna da Ostia all'Aurelio a Monte Mario e vincendo anche a Centocelle, dove pure il campo progressista prevale di diciotto punti; il PD tiene l'anello centrale, dal Centro Storico all'Appia Antica e a Monte Verde, con il massimo del 32,0% nell'VIII. È l'immagine di un elettorato di sinistra distribuito fra tre o quattro liste e di un elettorato di destra concentrato su una sola, e spiega perché a Roma il primo partito e la coalizione vincente coincidano così di rado.</p>
+</main>
+<section class="citymap" data-city="roma" id="cm-roma">
+  <div class="cm-head"><span class="eyebrow">Roma · 15 municipi</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" data-mode="coal" class="on" aria-pressed="true">Coalizione</button><button type="button" data-mode="part" aria-pressed="false">Partito più forte</button></span></div>
+  <div class="cm-body">
+    <div class="cm-wrap"><svg role="img" aria-label="Mappa delle ripartizioni di Roma"></svg><div class="legend"></div><div class="tip"></div></div>
+    <aside class="cm-panel"></aside>
+  </div>
+</section>
+<main class="prose">
+
+<h3>Milano</h3>
+<p>Milano è la città più omogenea del gruppo: il centrosinistra prevale in tutti e nove i municipi e il PD è ovunque primo partito, con un vantaggio che non scende mai sotto i venti punti. Il municipio più progressista è il 3 di Città Studi e Porta Venezia, dove la coalizione arriva al 60,1% e il PD al 32,7; il meno progressista è, contro l'intuizione, il municipio 1 del centro storico, fermo al 51,5, dove la componente moderata di Forza Italia e della lista di centro pesa più che altrove. La periferia occidentale del municipio 7, fra Baggio e San Siro, è l'unica altra area sotto i venti punti di scarto.</p>
+</main>
+<section class="citymap" data-city="milano" id="cm-milano">
+  <div class="cm-head"><span class="eyebrow">Milano · 9 municipi</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" data-mode="coal" class="on" aria-pressed="true">Coalizione</button><button type="button" data-mode="part" aria-pressed="false">Partito più forte</button></span></div>
+  <div class="cm-body">
+    <div class="cm-wrap"><svg role="img" aria-label="Mappa delle ripartizioni di Milano"></svg><div class="legend"></div><div class="tip"></div></div>
+    <aside class="cm-panel"></aside>
+  </div>
+</section>
+<main class="prose">
+
+<h3>Napoli</h3>
+<p>A Napoli il campo largo non ha rivali — prevale in tutte e dieci le municipalità, con punte oltre il settanta per cento a Barra–Ponticelli e a Miano–Secondigliano — ma al suo interno il rapporto di forza è rovesciato rispetto al Nord: il Movimento 5 Stelle è primo partito in otto municipalità su dieci e tocca il 52,0% a Miano–Secondigliano e il 49,1 a Barra, mentre il PD conserva il primato soltanto sulla collina del Vomero, con il 31,7, e nella Chiaia–Posillipo borghese. Sono due elettorati sociologicamente opposti che alle comunali si ricompongono dietro lo stesso sindaco, ed è la ragione per cui a Napoli la scelta del candidato conta più della somma delle liste.</p>
+</main>
+<section class="citymap" data-city="napoli" id="cm-napoli">
+  <div class="cm-head"><span class="eyebrow">Napoli · 10 municipalità</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" data-mode="coal" class="on" aria-pressed="true">Coalizione</button><button type="button" data-mode="part" aria-pressed="false">Partito più forte</button></span></div>
+  <div class="cm-body">
+    <div class="cm-wrap"><svg role="img" aria-label="Mappa delle ripartizioni di Napoli"></svg><div class="legend"></div><div class="tip"></div></div>
+    <aside class="cm-panel"></aside>
+  </div>
+</section>
+<main class="prose">
+
+<h3>Torino</h3>
+<p>Torino replica il modello milanese con margini un poco più stretti: il centrosinistra vince tutte e otto le circoscrizioni e il PD è sempre primo partito, ma la distanza fra il centro e la cintura settentrionale è netta. Nelle circoscrizioni 1, 4 e 7, fra Crocetta, San Donato e Vanchiglia, la coalizione sta fra il 58 e il 62 per cento, e nella settima è AVS a piazzarsi seconda davanti a Fratelli d'Italia, segno di un elettorato giovane e istruito; nelle circoscrizioni 5 e 6, fra le Vallette e Barriera di Milano, il vantaggio si dimezza a tredici e dodici punti, con FdI a un solo punto dal PD nella sesta.</p>
+</main>
+<section class="citymap" data-city="torino" id="cm-torino">
+  <div class="cm-head"><span class="eyebrow">Torino · 8 circoscrizioni</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" data-mode="coal" class="on" aria-pressed="true">Coalizione</button><button type="button" data-mode="part" aria-pressed="false">Partito più forte</button></span></div>
+  <div class="cm-body">
+    <div class="cm-wrap"><svg role="img" aria-label="Mappa delle ripartizioni di Torino"></svg><div class="legend"></div><div class="tip"></div></div>
+    <aside class="cm-panel"></aside>
+  </div>
+</section>
+<main class="prose">
+
+<h3>Bologna</h3>
+<p>Bologna resta la città più solidamente progressista fra quelle al voto: il centrosinistra è compreso fra il 59,1% di Santo Stefano e il 66,5 del Navile, e il PD è primo partito in tutti e sei i quartieri con il massimo assoluto delle sei città, il 40,7% di Borgo Panigale–Reno. La geografia interna è quasi piatta e conferma un dato noto agli studiosi del voto emiliano, ossia che qui la differenza fra centro e periferia non produce il divario politico che si osserva altrove: i quartieri popolari del Navile e di Borgo Panigale sono più a sinistra del centro storico, non meno.</p>
+</main>
+<section class="citymap" data-city="bologna" id="cm-bologna">
+  <div class="cm-head"><span class="eyebrow">Bologna · 6 quartieri</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" data-mode="coal" class="on" aria-pressed="true">Coalizione</button><button type="button" data-mode="part" aria-pressed="false">Partito più forte</button></span></div>
+  <div class="cm-body">
+    <div class="cm-wrap"><svg role="img" aria-label="Mappa delle ripartizioni di Bologna"></svg><div class="legend"></div><div class="tip"></div></div>
+    <aside class="cm-panel"></aside>
+  </div>
+</section>
+<main class="prose">
+
+<h3>Palermo</h3>
+<p>Palermo è il caso che merita più attenzione, perché il divario fra le due chiavi di lettura è massimo. Il centrosinistra è avanti in tutte e otto le circoscrizioni, dal 52,6% di Pallavicino–Mondello al 67,9 del Centro Storico, ma il primo partito è il Movimento 5 Stelle in sette circoscrizioni su otto, con il 37,3% a Brancaccio–Oreto–Settecannoli e il 34,7 a Villagrazia–Falsomiele; il PD è primo soltanto al Politeama, il quartiere borghese della città. Ne discende che la vittoria del centrodestra al primo turno nel 2022, con Lagalla al 47,6%, va imputata quasi per intero alla divisione del campo avverso in tre candidature, e non a un rapporto di forza sfavorevole nel voto di lista.</p>
+</main>
+<section class="citymap" data-city="palermo" id="cm-palermo">
+  <div class="cm-head"><span class="eyebrow">Palermo · 8 circoscrizioni</span><span class="sp"></span><span class="seg" role="group" aria-label="Chiave di lettura"><button type="button" data-mode="coal" class="on" aria-pressed="true">Coalizione</button><button type="button" data-mode="part" aria-pressed="false">Partito più forte</button></span></div>
+  <div class="cm-body">
+    <div class="cm-wrap"><svg role="img" aria-label="Mappa delle ripartizioni di Palermo"></svg><div class="legend"></div><div class="tip"></div></div>
+    <aside class="cm-panel"></aside>
+  </div>
+</section>
+<main class="prose">
+
+<p>Vale la pena ripetere che si tratta della proiezione del voto politico sul territorio comunale, non di una previsione delle comunali: alle amministrative il nome del candidato, le liste civiche — che nelle grandi città valgono spesso fra il dieci e il venti per cento — e l'eventuale ballottaggio riscrivono buona parte di questi rapporti. La mappa misura il terreno di partenza sul quale le candidature si costruiranno, e il divario fra coalizione e primo partito indica dove quel terreno è più mosso di quanto la somma dei blocchi lasci intendere.</p>
 </main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: media ponderata dei sondaggi nazionali, calcolata dall'Atlante; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
 fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Media ponderata dei sondaggi del '+s.media.label+' · aggiornato '+(/^(8|11|[aeiou])/i.test(s.updatedLabel)?"l'":'il ')+s.updatedLabel; document.querySelectorAll('[data-scenario]').forEach(x=>x.textContent=s.media.label);}).catch(()=>{});
 (function(){
@@ -74,9 +161,9 @@ fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
 (async function(){
-  const wrap=document.getElementById('cm-wrap'); if(!wrap) return;
+  const boxes=[...document.querySelectorAll('.citymap')]; if(!boxes.length) return;
   let U,SC; try{ [U,SC]=await Promise.all([fetch('../data/unita.json').then(r=>r.json()),fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json())]); }
-  catch(e){ wrap.innerHTML='<p style="padding:16px">Mappa non disponibile.</p>'; return; }
+  catch(e){ boxes.forEach(b=>b.querySelector('.cm-panel').innerHTML='<p>Dati non disponibili.</p>'); return; }
   const K=Object.keys(SC.targets), T=SC.targets, CO=SC.coalitions;
   const seed=b=>{const alt=Math.min(b.Altri,8);return {FdI:b.FdI,PD:b.PD,M5S:b.M5S,FI:b.FI,AVS:b.AVS,Lega:b.Lega,NM:b.NM,
     FN:0.5*b.Lega+0.25*b.FdI+0.3*alt,CasaRif:0.5*b.AzIV+b['+E']+0.15*b.PD,Centro:0.5*b.AzIV+0.1*b.FI,Altri:b.Altri};};
@@ -84,74 +171,96 @@ fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=
   for(let it=0;it<300;it++){ const avg={}; K.forEach(k=>avg[k]=0);
     F.forEach((f,i)=>K.forEach(k=>avg[k]+=P[i][k]*f.properties.w)); K.forEach(k=>avg[k]/=W);
     P.forEach(p=>{K.forEach(k=>p[k]*=T[k]/avg[k]); let s=0; K.forEach(k=>s+=p[k]); K.forEach(k=>p[k]*=100/s);}); }
-  F.forEach((f,i)=>{ const p=f.properties, v=P[i]; p.v=v;
-    p.coal={}; Object.entries(CO).forEach(([c,ks])=>p.coal[c]=ks.reduce((a,k)=>a+v[k],0));
-    p.top=K.filter(k=>k!=='Altri').sort((a,b)=>v[b]-v[a]).slice(0,3); });
+  const coalOf=v=>{const c={}; Object.entries(CO).forEach(([k,ks])=>c[k]=ks.reduce((a,x)=>a+v[x],0)); return c;};
+  F.forEach((f,i)=>{ const p=f.properties; p.v=P[i]; p.coal=coalOf(P[i]); });
 
-  const PN={FdI:["Fratelli d’Italia","#1F3F8F"],PD:["Partito Democratico","#C5303A"],M5S:["Movimento 5 Stelle","#D7A21B"],
+  const PN={FdI:["Fratelli d\u2019Italia","#1F3F8F"],PD:["Partito Democratico","#C5303A"],M5S:["Movimento 5 Stelle","#D7A21B"],
     FN:["Futuro Nazionale","#5C4632"],FI:["Forza Italia","#2E86C1"],AVS:["Alleanza Verdi e Sinistra","#2E8B57"],
     Lega:["Lega","#2F7A4F"],CasaRif:["Casa Riformista","#E0607E"],Centro:["Lista di centro","#8E6BB8"],NM:["Noi Moderati","#6C8EBF"],Altri:["Altre liste","#8A8F9A"]};
   const CN={CSX:["Centrosinistra","#C5303A"],CDX:["Centrodestra","#2C5AA8"],FN:["Futuro Nazionale","#5C4632"],CENTRO:["Centro","#C99A2E"]};
-  const CITIES=[["roma","Roma"],["milano","Milano"],["napoli","Napoli"],["torino","Torino"],["bologna","Bologna"],["palermo","Palermo"]];
-  const byCity={}; CITIES.forEach(([k])=>byCity[k]=F.filter(f=>f.properties.city===k&&f.properties.kind==='muni'));
-
-  const svg=d3.select('#cmap'), Wd=760, Hd=570; svg.attr('viewBox',`0 0 ${Wd} ${Hd}`);
-  const tip=document.getElementById('cm-tip'), cap=document.getElementById('cm-cap'), lg=document.getElementById('cm-lg');
-  const bar=document.getElementById('cm-bar'), sp=bar.querySelector('.sp');
+  const NAMES={roma:"Roma",milano:"Milano",napoli:"Napoli",torino:"Torino",bologna:"Bologna",palermo:"Palermo"};
   const fmt=v=>v.toFixed(1).replace('.',',');
-  const css=getComputedStyle(document.documentElement), ground=(css.getPropertyValue('--panel2')||'#f6f6f6').trim();
+  const vt=k=>k>=1000?(k/1000).toFixed(1).replace('.',',')+' milioni di':Math.round(k)+' mila';
+  const css=getComputedStyle(document.documentElement);
+  const ground=()=>{const g=(css.getPropertyValue('--panel2')||'').trim(); return /^#[0-9a-f]{6}$/i.test(g)?g:'#f6f6f6';};
   const hex=h=>{h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];};
-  const mix=(h,t)=>{const[r,g,b]=hex(h),[gr,gg,gb]=hex(ground.startsWith('#')&&ground.length===7?ground:'#f6f6f6');
+  const mix=(h,t)=>{const[r,g,b]=hex(h),[gr,gg,gb]=hex(ground());
     return `rgb(${Math.round(r*t+gr*(1-t))},${Math.round(g*t+gg*(1-t))},${Math.round(b*t+gb*(1-t))})`;};
-  let city='roma', mode='coal';
-  CITIES.forEach(([k,n],i)=>{ const b=document.createElement('button'); b.type='button'; b.textContent=n; b.dataset.city=k;
-    if(i===0) b.className='on';
-    b.onclick=()=>{ city=k; bar.querySelectorAll('button[data-city]').forEach(x=>x.classList.toggle('on',x.dataset.city===k)); draw(); };
-    bar.insertBefore(b, sp); });
-  const bC=document.getElementById('cm-coal'), bP=document.getElementById('cm-part');
-  bC.onclick=()=>{mode='coal';bC.classList.add('on');bP.classList.remove('on');bC.setAttribute('aria-pressed','true');bP.setAttribute('aria-pressed','false');draw();};
-  bP.onclick=()=>{mode='part';bP.classList.add('on');bC.classList.remove('on');bP.setAttribute('aria-pressed','true');bC.setAttribute('aria-pressed','false');draw();};
+  const short=n=>n.replace(/^(Municipio|Municipalit\u00e0|Circoscrizione|Quartiere)\s+/,'').split(' \u00b7 ')[0];
+  const top3=v=>K.filter(k=>k!=='Altri').sort((a,b)=>v[b]-v[a]).slice(0,3);
 
-  const short=n=>n.replace(/^(Municipio|Municipalità|Circoscrizione|Quartiere)\s+/,'').split(' · ')[0];
-  function draw(){
-    const feats=byCity[city], fc={type:'FeatureCollection',features:feats};
-    const proj=d3.geoConicConformal().parallels([38,46]).rotate([-12.5,0]).fitExtent([[12,12],[Wd-12,Hd-12]],fc);
+  boxes.forEach(box=>{
+    const city=box.dataset.city, feats=F.filter(f=>f.properties.city===city&&f.properties.kind==='muni');
+    if(!feats.length){ box.querySelector('.cm-panel').innerHTML='<p>Dati non disponibili.</p>'; return; }
+    const wTot=feats.reduce((a,f)=>a+f.properties.w,0);
+    const cityV={}; K.forEach(k=>cityV[k]=feats.reduce((a,f)=>a+f.properties.v[k]*f.properties.w,0)/wTot);
+    const cityCoal=coalOf(cityV);
+    const svg=d3.select(box.querySelector('svg')).attr('viewBox','0 0 640 520');
+    const wrap=box.querySelector('.cm-wrap'), tip=box.querySelector('.tip'), panel=box.querySelector('.cm-panel'), legend=box.querySelector('.legend');
+    const proj=d3.geoConicConformal().parallels([38,46]).rotate([-12.5,0]).fitExtent([[10,10],[630,510]],{type:'FeatureCollection',features:feats});
     const path=d3.geoPath(proj);
+    let mode='coal', sel=null;
+    const winner=p=>Object.entries(p.coal).sort((a,b)=>b[1]-a[1]);
     const fill=d=>{ const p=d.properties;
-      if(mode==='part'){ const k=p.top[0]; return mix(PN[k][1], 0.35+0.65*Math.min((p.v[k]-p.v[p.top[1]])/18,1)); }
-      const e=Object.entries(p.coal).sort((a,b)=>b[1]-a[1]); const w=e[0], s=e[1];
-      return mix((CN[w[0]]||['','#9AA1B1'])[1], 0.18+0.82*Math.min((w[1]-s[1])/28,1)); };
-    svg.selectAll('path').data(feats,d=>d.properties.id).join('path').attr('class','u').attr('d',path).attr('fill',fill)
-      .on('mousemove',(ev,d)=>{const p=d.properties,r=wrap.getBoundingClientRect();
-        const e=Object.entries(p.coal).sort((a,b)=>b[1]-a[1]);
-        tip.innerHTML=`<b>${p.name}</b><div style="color:var(--muted);margin-bottom:5px">${p.w>0?p.w+' mila voti validi stimati':''}</div>`+
-          e.slice(0,2).map(([c,v])=>`<div class="r"><span><i class="sw" style="background:${(CN[c]||['','#9AA1B1'])[1]}"></i>${(CN[c]||[c])[0]}</span><b>${fmt(v)}%</b></div>`).join('')+
+      if(mode==='part'){ const t=top3(p.v); return mix(PN[t[0]][1], 0.35+0.65*Math.min((p.v[t[0]]-p.v[t[1]])/18,1)); }
+      const e=winner(p); return mix((CN[e[0][0]]||['','#9AA1B1'])[1], 0.18+0.82*Math.min((e[0][1]-e[1][1])/28,1)); };
+    const g=svg.append('g'), gl=svg.append('g');
+    const paths=g.selectAll('path').data(feats).join('path').attr('class','u').attr('d',path)
+      .on('mousemove',(ev,d)=>{ const p=d.properties, r=wrap.getBoundingClientRect(), e=winner(p), t=top3(p.v);
+        tip.innerHTML=`<b>${p.name}</b>`+
+          e.slice(0,2).map(([c,v])=>`<div class="row"><span><i class="sw" style="background:${(CN[c]||['','#9AA1B1'])[1]}"></i>${(CN[c]||[c])[0]}</span><b>${fmt(v)}%</b></div>`).join('')+
           '<div style="border-top:1px solid var(--line2);margin:5px 0 4px"></div>'+
-          p.top.map(k=>`<div class="r"><span><i class="sw" style="background:${PN[k][1]}"></i>${PN[k][0]}</span><b>${fmt(p.v[k])}%</b></div>`).join('');
+          t.map(k=>`<div class="row"><span><i class="sw" style="background:${PN[k][1]}"></i>${PN[k][0]}</span><b>${fmt(p.v[k])}%</b></div>`).join('');
         tip.style.display='block'; let x=ev.clientX-r.left+14,y=ev.clientY-r.top+14;
         if(x+tip.offsetWidth>r.width-8)x=ev.clientX-r.left-tip.offsetWidth-14;
         if(y+tip.offsetHeight>r.height-8)y=ev.clientY-r.top-tip.offsetHeight-14;
-        tip.style.left=x+'px'; tip.style.top=y+'px';})
-      .on('mouseleave',()=>tip.style.display='none');
-    svg.selectAll('text').data(feats,d=>d.properties.id).join('text').attr('class','lab')
-      .attr('x',d=>path.centroid(d)[0]).attr('y',d=>path.centroid(d)[1]+3)
-      .text(d=>short(d.properties.name));
-    // legenda
-    if(mode==='part'){ const used=[...new Set(feats.map(f=>f.properties.top[0]))];
-      lg.innerHTML=used.map(k=>`<span><i class="sw" style="background:${PN[k][1]}"></i>${PN[k][0]}</span>`).join('')+
-        '<span style="color:var(--muted)">Tinta piena: distacco di 18 punti o più sul secondo</span>'; }
-    else { const used=[...new Set(feats.map(f=>Object.entries(f.properties.coal).sort((a,b)=>b[1]-a[1])[0][0]))];
-      lg.innerHTML=used.map(c=>`<span><i class="sw" style="background:${(CN[c]||['','#9AA1B1'])[1]}"></i>${(CN[c]||[c])[0]} in vantaggio</span>`).join('')+
-        '<span style="color:var(--muted)">Tinta piena: margine di 28 punti o più</span>'; }
-    // didascalia
-    const nm=CITIES.find(c=>c[0]===city)[1];
-    const wins={}; feats.forEach(f=>{const c=Object.entries(f.properties.coal).sort((a,b)=>b[1]-a[1])[0][0]; wins[c]=(wins[c]||0)+1;});
-    const firsts={}; feats.forEach(f=>{const k=f.properties.top[0]; firsts[k]=(firsts[k]||0)+1;});
-    const wtxt=Object.entries(wins).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`${(CN[c]||[c])[0].toLowerCase()} in ${n}`).join(', ');
-    const ftxt=Object.entries(firsts).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`${PN[k][0]} in ${n}`).join(', ');
-    cap.textContent=`${nm}: ${feats.length} unità. Coalizione in vantaggio — ${wtxt}. Primo partito — ${ftxt}. Proiezione della media ponderata dei sondaggi sulle basi reali del 2022 per sezione; il voto comunale segue logiche proprie.`;
-  }
-  draw();
+        tip.style.left=x+'px'; tip.style.top=y+'px'; })
+      .on('mouseleave',()=>tip.style.display='none')
+      .on('click',(ev,d)=>{ sel=(sel===d?null:d); paint(); });
+    gl.selectAll('text').data(feats).join('text').attr('class','lab')
+      .attr('x',d=>path.centroid(d)[0]).attr('y',d=>path.centroid(d)[1]+3).text(d=>short(d.properties.name));
+
+    function bars(coal){ const max=Math.max(55,...Object.values(coal));
+      return '<div class="coal">'+Object.entries(coal).sort((a,b)=>b[1]-a[1]).map(([c,v])=>
+        `<div class="r"><span>${(CN[c]||[c])[0]}</span><span class="track"><span class="fill" style="width:${(v/max*100).toFixed(1)}%;background:${(CN[c]||['','#9AA1B1'])[1]}"></span></span><span class="v">${fmt(v)}</span></div>`).join('')+'</div>'; }
+    function table(v,ref){ return '<table><thead><tr><th>Lista</th><th class="n">%</th>'+(ref?'<th class="n">vs citt\u00e0</th>':'')+'</tr></thead><tbody>'+
+      K.filter(k=>k!=='Altri').sort((a,b)=>v[b]-v[a]).map(k=>{const d=ref?v[k]-ref[k]:0;
+        return `<tr><td><i class="sw" style="background:${PN[k][1]}"></i>${PN[k][0]}</td><td class="n">${fmt(v[k])}</td>`+
+          (ref?`<td class="n" style="color:${Math.abs(d)<0.05?'var(--muted)':(d>0?'#1B7F3B':'#C1121F')}">${d>0?'+':''}${fmt(d)}</td>`:'')+'</tr>';}).join('')+'</tbody></table>'; }
+
+    function paint(){
+      paths.attr('fill',fill).classed('selected',d=>d===sel);
+      if(mode==='part'){ const used=[...new Set(feats.map(f=>top3(f.properties.v)[0]))];
+        legend.innerHTML='<div class="eyebrow" style="margin-bottom:4px">Partito pi\u00f9 forte</div>'+used.map(k=>`<div class="row"><i class="sw" style="background:${PN[k][1]}"></i>${PN[k][0]}</div>`).join('')+'<div class="cap">Tinta piena: 18 punti sul secondo</div>'; }
+      else { const used=[...new Set(feats.map(f=>winner(f.properties)[0][0]))];
+        legend.innerHTML='<div class="eyebrow" style="margin-bottom:4px">Coalizione in vantaggio</div>'+used.map(c=>`<div class="row"><i class="sw" style="background:${(CN[c]||['','#9AA1B1'])[1]}"></i>${(CN[c]||[c])[0]}</div>`).join('')+'<div class="cap">Tinta piena: margine di 28 punti</div>'; }
+      if(sel){ const p=sel.properties, e=winner(p), t=top3(p.v);
+        panel.innerHTML=`<div class="eyebrow">${NAMES[city]}</div><h3>${p.name}</h3>`+
+          `<div class="circ">${vt(p.w)} voti validi stimati \u00b7 primo partito ${PN[t[0]][0]}</div>`+
+          `<span class="chip" style="background:${(CN[e[0][0]]||['','#9AA1B1'])[1]}">${(CN[e[0][0]]||[e[0][0]])[0]} +${fmt(e[0][1]-e[1][1])}</span>`+
+          bars(p.coal)+'<div class="sect"><div class="eyebrow">Voto di lista</div>'+table(p.v,cityV)+'</div>'+
+          '<button type="button" class="back">Torna al totale comunale</button>';
+        panel.querySelector('.back').onclick=()=>{sel=null;paint();};
+      } else {
+        const e=Object.entries(cityCoal).sort((a,b)=>b[1]-a[1]);
+        const nw={}; feats.forEach(f=>{const c=winner(f.properties)[0][0]; nw[c]=(nw[c]||0)+1;});
+        const nf={}; feats.forEach(f=>{const k=top3(f.properties.v)[0]; nf[k]=(nf[k]||0)+1;});
+        panel.innerHTML=`<div class="eyebrow">Totale comunale</div><h3>${NAMES[city]}</h3>`+
+          `<div class="circ">${feats.length} ripartizioni \u00b7 ${vt(wTot)} voti validi stimati</div>`+
+          `<span class="chip" style="background:${(CN[e[0][0]]||['','#9AA1B1'])[1]}">${(CN[e[0][0]]||[e[0][0]])[0]} +${fmt(e[0][1]-e[1][1])}</span>`+
+          bars(cityCoal)+
+          '<div class="sect"><div class="eyebrow">Voto di lista</div>'+table(cityV,null)+'</div>'+
+          '<div class="sect"><div class="eyebrow">Ripartizioni</div><div class="circ" style="margin-top:4px">'+
+            Object.entries(nw).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`${(CN[c]||[c])[0]} in vantaggio in ${n}`).join('; ')+'. Primo partito: '+
+            Object.entries(nf).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`${PN[k][0]} in ${n}`).join('; ')+
+          '.</div></div><div class="circ" style="margin-top:10px">Seleziona una ripartizione sulla mappa per il dettaglio.</div>';
+      }
+    }
+    box.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
+      mode=b.dataset.mode; box.querySelectorAll('.seg button').forEach(x=>{const on=x===b; x.classList.toggle('on',on); x.setAttribute('aria-pressed',on?'true':'false');});
+      paint(); });
+    paint();
+  });
 })();
 </script>
 </body>
