@@ -382,13 +382,16 @@ window.__initAtlante = function(){
     const T = SC.targets;
     const el = document.getElementById('nat');
     const cs = ks => Math.round(ks.reduce((a,k)=>a+T[k],0)*10)/10;
-    const coal = [['Centrosinistra',cs(SC.coalitions.CSX),'--csx'],['Centrodestra',cs(SC.coalitions.CDX),'--cdx'],['Futuro Nazionale',cs(SC.coalitions.FN),'--fn'],['Centro',cs(SC.coalitions.CENTRO),'--centro']];
+    // una coalizione formata da una lista sola vale per entrambi i registri: si mostra una volta,
+    // con il nome esteso della lista, e la lista non viene ripetuta più sotto
+    const single = {}; // chiave lista -> true se unica della sua coalizione
+    Object.keys(SC.coalitions).forEach(cl=>{ const m=SC.coalitions[cl]; if(m && m.length===1) single[m[0]]=cl; });
+    const coal = [['Centrosinistra',cs(SC.coalitions.CSX),'--csx'],['Centrodestra',cs(SC.coalitions.CDX),'--cdx'],
+      [COAL.FN.name,cs(SC.coalitions.FN),'--fn'],[COAL.CENTRO.name,cs(SC.coalitions.CENTRO),'--centro']];
     const TOT = 27300000;
-    el.innerHTML = coal.map(([n,v,t])=>`<div class="t" style="border-color:${tok(t)}"><div class="l">${n}</div><div class="v num">${fmt(v)}%</div><div class="a num">${fmtN(TOT*v/100)}</div></div>`).join('') +
-      PARTIES.filter(([k,n,c,cl])=>{
-        const mem = SC.coalitions[cl];
-        return !(mem && mem.length===1 && COAL[cl] && COAL[cl].name===n);
-      }).map(([k,n,c])=>`<div class="t" style="border-color:${c}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
+    el.innerHTML = coal.map(([n,v,t])=>`<div class="t" style="border-color:${tok(t)}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(v)}%</div><div class="a num">${fmtN(TOT*v/100)}</div></div>`).join('') +
+      PARTIES.filter(([k])=>!single[k])
+      .map(([k,n,c])=>`<div class="t" style="border-color:${c}"><div class="l" title="${n}">${n}</div><div class="v num">${fmt(T[k])}%</div><div class="a num">${fmtN(TOT*T[k]/100)}</div></div>`).join('');
   })();
 
   // ---- controls ----

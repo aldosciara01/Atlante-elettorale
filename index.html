@@ -85,7 +85,7 @@
       html+=tile('coal',C[g.k][0],g.sum,C[g.k][1],0,dCoal(g.ps),g.k,true);
       if(g.ps.length>1) [...g.ps].sort((a,b)=>T[b]-T[a]).forEach(p=>{ html+=tile('',P[p][0],T[p],P[p][1],0,dList(p),p,false); });
     });
-    html+=tile('',P.Altri[0],T.Altri,P.Altri[1],0,dList('Altri'),'Altri',false);
+    html+=tile('sep',P.Altri[0],T.Altri,P.Altri[1],0,dList('Altri'),'Altri',true);
     el.innerHTML=html;
     const cap=document.getElementById('sm-cap');
     if(cap){ const w=SC.win, nm=w?C[w][0]:null;

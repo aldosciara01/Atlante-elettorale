@@ -117,10 +117,10 @@
     .on('zoom',ev=>{g.attr('transform',ev.transform); tip.style.display='none';})
     .on('end',()=>svg.classed('dragging',false));
   svg.call(zoom);
-  document.getElementById('pz-in').onclick=()=>svg.transition().duration(220).call(zoom.scaleBy,1.7);
-  document.getElementById('pz-out').onclick=()=>svg.transition().duration(220).call(zoom.scaleBy,1/1.7);
-  document.getElementById('pz-reset').onclick=()=>svg.transition().duration(280).call(zoom.transform,d3.zoomIdentity);
-  svg.on('dblclick.zoom',null);
+  // applicazione immediata: le transizioni non scorrono nelle schede in secondo piano
+  document.getElementById('pz-in').onclick=()=>zoom.scaleBy(svg,1.7);
+  document.getElementById('pz-out').onclick=()=>zoom.scaleBy(svg,1/1.7);
+  document.getElementById('pz-reset').onclick=()=>zoom.transform(svg,d3.zoomIdentity);
   const n=feats.filter(f=>f.properties.gap>0).length;
   document.getElementById('pmap-cap').textContent=`Il PD è davanti in ${n} delle ${feats.length} unità, che valgono circa il 75% dei voti validi; il M5S prevale in ${feats.length-n}, quasi tutte nel Mezzogiorno.`;
 })();
