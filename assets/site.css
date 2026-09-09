@@ -129,7 +129,7 @@ a.evt:hover{border-color:var(--brand)}
 .polls{margin:26px 0 6px;padding:14px 0 8px;border-top:3px solid var(--brand);border-bottom:1px solid var(--line)}
 .polls .eyebrow{margin-bottom:10px}
 .polls .rows{display:grid;gap:6px}
-.polls .row{display:grid;grid-template-columns:34px minmax(150px,1.15fr) minmax(0,3.2fr) 74px;align-items:center;gap:12px;
+.polls .row{display:grid;grid-template-columns:34px minmax(146px,0.95fr) minmax(0,2.6fr) 72px;align-items:center;gap:12px;
   border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--panel)}
 .polls .row.used{border-color:var(--line);box-shadow:inset 3px 0 0 var(--brand)}
 .polls .sc{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -137,8 +137,10 @@ a.evt:hover{border-color:var(--brand)}
 .polls .who{min-width:0}
 .polls .who .n{display:block;font-weight:600;font-size:13.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .polls .who .d{display:block;font-size:11.5px;color:var(--muted);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.polls .vals{display:flex;flex-wrap:wrap;gap:3px 14px;min-width:0}
+.polls .vals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px 10px;min-width:0}
 .polls .vals span{font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.polls .vals span.rest{color:var(--muted)}
 .polls .vals span b{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:12px;letter-spacing:.04em;margin-right:5px}
 .polls .lead{justify-self:end;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;color:#fff;
   font-family:"Barlow Condensed",Arial,sans-serif;letter-spacing:.04em;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -148,7 +150,8 @@ a.evt:hover{border-color:var(--brand)}
 .polls .pl-cap b{color:var(--ink)}
 @media (max-width:820px){
   .polls .row{grid-template-columns:30px minmax(0,1fr) 66px;grid-template-areas:"sc who lead" ". vals vals";row-gap:5px}
+  .polls .vals{grid-template-columns:repeat(3,minmax(0,1fr))}
   .polls .sc{grid-area:sc}.polls .who{grid-area:who}.polls .lead{grid-area:lead}.polls .vals{grid-area:vals;gap:2px 12px}
   .polls .vals span{font-size:12.5px}
 }
-@media (max-width:400px){.polls .row{padding:7px 8px;gap:8px}.polls .vals span{font-size:12px}}
+@media (max-width:400px){.polls .row{padding:7px 8px;gap:8px}.polls .vals{grid-template-columns:repeat(2,minmax(0,1fr))}.polls .vals span{font-size:12px}}

@@ -131,6 +131,8 @@ fetch('./data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=d
   const LIM=12;
   const rowHtml = p=>{
     const ks=Object.keys(p.lists).filter(k=>PA[k]).sort((a,b)=>p.lists[b]-p.lists[a]).filter(k=>k!=='Altri').slice(0,7);
+    const shown=ks.reduce((a,k)=>a+p.lists[k],0);
+    const rest=Math.round((Object.keys(p.lists).reduce((a,k)=>a+p.lists[k],0)-shown)*10)/10; // tutte le altre liste sommate
     const first=ks[0], second=ks[1], gap=p.lists[first]-p.lists[second];
     const lead = gap<0.05
       ? `<span class="lead" style="background:var(--muted)">Pari</span>`
@@ -138,7 +140,7 @@ fetch('./data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=d
     return `<div class="row${used(p)?' used':''}" title="${p.ist}${p.comm&&p.comm!=='—'?' per '+p.comm:''} · rilevazione ${p.field}${p.n?' · '+p.n+' interviste':''}${p.scarto!=null?' · scarto medio '+fmt(p.scarto):' · scarto medio non disponibile'}${used(p)?' · inclusa nella media corrente':''}">
       <span class="sc" style="background:${scColor(p.scarto)}">${p.scarto!=null?fmt(p.scarto).replace(',0',''):'—'}</span>
       <span class="who"><span class="n">${p.url?`<a href="${p.url}" rel="noopener" target="_blank" style="text-decoration:none">${p.ist}</a>`:p.ist}</span><span class="d">${dLabel(p.pub)}${p.comm&&p.comm!=='—'?' · '+p.comm:''}</span></span>
-      <span class="vals">${ks.map(k=>`<span style="color:${PA[k][2]}"><b>${PA[k][1]}</b>${fmt(p.lists[k])}</span>`).join('')}</span>
+      <span class="vals">${ks.map(k=>`<span style="color:${PA[k][2]}"><b>${PA[k][1]}</b>${fmt(p.lists[k])}</span>`).join('')}${rest>0.05?`<span class="rest" style="color:${PA.Altri[2]}"><b>Altri</b>${fmt(rest)}</span>`:''}</span>
       ${lead}</div>`;
   };
   const render=(all)=>{ box.innerHTML=(all?polls:polls.slice(0,LIM)).map(rowHtml).join('');
@@ -151,7 +153,7 @@ fetch('./data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=d
   const nUsed=polls.filter(used).length;
   document.getElementById('pl-title').textContent='Sondaggi pubblicati dal '+dLabel(D.from)+' 2026 · '+polls.length+' rilevazioni';
   const cap=document.getElementById('pl-cap');
-  if(cap) cap.innerHTML='Il numero nel tondo è lo <b>scarto medio</b> dell\'istituto alle politiche del 2022 e alle europee del 2024: più è basso, più le sue stime sono state vicine al risultato reale, e più pesa nella media dell\'Atlante. Le righe con il filetto rosso — '+nUsed+' su '+polls.length+' — sono quelle che compongono la media corrente, una per istituto, la più recente della finestra. La pastiglia a destra indica il vantaggio del primo partito sul secondo. <a href="approfondimenti/metodo.html">Il metodo per esteso</a>.';
+  if(cap) cap.innerHTML='Il numero nel tondo è lo <b>scarto medio</b> dell\'istituto alle politiche del 2022 e alle europee del 2024: più è basso, più le sue stime sono state vicine al risultato reale, e più pesa nella media dell\'Atlante. Le righe con il filetto rosso — '+nUsed+' su '+polls.length+' — sono quelle che compongono la media corrente, una per istituto, la più recente della finestra. La casella <b>Altri</b> somma tutte le liste non elencate, comprese quelle minori riportate dal singolo istituto, così che ogni riga totalizzi cento. La pastiglia a destra indica il vantaggio del primo partito sul secondo. <a href="approfondimenti/metodo.html">Il metodo per esteso</a>.';
 })();
 </script>
 </body>
