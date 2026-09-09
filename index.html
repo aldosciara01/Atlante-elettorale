@@ -24,11 +24,16 @@
   <div class="nat" id="sm-strip"></div>
   <p class="sm-cap" id="sm-cap"></p>
 </section>
+<section class="polls" id="polls">
+  <div class="eyebrow" id="pl-title">Ultimi sondaggi per istituto</div>
+  <div class="rows" id="pl-rows"></div>
+  <p class="pl-cap" id="pl-cap"></p>
+</section>
 <div class="cards">
   <a class="card" href="mappa/index.html"><div class="k">Mappa interattiva</div><h3>Proiezione 2027 per provincia e municipio</h3><p>Coalizione in vantaggio, margine, voto di lista in percentuale e in voti assoluti per 186 unità territoriali.</p><div class="d">Sondaggi del <span data-scenario>…</span></div></a>
-  <a class="card" href="approfondimenti/scenari-2027.html"><div class="k">Approfondimento</div><h3>Verso il 2027: tre scenari e la soglia del 42%</h3><p>Come lo Stabilicum trasforma i voti in seggi e perché la composizione delle liste conta più dei decimali.</p><div class="d">6 settembre 2026</div></a>
+  <a class="card" href="approfondimenti/scenari-2027.html"><div class="k">Approfondimento</div><h3>Verso il 2027: tre scenari e la soglia del 42%</h3><p>Come lo Stabilicum trasforma i voti in seggi e perché la composizione delle liste conta più dei decimali.</p><div class="d">aggiornato l'8 settembre 2026</div></a>
   <a class="card" href="approfondimenti/primarie-centrosinistra-2027.html"><div class="k">Simulazione</div><h3>Primarie del centrosinistra</h3><p>Chi guiderà la coalizione: regole in discussione, candidati e sondaggi sul confronto Conte–Schlein.</p><div class="d">6 settembre 2026</div></a><a class="card" href="approfondimenti/regionali-sicilia-2027.html"><div class="k">Simulazione</div><h3>Regionali Sicilia 2027</h3><p>Candidati, liste e seggi all'Assemblea regionale secondo i sondaggi disponibili e la stima generale.</p><div class="d">6 settembre 2026</div></a>
-  <a class="card" href="approfondimenti/amministrative-2027.html"><div class="k">Simulazione</div><h3>Amministrative 2027</h3><p>Le grandi città al voto in primavera: uscenti, risultati precedenti e rapporti di forza proiettati.</p><div class="d">6 settembre 2026</div></a>
+  <a class="card" href="approfondimenti/amministrative-2027.html"><div class="k">Simulazione</div><h3>Amministrative 2027</h3><p>Le grandi città al voto in primavera, con la mappa per municipio di Roma, Milano, Napoli, Torino, Bologna e Palermo.</p><div class="d">aggiornato l'8 settembre 2026</div></a>
   <a class="card" href="approfondimenti/metodo.html"><div class="k">Metodo</div><h3>Come è costruita la mappa</h3><p>Fonti, unità territoriali, scorrimento proporzionale e limiti della proiezione.</p><div class="d">Aggiornato a ogni modifica del modello</div></a>
 </div>
 </main>
@@ -104,6 +109,49 @@ fetch('./data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=d
     const v=[Math.floor(d/86400), pad(Math.floor(d%86400/3600)), pad(Math.floor(d%3600/60)), pad(Math.floor(d%60))];
     el.querySelectorAll('b').forEach((b,i)=>b.textContent=v[i]); }); }
   tick(); setInterval(tick,1000);
+})();
+
+// ---- tabella dei sondaggi pubblicati dal 1 settembre ----
+(async function(){
+  const box=document.getElementById('pl-rows'); if(!box) return;
+  let D,SC; try{ [D,SC]=await Promise.all([
+    fetch('./data/sondaggi.json?t='+Date.now()).then(r=>r.json()),
+    fetch('./data/scenario.json?t='+Date.now()).then(r=>r.json())]); }
+  catch(e){ document.getElementById('polls').hidden=true; return; }
+  const PA=D.parties, fmt=v=>v.toFixed(1).replace('.',',');
+  const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  const dLabel=iso=>{const d=new Date(iso+'T12:00:00'); return d.getDate()+' '+MESI[d.getMonth()];};
+  const polls=D.polls.slice().sort((a,b)=> a.pub===b.pub ? 0 : (a.pub<b.pub?1:-1));
+  // quali rilevazioni entrano nella media corrente: una per istituto, la più recente entro la finestra
+  const inWin=p=>p.pub>=(D.from||'0000') && p.pub<=SC.media.date && p.ist!=='Lab21';
+  const best={}; polls.forEach(p=>{ if(inWin(p) && (!best[p.ist] || p.pub>best[p.ist])) best[p.ist]=p.pub; });
+  const used=p=>inWin(p) && best[p.ist]===p.pub;
+  // pastiglia dello scarto: verde se accurato, ambra medio, rosso alto, grigio se non in tabella
+  const scColor=s=> s==null?'#8A8F9A' : s<=13.5?'#1B7F3B' : s<=15?'#5C9E3B' : s<=17?'#C98A1E' : '#C1121F';
+  const LIM=12;
+  const rowHtml = p=>{
+    const ks=Object.keys(p.lists).filter(k=>PA[k]).sort((a,b)=>p.lists[b]-p.lists[a]).filter(k=>k!=='Altri').slice(0,7);
+    const first=ks[0], second=ks[1], gap=p.lists[first]-p.lists[second];
+    const lead = gap<0.05
+      ? `<span class="lead" style="background:var(--muted)">Pari</span>`
+      : `<span class="lead" style="background:${PA[first][2]}">${PA[first][1]} +${fmt(gap)}</span>`;
+    return `<div class="row${used(p)?' used':''}" title="${p.ist}${p.comm&&p.comm!=='—'?' per '+p.comm:''} · rilevazione ${p.field}${p.n?' · '+p.n+' interviste':''}${p.scarto!=null?' · scarto medio '+fmt(p.scarto):' · scarto medio non disponibile'}${used(p)?' · inclusa nella media corrente':''}">
+      <span class="sc" style="background:${scColor(p.scarto)}">${p.scarto!=null?fmt(p.scarto).replace(',0',''):'—'}</span>
+      <span class="who"><span class="n">${p.url?`<a href="${p.url}" rel="noopener" target="_blank" style="text-decoration:none">${p.ist}</a>`:p.ist}</span><span class="d">${dLabel(p.pub)}${p.comm&&p.comm!=='—'?' · '+p.comm:''}</span></span>
+      <span class="vals">${ks.map(k=>`<span style="color:${PA[k][2]}"><b>${PA[k][1]}</b>${fmt(p.lists[k])}</span>`).join('')}</span>
+      ${lead}</div>`;
+  };
+  const render=(all)=>{ box.innerHTML=(all?polls:polls.slice(0,LIM)).map(rowHtml).join('');
+    const more=document.getElementById('pl-more'); if(more) more.hidden=all||polls.length<=LIM; };
+  render(false);
+  if(polls.length>LIM){ const btn=document.createElement('button'); btn.id='pl-more'; btn.type='button'; btn.className='pl-more';
+    btn.textContent='Mostra tutte le '+polls.length+' rilevazioni';
+    btn.onclick=()=>{ render(true); btn.remove(); };
+    box.insertAdjacentElement('afterend', btn); }
+  const nUsed=polls.filter(used).length;
+  document.getElementById('pl-title').textContent='Sondaggi pubblicati dal '+dLabel(D.from)+' 2026 · '+polls.length+' rilevazioni';
+  const cap=document.getElementById('pl-cap');
+  if(cap) cap.innerHTML='Il numero nel tondo è lo <b>scarto medio</b> dell\'istituto alle politiche del 2022 e alle europee del 2024: più è basso, più le sue stime sono state vicine al risultato reale, e più pesa nella media dell\'Atlante. Le righe con il filetto rosso — '+nUsed+' su '+polls.length+' — sono quelle che compongono la media corrente, una per istituto, la più recente della finestra. La pastiglia a destra indica il vantaggio del primo partito sul secondo. <a href="approfondimenti/metodo.html">Il metodo per esteso</a>.';
 })();
 </script>
 </body>

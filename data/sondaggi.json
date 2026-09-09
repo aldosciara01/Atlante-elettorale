@@ -1,0 +1,43 @@
+{
+ "updatedAt": "2026-09-09",
+ "from": "2026-09-01",
+ "note": "Tutte le rilevazioni nazionali di intenzioni di voto di lista pubblicate dal 1 settembre 2026. La media ponderata dell'Atlante ne usa una per istituto, la più recente della finestra, ed esclude Lab21.",
+ "parties": {
+  "FdI": ["Fratelli d'Italia", "FdI", "#1F3F8F"],
+  "PD": ["Partito Democratico", "PD", "#C5303A"],
+  "M5S": ["Movimento 5 Stelle", "M5S", "#D7A21B"],
+  "FN": ["Futuro Nazionale", "FN", "#5C4632"],
+  "FI": ["Forza Italia", "FI", "#2E86C1"],
+  "AVS": ["Alleanza Verdi e Sinistra", "AVS", "#2E8B57"],
+  "Lega": ["Lega", "Lega", "#2F7A4F"],
+  "Az": ["Azione", "Az", "#8E6BB8"],
+  "IV": ["Italia Viva", "IV", "#E0607E"],
+  "pE": ["+Europa", "+E", "#D95F9A"],
+  "NM": ["Noi Moderati", "NM", "#6C8EBF"],
+  "PLD": ["Partito Liberaldemocratico", "PLD", "#9B8CC4"],
+  "Altri": ["Altre liste", "Altri", "#8A8F9A"]
+ },
+ "polls": [
+  {"ist": "Tecnè", "comm": "Dire", "field": "7 settembre", "pub": "2026-09-08", "scarto": 15.8, "n": 811,
+   "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-fratelli-ditalia-primo-partito-centrodestra-e-centrosinistra-alla-pari-dati/2138706/",
+   "lists": {"FdI": 28.0, "PD": 20.8, "M5S": 12.5, "FI": 7.9, "FN": 7.4, "AVS": 6.2, "Lega": 5.7, "Az": 3.2, "IV": 2.1, "pE": 1.0, "NM": 1.0, "Altri": 4.2}},
+  {"ist": "SWG", "comm": "Tg La7", "field": "2–7 settembre", "pub": "2026-09-07", "scarto": 13.3, "n": 1200,
+   "url": "https://www.lanotiziagiornale.it/sondaggio-politico-swg-7-settembre-2026-fdi-vannacci/",
+   "lists": {"FdI": 26.8, "PD": 20.6, "M5S": 12.5, "FN": 7.7, "FI": 6.9, "AVS": 6.8, "Lega": 5.7, "Az": 3.2, "IV": 2.5, "pE": 1.4, "NM": 1.0, "Altri": 4.9}},
+  {"ist": "Termometro Politico", "comm": "—", "field": "1–6 settembre", "pub": "2026-09-07", "scarto": 17.4, "n": 2600,
+   "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-fdi-ancora-davanti-a-tutti-il-pd-prova-la-rimonta-tutti-i-dati/2137750/",
+   "lists": {"FdI": 27.1, "PD": 21.5, "M5S": 12.7, "FI": 7.4, "FN": 6.7, "AVS": 6.2, "Lega": 6.0, "Az": 2.8, "IV": 2.5, "pE": 1.9, "NM": 1.1, "Altri": 4.1}},
+  {"ist": "Only Numbers", "comm": "Realpolitik", "field": "2–3 settembre", "pub": "2026-09-05", "scarto": null, "n": 800,
+   "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-calano-fdi-e-pd-cresce-futuro-nazionale-tutti-i-dati/2137154/",
+   "lists": {"FdI": 26.5, "PD": 21.3, "M5S": 11.0, "FI": 7.8, "FN": 7.2, "AVS": 6.8, "Lega": 6.8, "Az": 3.3, "IV": 2.6, "pE": 1.4, "NM": 1.0, "Altri": 4.3}},
+  {"ist": "Quorum/YouTrend", "comm": "Sky TG24", "field": "31 agosto–3 settembre", "pub": "2026-09-04", "scarto": 14.1, "n": 1000,
+   "url": "https://quifinanza.it/politica/sondaggi-politici-5-settembre-2026/1014181/",
+   "lists": {"FdI": 26.5, "PD": 22.2, "M5S": 12.6, "FN": 7.9, "FI": 7.1, "AVS": 5.8, "Lega": 4.4, "Az": 3.9, "IV": 2.4, "pE": 1.6, "PLD": 1.3, "NM": 0.9, "Altri": 3.4}},
+  {"ist": "Termometro Politico", "comm": "—", "field": "2–3 settembre", "pub": "2026-09-03", "scarto": 17.4, "n": 2200,
+   "url": "https://politpro.eu/it/italia/sondaggi-elettorali/termometro-politico-2026-09-03/elezioni-parlamentari",
+   "lists": {"FdI": 27.4, "PD": 21.7, "M5S": 12.9, "FI": 7.4, "FN": 6.9, "AVS": 6.1, "Lega": 5.6, "Az": 3.0, "IV": 2.4, "pE": 1.7, "NM": 1.1, "Altri": 3.8}},
+  {"ist": "EMG", "comm": "Tg3", "field": "31 agosto–1 settembre", "pub": "2026-09-01", "scarto": 14.5, "n": 1000,
+   "url": "https://politpro.eu/it/italia/sondaggi-elettorali/emg-2026-09-01/elezioni-parlamentari",
+   "lists": {"FdI": 25.0, "PD": 21.3, "M5S": 12.5, "FI": 8.1, "Lega": 7.4, "FN": 6.8, "AVS": 6.0, "IV": 2.6, "Az": 2.5, "NM": 1.6, "PLD": 1.5, "pE": 1.4, "Altri": 3.3}}
+ ]
+}
