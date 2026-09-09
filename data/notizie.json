@@ -1,0 +1,75 @@
+{
+ "updatedAt": "2026-09-09T09:10:00+02:00",
+ "note": "Ultime notizie sull'iter della legge elettorale e sul quadro politico. Ogni voce riporta l'orario della fonte; dove la fonte indica solo la data, l'ora è approssimata e segnalata da tsApprox.",
+ "items": [
+  {
+   "id": "2026-09-09-aula-senato",
+   "ts": "2026-09-09T08:30:00+02:00",
+   "tsApprox": true,
+   "tag": "Legge elettorale",
+   "title": "Lo Stabilicum arriva in aula al Senato senza il mandato della commissione",
+   "summary": "La commissione Affari costituzionali non ha concluso l'esame nei tempi assegnati e il testo approda in assemblea nella versione licenziata dalla Camera: gli emendamenti saranno votati direttamente in aula, il che allunga i tempi e moltiplica le occasioni di incidente sui voti a scrutinio segreto. Il voto finale è calendarizzato per il 15 settembre. Se il Senato modificherà il testo, come appare probabile, sarà necessaria una terza lettura a Montecitorio a partire dal 28 settembre, con l'obiettivo dichiarato di chiudere entro i primi giorni di ottobre.",
+   "sources": [
+    {"name": "Il Sussidiario", "url": "https://www.ilsussidiario.net/news/legge-elettorale-al-senato-stop-ballottaggio-premio-resta-al-42-stabilicum-alla-camera-il-28-settembre/2997410/"},
+    {"name": "Notizie.it", "url": "https://www.notizie.it/trattativa-sulla-legge-elettorale-numeri-emendamenti-e-il-voto-che-arriva-in-aula/"}
+   ]
+  },
+  {
+   "id": "2026-09-09-soglia-cespugli",
+   "ts": "2026-09-09T07:45:00+02:00",
+   "tsApprox": true,
+   "tag": "Legge elettorale",
+   "title": "Soglia anti-cespugli, FdI, Lega e Noi Moderati verso l'1%: Forza Italia resiste",
+   "summary": "Un emendamento congiunto di Fratelli d'Italia, Lega e Noi Moderati propone di abbassare dal 3% all'1% la soglia sotto la quale i voti di una lista coalizzata non vengono conteggiati, misura che protegge le sigle minori di entrambi gli schieramenti e che ne rende conveniente la presentazione autonoma. Forza Italia si oppone e non intende scendere sotto il 2%, temendo la frammentazione della propria area moderata. È la questione che più direttamente incide sulla cifra utile al premio, perché determina quali liste vi concorrono.",
+   "sources": [
+    {"name": "Notizie.it", "url": "https://www.notizie.it/trattativa-sulla-legge-elettorale-numeri-emendamenti-e-il-voto-che-arriva-in-aula/"}
+   ]
+  },
+  {
+   "id": "2026-09-08-niente-ballottaggio",
+   "ts": "2026-09-08T18:20:00+02:00",
+   "tsApprox": true,
+   "tag": "Legge elettorale",
+   "title": "Il centrodestra rinuncia al ballottaggio fra le prime due coalizioni",
+   "summary": "La norma che avrebbe previsto un secondo turno fra le due coalizioni più votate quando nessuna raggiunge la soglia del premio è stata definitivamente accantonata: Fratelli d'Italia non è riuscita a convincere Forza Italia e Lega, entrambe preoccupate dall'effetto boomerang di un ballottaggio che nel 2016 fu fatale alla riforma renziana e che consegnerebbe l'esito a un turno di coalizione contro tutti. Resta dunque il meccanismo a turno unico, con premio solo per chi supera la soglia e ripartizione integralmente proporzionale in caso contrario.",
+   "sources": [
+    {"name": "Il Sussidiario", "url": "https://www.ilsussidiario.net/news/legge-elettorale-salta-norma-sul-ballottaggio-come-cambia-lo-stabilicum-preferenze-accordo-centrodestra/2994947/"},
+    {"name": "L'Espresso", "url": "https://lespresso.it/c/politica/2026/9/1/legge-elettorale-emendamento-ballottaggio-preferenze-capilista-bloccati/64406"}
+   ]
+  },
+  {
+   "id": "2026-09-08-premio-42",
+   "ts": "2026-09-08T12:10:00+02:00",
+   "tsApprox": true,
+   "tag": "Legge elettorale",
+   "title": "Il premio di maggioranza resta agganciato al 42%",
+   "summary": "La soglia che fa scattare i settanta seggi aggiuntivi alla Camera e i trentacinque al Senato resta fissata al 42% della cifra elettorale utile: Fratelli d'Italia aveva sondato un abbassamento al 41%, Forza Italia spingeva per il 43, e il punto di caduta è la conferma del testo uscito da Montecitorio. È il numero attorno al quale ruota l'intera partita, perché nella media dei sondaggi il centrosinistra unito lo supera di poco più di due punti mentre il centrodestra ne resta sotto di uno.",
+   "sources": [
+    {"name": "Il Sussidiario", "url": "https://www.ilsussidiario.net/news/legge-elettorale-al-senato-stop-ballottaggio-premio-resta-al-42-stabilicum-alla-camera-il-28-settembre/2997410/"}
+   ]
+  },
+  {
+   "id": "2026-09-05-pd-preferenze",
+   "ts": "2026-09-05T10:00:00+02:00",
+   "tsApprox": true,
+   "tag": "Legge elettorale",
+   "title": "Il PD rilancia con un subemendamento le preferenze senza capilista bloccati",
+   "summary": "Il Partito Democratico ha depositato un subemendamento che ripropone le preferenze eliminando il capolista bloccato, cioè il candidato che la segreteria di ciascun partito nomina in cima alla lista e che risulta eletto indipendentemente dal voto degli elettori. La proposta mette in difficoltà la maggioranza, perché su un tema che tocca il potere di nomina dei gruppi dirigenti i voti segreti sfuggono alle discipline di coalizione, e apre una discussione interna anche al campo progressista.",
+   "sources": [
+    {"name": "Il Sussidiario", "url": "https://www.ilsussidiario.net/news/legge-elettorale-al-senato-stop-ballottaggio-premio-resta-al-42-stabilicum-alla-camera-il-28-settembre/2997410/"}
+   ]
+  },
+  {
+   "id": "2026-09-04-preferenze-commissione",
+   "ts": "2026-09-04T16:40:00+02:00",
+   "tsApprox": true,
+   "tag": "Legge elettorale",
+   "title": "In commissione passa l'emendamento sulle preferenze: capolista bloccato e fino a tre nomi",
+   "summary": "L'emendamento unitario del centrodestra approvato in commissione Affari costituzionali introduce collegi plurinominali da sette candidati nei quali il capolista resta bloccato e l'elettore può esprimere fino a tre preferenze fra i restanti, con obbligo di alternanza di genere nell'ordine di lista e annullamento delle preferenze multiple espresse a favore di candidati dello stesso sesso. Per le opposizioni si tratta di una concessione apparente: la senatrice Alessandra Maiorino del Movimento 5 Stelle l'ha definita «un pastrocchio che non dà alcun vero potere di scelta», ricordando che una formula simile era stata bocciata alla Camera a scrutinio segreto.",
+   "sources": [
+    {"name": "Corriere Nazionale", "url": "https://www.corrierenazionale.it/2026/09/04/legge-elettorale-in-commissione-al-senato-passa-emendamento-della-maggioranza-sulle-preferenze"},
+    {"name": "Alanews", "url": "https://www.alanews.it/2026/09/03/politica/legge-elettorale-ok-senato-preferenze-capolista-bloccato-riparte-iter"}
+   ]
+  }
+ ]
+}

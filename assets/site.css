@@ -155,3 +155,31 @@ a.evt:hover{border-color:var(--brand)}
   .polls .vals span{font-size:12.5px}
 }
 @media (max-width:400px){.polls .row{padding:7px 8px;gap:8px}.polls .vals{grid-template-columns:repeat(2,minmax(0,1fr))}.polls .vals span{font-size:12px}}
+
+/* banner ultime notizie (colonna laterale) */
+.newsbox{display:block;margin-top:16px;border:1px solid var(--line);border-radius:8px;background:var(--panel);text-decoration:none;color:inherit;overflow:hidden}
+.newsbox:hover{border-color:var(--brand)}
+.newsbox .nb-head{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--line)}
+.newsbox .nb-head .dot{width:13px;height:13px;border-radius:50%;border:2.5px solid var(--brand);flex:none}
+.newsbox .nb-t{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+.newsbox .nb-list{list-style:none;margin:0;padding:0 14px}
+.newsbox .nb-list li{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line2)}
+.newsbox .nb-list li:last-child{border-bottom:0}
+.newsbox .nb-list li.nb-empty{display:block;color:var(--muted);font-size:12.5px}
+.newsbox .ago{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:13px;color:var(--brand);font-variant-numeric:tabular-nums;padding-top:1px;white-space:nowrap}
+.newsbox .ttl{font-weight:600;font-size:14px;line-height:1.25;color:var(--ink)}
+.newsbox:hover .ttl{color:var(--brand)}
+.newsbox .nb-more{padding:10px 14px 12px;font-size:12px;color:var(--ink2);border-top:1px solid var(--line);background:var(--panel2)}
+
+/* pagina delle ultime notizie */
+.newsfeed{list-style:none;margin:18px 0 0;padding:0}
+.newsfeed li{padding:0 0 18px;margin-bottom:18px;border-bottom:1px solid var(--line2)}
+.newsfeed li:last-child{border-bottom:0}
+.newsfeed .meta2{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
+.newsfeed .ago{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--brand);text-transform:uppercase}
+.newsfeed .when2{font-size:12px;color:var(--muted)}
+.newsfeed .tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
+.newsfeed h3{font-family:"Barlow Condensed",Arial,sans-serif;font-size:24px;font-weight:600;line-height:1.1;margin:0 0 6px}
+.newsfeed p{margin:0 0 8px}
+.newsfeed .src{font-size:12px;color:var(--muted)}
+.newsfeed .src a{color:var(--ink2)}

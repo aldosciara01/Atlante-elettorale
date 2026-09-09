@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ultime notizie · Atlante elettorale</title>
+<meta name="description" content="Le ultime notizie sull'iter della legge elettorale e sul quadro politico, ciascuna con un breve approfondimento e le fonti.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body><nav class="site-nav">
+  <a class="brand" href="../index.html">Atlante elettorale</a>
+  <a class="item" href="../mappa/index.html">Mappa 2027</a>
+  <a class="item" href="../approfondimenti/index.html">Approfondimenti</a>
+  <a class="item" href="../approfondimenti/ultime-notizie.html" aria-current="page">Ultime notizie</a>
+  <a class="item" href="../approfondimenti/metodo.html">Metodo</a>
+  <span class="right" id="site-updated"></span>
+</nav><main class="prose">
+<div class="meta">Cronaca · aggiornato in continuo</div>
+<h1>Ultime notizie</h1>
+<p class="lede">Le notizie che incidono sulle proiezioni dell'Atlante — l'iter della legge elettorale, i perimetri delle coalizioni, le candidature — ciascuna con un paragrafo di contesto e il rimando alle fonti. Nella colonna laterale della pagina iniziale compaiono i soli titoli, in ordine di pubblicazione.</p>
+<p id="nf-status" style="font-size:13px;color:var(--muted)">Caricamento delle notizie…</p>
+<ul class="newsfeed" id="nf-list"></ul>
+<p style="font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px">L'orario indicato è quello della pubblicazione della fonte; dove la fonte riporta soltanto la data, l'ora è approssimata e la voce lo segnala. L'Atlante non fa cronaca in proprio: riassume e mette in fila notizie pubblicate da altri, sempre con il collegamento all'originale, e le sceglie in base alla loro rilevanza per il modello elettorale.</p>
+</main><footer class="site-footer">Atlante elettorale · proiezioni e analisi sulle elezioni italiane. Dati: media ponderata dei sondaggi nazionali, calcolata dall'Atlante; risultati 2022 per sezione dalla banca dati SEI (Gabriele Pinto, Sapienza, CC BY-SA); confini amministrativi ISTAT via openpolis. Le proiezioni sono stime e non previsioni.</footer><script>
+fetch('../data/scenario.json?t='+Date.now()).then(r=>r.json()).then(s=>{const e=document.getElementById('site-updated'); if(e) e.textContent='Media ponderata dei sondaggi del '+s.media.label+' · aggiornato '+(/^(8|11|[aeiou])/i.test(s.updatedLabel)?"l'":'il ')+s.updatedLabel;}).catch(()=>{});
+(function(){
+  const list=document.getElementById('nf-list'), st=document.getElementById('nf-status');
+  const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  const ago=iso=>{ const d=new Date(iso), m=Math.floor((Date.now()-d)/60000);
+    if(m<1) return 'ora'; if(m<60) return m+' minuti fa'; const h=Math.floor(m/60);
+    if(h<24) return h===1?'un’ora fa':h+' ore fa'; const g=Math.floor(h/24);
+    if(g===1) return 'ieri'; if(g<7) return g+' giorni fa'; return d.getDate()+' '+MESI[d.getMonth()]; };
+  const when=(iso,approx)=>{ const d=new Date(iso); // sempre nell'ora italiana, qualunque sia il fuso di chi legge
+    const p={}; new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})
+      .formatToParts(d).forEach(x=>p[x.type]=x.value);
+    return `${p.day} ${p.month} ${p.year} · ore ${p.hour}:${p.minute}`+(approx?' (orario approssimato)':''); };
+  fetch('../data/notizie.json?t='+Date.now()).then(r=>r.json()).then(d=>{
+    const items=(d.items||[]).slice().sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+    if(!items.length){ st.textContent='Nessuna notizia al momento.'; return; }
+    st.textContent=items.length+' notizie · ultimo aggiornamento della raccolta '+when(d.updatedAt,false);
+    list.innerHTML=items.map(n=>`<li id="${n.id}">
+      <div class="meta2"><span class="ago" data-ts="${n.ts}">${ago(n.ts)}</span><span class="when2">${when(n.ts,n.tsApprox)}</span>${n.tag?`<span class="tag">${n.tag}</span>`:''}</div>
+      <h3>${n.title}</h3><p>${n.summary}</p>
+      ${(n.sources&&n.sources.length)?`<div class="src">Fonti: ${n.sources.map(f=>`<a href="${f.url}" rel="noopener" target="_blank">${f.name}</a>`).join(' · ')}</div>`:''}
+    </li>`).join('');
+    const tick=()=>list.querySelectorAll('.ago').forEach(e=>e.textContent=ago(e.dataset.ts));
+    setInterval(tick,30000);
+  }).catch(()=>{ st.textContent='Notizie non disponibili in questo momento.'; });
+})();
+</script>
+</body>
+</html>
