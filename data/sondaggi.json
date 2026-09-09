@@ -1,7 +1,7 @@
 {
  "updatedAt": "2026-09-09",
  "from": "2026-09-01",
- "note": "Tutte le rilevazioni nazionali di intenzioni di voto di lista pubblicate dal 1 settembre 2026. La media ponderata dell'Atlante ne usa una per istituto, la più recente della finestra, ed esclude Lab21.",
+ "note": "Tutte le rilevazioni nazionali di intenzioni di voto di lista pubblicate dal 1 settembre 2026. La media ponderata dell'Atlante ne usa una per istituto, la più recente della finestra, ed esclude Lab21. A Only Numbers, che ha raccolto il testimone di Euromedia, si applica lo scarto medio di quest'ultima; quando lo scarto di un istituto non è né ereditabile né calcolabile il campo resta null e la rilevazione, pur elencata, non entra nella ponderazione.",
  "parties": {
   "FdI": ["Fratelli d'Italia", "FdI", "#1F3F8F"],
   "PD": ["Partito Democratico", "PD", "#C5303A"],
@@ -27,7 +27,7 @@
   {"ist": "Termometro Politico", "comm": "—", "field": "1–6 settembre", "pub": "2026-09-07", "scarto": 17.4, "n": 2600,
    "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-fdi-ancora-davanti-a-tutti-il-pd-prova-la-rimonta-tutti-i-dati/2137750/",
    "lists": {"FdI": 27.1, "PD": 21.5, "M5S": 12.7, "FI": 7.4, "FN": 6.7, "AVS": 6.2, "Lega": 6.0, "Az": 2.8, "IV": 2.5, "pE": 1.9, "NM": 1.1, "Altri": 4.1}},
-  {"ist": "Only Numbers", "comm": "Realpolitik", "field": "2–3 settembre", "pub": "2026-09-05", "scarto": null, "n": 800,
+  {"ist": "Only Numbers", "comm": "Realpolitik", "field": "2–3 settembre", "pub": "2026-09-05", "scarto": 15.5, "n": 800,
    "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-calano-fdi-e-pd-cresce-futuro-nazionale-tutti-i-dati/2137154/",
    "lists": {"FdI": 26.5, "PD": 21.3, "M5S": 11.0, "FI": 7.8, "FN": 7.2, "AVS": 6.8, "Lega": 6.8, "Az": 3.3, "IV": 2.6, "pE": 1.4, "NM": 1.0, "Altri": 4.3}},
   {"ist": "Quorum/YouTrend", "comm": "Sky TG24", "field": "31 agosto–3 settembre", "pub": "2026-09-04", "scarto": 14.1, "n": 1000,

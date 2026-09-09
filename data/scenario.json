@@ -7,14 +7,54 @@
   "label": "1–7 settembre 2026",
   "name": "Media ponderata dell'Atlante",
   "short": "media ponderata",
-  "method": "media dei sondaggi nazionali pubblicati fra il 1 e il 7 settembre 2026, ponderata sull'accuratezza degli istituti (peso pari al reciproco dello scarto medio 2022-2024; una sola rilevazione per istituto, la più recente; Lab21 escluso)",
+  "method": "media dei sondaggi nazionali pubblicati fra il 1 e il 7 settembre 2026, ponderata sull'accuratezza degli istituti (peso pari al reciproco dello scarto medio 2022-2024; una sola rilevazione per istituto, la più recente; Lab21 escluso; a Only Numbers si applica lo scarto di Euromedia, di cui ha preso il posto)",
   "url": "approfondimenti/metodo.html",
   "polls": [
-   {"ist": "SWG", "comm": "Tg La7", "field": "2–7 settembre", "pub": "7 settembre", "scarto": 13.3, "peso": 22.1, "url": "https://www.lanotiziagiornale.it/sondaggio-politico-swg-7-settembre-2026-fdi-vannacci/"},
-   {"ist": "Quorum/YouTrend", "comm": "Sky TG24", "field": "31 agosto–3 settembre", "pub": "4 settembre", "scarto": 14.1, "peso": 20.8, "url": "https://quifinanza.it/politica/sondaggi-politici-5-settembre-2026/1014181/"},
-   {"ist": "EMG", "comm": "Tg3", "field": "31 agosto–1 settembre", "pub": "1 settembre", "scarto": 14.5, "peso": 20.2, "url": "https://politpro.eu/it/italia/sondaggi-elettorali/emg-2026-09-01/elezioni-parlamentari"},
-   {"ist": "Only Numbers", "comm": "Realpolitik", "field": "2–3 settembre", "pub": "5 settembre", "scarto": 14.7, "peso": 20.0, "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-calano-fdi-e-pd-cresce-futuro-nazionale-tutti-i-dati/2137154/"},
-   {"ist": "Termometro Politico", "comm": "—", "field": "fine agosto–inizio settembre", "pub": "7 settembre", "scarto": 17.4, "peso": 16.9, "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-fdi-ancora-davanti-a-tutti-il-pd-prova-la-rimonta-tutti-i-dati/2137750/"}
+   {
+    "ist": "SWG",
+    "comm": "Tg La7",
+    "field": "2–7 settembre",
+    "pub": "7 settembre",
+    "scarto": 13.3,
+    "peso": 22.3,
+    "url": "https://www.lanotiziagiornale.it/sondaggio-politico-swg-7-settembre-2026-fdi-vannacci/"
+   },
+   {
+    "ist": "Quorum/YouTrend",
+    "comm": "Sky TG24",
+    "field": "31 agosto–3 settembre",
+    "pub": "4 settembre",
+    "scarto": 14.1,
+    "peso": 21.0,
+    "url": "https://quifinanza.it/politica/sondaggi-politici-5-settembre-2026/1014181/"
+   },
+   {
+    "ist": "EMG",
+    "comm": "Tg3",
+    "field": "31 agosto–1 settembre",
+    "pub": "1 settembre",
+    "scarto": 14.5,
+    "peso": 20.5,
+    "url": "https://politpro.eu/it/italia/sondaggi-elettorali/emg-2026-09-01/elezioni-parlamentari"
+   },
+   {
+    "ist": "Only Numbers",
+    "comm": "Realpolitik",
+    "field": "2–3 settembre",
+    "pub": "5 settembre",
+    "scarto": 15.5,
+    "peso": 19.1,
+    "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-calano-fdi-e-pd-cresce-futuro-nazionale-tutti-i-dati/2137154/"
+   },
+   {
+    "ist": "Termometro Politico",
+    "comm": "—",
+    "field": "fine agosto–inizio settembre",
+    "pub": "7 settembre",
+    "scarto": 17.4,
+    "peso": 17.1,
+    "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-fdi-ancora-davanti-a-tutti-il-pd-prova-la-rimonta-tutti-i-dati/2137750/"
+   }
   ],
   "lists": {
    "Fratelli d'Italia": 26.4,
