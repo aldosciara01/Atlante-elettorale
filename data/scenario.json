@@ -1,74 +1,92 @@
 {
- "version": 3,
- "updatedAt": "2026-09-08",
- "updatedLabel": "8 settembre 2026",
+ "version": 4,
+ "updatedAt": "2026-09-16",
+ "updatedLabel": "16 settembre 2026",
  "media": {
-  "date": "2026-09-07",
-  "label": "1–7 settembre 2026",
+  "date": "2026-09-15",
+  "label": "9–15 settembre 2026",
   "name": "Media ponderata dell'Atlante",
   "short": "media ponderata",
-  "method": "media dei sondaggi nazionali pubblicati fra il 1 e il 7 settembre 2026, ponderata sull'accuratezza degli istituti (peso pari al reciproco dello scarto medio 2022-2024; una sola rilevazione per istituto, la più recente; Lab21 escluso; a Only Numbers si applica lo scarto di Euromedia, di cui ha preso il posto)",
+  "method": "media dei sondaggi nazionali pubblicati fra il 9 e il 15 settembre 2026, ponderata sull'accuratezza degli istituti (peso pari al reciproco dello scarto medio 2022-2024; una sola rilevazione per istituto, la più recente; Lab21 escluso; a Only Numbers si applica lo scarto di Euromedia, di cui ha preso il posto; per BiDiMedia, che rileva già la lista Casa Riformista-IV, Casa Riformista vale quel dato più +Europa senza aggiunta forfettaria; Winpoll, privo di scarto medio calcolabile, resta escluso)",
   "url": "approfondimenti/metodo.html",
   "polls": [
    {
     "ist": "SWG",
     "comm": "Tg La7",
-    "field": "2–7 settembre",
-    "pub": "7 settembre",
+    "field": "9–14 settembre",
+    "pub": "14 settembre",
     "scarto": 13.3,
-    "peso": 22.3,
-    "url": "https://www.lanotiziagiornale.it/sondaggio-politico-swg-7-settembre-2026-fdi-vannacci/"
+    "peso": 16.3,
+    "url": "https://www.open.online/2026/09/14/sondaggi-politici-swg-la7-14-settembre-2026-intenzioni-voto/"
    },
    {
-    "ist": "Quorum/YouTrend",
-    "comm": "Sky TG24",
-    "field": "31 agosto–3 settembre",
-    "pub": "4 settembre",
-    "scarto": 14.1,
-    "peso": 21.0,
-    "url": "https://quifinanza.it/politica/sondaggi-politici-5-settembre-2026/1014181/"
+    "ist": "Ixè",
+    "comm": "—",
+    "field": "3–10 settembre",
+    "pub": "10 settembre",
+    "scarto": 14.0,
+    "peso": 15.4,
+    "url": "https://www.adnkronos.com/politica/sondaggio-elezioni-vannacci-meloni-pd-voto_1DeHgl2qd6dbzeyArzzFli"
+   },
+   {
+    "ist": "BiDiMedia",
+    "comm": "—",
+    "field": "4–6 settembre",
+    "pub": "9 settembre",
+    "scarto": 14.2,
+    "peso": 15.2,
+    "url": "https://sondaggibidimedia.com/sondaggio-bidimedia-9-settembre-2026/"
    },
    {
     "ist": "EMG",
     "comm": "Tg3",
-    "field": "31 agosto–1 settembre",
-    "pub": "1 settembre",
+    "field": "7–8 settembre",
+    "pub": "10 settembre",
     "scarto": 14.5,
-    "peso": 20.5,
-    "url": "https://politpro.eu/it/italia/sondaggi-elettorali/emg-2026-09-01/elezioni-parlamentari"
+    "peso": 14.9,
+    "url": "https://politpro.eu/it/italia/sondaggi-elettorali/emg-2026-09-08/elezioni-parlamentari"
    },
    {
     "ist": "Only Numbers",
-    "comm": "Realpolitik",
-    "field": "2–3 settembre",
-    "pub": "5 settembre",
+    "comm": "Porta a Porta",
+    "field": "non indicato",
+    "pub": "15 settembre",
     "scarto": 15.5,
-    "peso": 19.1,
-    "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-calano-fdi-e-pd-cresce-futuro-nazionale-tutti-i-dati/2137154/"
+    "peso": 13.9,
+    "url": "https://www.italpress.com/sondaggio-ghisleri-per-porta-a-porta-fratelli-italia-al-263-pd-al-207/"
    },
    {
     "ist": "Termometro Politico",
     "comm": "—",
-    "field": "fine agosto–inizio settembre",
-    "pub": "7 settembre",
+    "field": "8–10 settembre",
+    "pub": "11 settembre",
     "scarto": 17.4,
-    "peso": 17.1,
-    "url": "https://www.strettoweb.com/2026/09/sondaggi-politici-le-intenzioni-di-voto-fdi-ancora-davanti-a-tutti-il-pd-prova-la-rimonta-tutti-i-dati/2137750/"
+    "peso": 12.4,
+    "url": "https://www.termometropolitico.it/1634103_sondaggi-politici-elettorali-tp-11-09-2026.html"
+   },
+   {
+    "ist": "Piepoli",
+    "comm": "Omnibus (La7)",
+    "field": "non indicato",
+    "pub": "12 settembre",
+    "scarto": 18.1,
+    "peso": 11.9,
+    "url": "https://www.fanpage.it/politica/sondaggi-politici-la-lega-crolla-vannacci-cresce-e-raggiunge-forza-italia-chi-e-in-testa-tra-i-partiti/"
    }
   ],
   "lists": {
-   "Fratelli d'Italia": 26.4,
-   "Partito Democratico": 21.4,
-   "Movimento 5 Stelle": 12.3,
-   "Forza Italia": 7.4,
-   "Futuro Nazionale": 7.3,
-   "Alleanza Verdi e Sinistra": 6.3,
-   "Lega": 6.0,
-   "Azione": 3.2,
-   "Italia Viva": 2.5,
+   "Fratelli d'Italia": 26.3,
+   "Partito Democratico": 21.1,
+   "Movimento 5 Stelle": 12.5,
+   "Futuro Nazionale": 7.6,
+   "Forza Italia": 7.5,
+   "Alleanza Verdi e Sinistra": 6.6,
+   "Lega": 5.7,
+   "Azione": 3.0,
+   "Italia Viva": 2.3,
    "+Europa": 1.5,
-   "Noi Moderati": 1.1,
-   "Partito Liberaldemocratico": 0.6
+   "Noi Moderati": 1.2,
+   "Partito Liberaldemocratico": 0.4
   }
  },
  "adjustments": {
@@ -76,17 +94,17 @@
   "Centro": 0.6
  },
  "targets": {
-  "FdI": 26.4,
-  "PD": 21.4,
-  "M5S": 12.3,
-  "FN": 7.3,
-  "FI": 7.4,
-  "AVS": 6.3,
-  "Lega": 6.0,
-  "CasaRif": 4.6,
-  "Centro": 4.1,
-  "NM": 1.1,
-  "Altri": 3.1
+  "FdI": 26.3,
+  "PD": 21.1,
+  "M5S": 12.5,
+  "FN": 7.6,
+  "FI": 7.5,
+  "AVS": 6.6,
+  "Lega": 5.7,
+  "CasaRif": 4.3,
+  "Centro": 3.8,
+  "NM": 1.2,
+  "Altri": 3.4
  },
  "coalitions": {
   "CSX": [
@@ -109,34 +127,35 @@
   ]
  },
  "previous": {
-  "date": "2026-07-30",
-  "label": "30 luglio 2026",
-  "name": "Supermedia AGI/YouTrend",
+  "date": "2026-09-07",
+  "label": "1–7 settembre 2026",
+  "name": "Media ponderata dell'Atlante",
   "lists": {
-   "Fratelli d'Italia": 26.7,
-   "Partito Democratico": 21.2,
-   "Movimento 5 Stelle": 13.0,
-   "Forza Italia": 8.0,
-   "Futuro Nazionale": 7.1,
-   "Alleanza Verdi e Sinistra": 6.4,
-   "Lega": 5.9,
-   "Azione": 3.1,
-   "Italia Viva": 2.3,
-   "+Europa": 1.4,
-   "Noi Moderati": 1.0
+   "Fratelli d'Italia": 26.4,
+   "Partito Democratico": 21.4,
+   "Movimento 5 Stelle": 12.3,
+   "Forza Italia": 7.4,
+   "Futuro Nazionale": 7.3,
+   "Alleanza Verdi e Sinistra": 6.3,
+   "Lega": 6.0,
+   "Azione": 3.2,
+   "Italia Viva": 2.5,
+   "+Europa": 1.5,
+   "Noi Moderati": 1.1,
+   "Partito Liberaldemocratico": 0.6
   }
  },
  "prevTargets": {
-  "FdI": 26.7,
-  "PD": 21.2,
-  "M5S": 13.0,
-  "FN": 7.1,
-  "FI": 8.0,
-  "AVS": 6.4,
-  "Lega": 5.9,
-  "CasaRif": 4.3,
-  "Centro": 3.7,
-  "NM": 1.0,
-  "Altri": 2.7
+  "FdI": 26.4,
+  "PD": 21.4,
+  "M5S": 12.3,
+  "FN": 7.3,
+  "FI": 7.4,
+  "AVS": 6.3,
+  "Lega": 6.0,
+  "CasaRif": 4.6,
+  "Centro": 4.1,
+  "NM": 1.1,
+  "Altri": 3.1
  }
 }
