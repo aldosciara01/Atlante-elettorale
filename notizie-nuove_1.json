@@ -1,0 +1,61 @@
+{
+  "updatedAt": "2026-09-18T08:40:00+02:00",
+  "items": [
+    {
+      "id": "2026-09-17-ciriani-voto-finale-ottobre",
+      "ts": "2026-09-17T12:59:00+02:00",
+      "tag": "Legge elettorale",
+      "title": "Ciriani colloca il voto finale della Camera nella prima settimana di ottobre",
+      "summary": "Il ministro per i Rapporti con il Parlamento Luca Ciriani ha indicato il calendario della terza lettura: discussione generale alla Camera dal 28 settembre e voto finale, secondo le sue parole, molto probabilmente nella prima settimana di ottobre, prima dell'avvio della sessione di bilancio. Sul ricorso alla questione di fiducia Ciriani ha parlato di una scelta collegiale della maggioranza assunta con la presidente del Consiglio, senza darla per già decisa. Per la proiezione il punto rilevante è che il quadro normativo potrebbe risultare definitivo entro i primi giorni di ottobre, riducendo l'incertezza sulle regole con cui simulare la ripartizione dei seggi.",
+      "sources": [
+        {
+          "name": "Ansa",
+          "url": "https://www.ansa.it/sito/notizie/politica/2026/09/17/ciriani-il-voto-finale-della-legge-elettorale-nella-prima-settimana-di-ottobre_6476518a-0c2c-4784-a54d-1ecbbefcfa5f.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-16-camera-termine-emendamenti",
+      "ts": "2026-09-16T18:41:00+02:00",
+      "tag": "Legge elettorale",
+      "title": "La commissione Affari costituzionali fissa al 22 settembre il termine per gli emendamenti",
+      "summary": "La commissione Affari costituzionali della Camera ha fissato il termine per gli emendamenti al 22 settembre alle sedici, dopo le audizioni del 21, con l'esame dell'ammissibilità il 23, la discussione delle proposte dal 24 al 27 e il voto sul mandato al relatore previsto lo stesso 27; l'aula è attesa il 28. Trattandosi di terza lettura, l'esame si concentra sulle parti modificate dal Senato. Il calendario delimita la finestra entro cui premio, soglie e disciplina delle preferenze possono ancora essere ritoccati, e quindi il momento oltre il quale i parametri delle simulazioni possono considerarsi stabili.",
+      "sources": [
+        {
+          "name": "Ansa",
+          "url": "https://www.ansa.it/sito/notizie/politica/2026/09/16/legge-elettorale-martedi-22-la-scadenza-del-termine-per-gli-emendamenti-in-commissione_320037b9-cd18-461c-9ddf-57f6c86adb71.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-15-senato-approva-stabilicum",
+      "ts": "2026-09-15T20:20:00+02:00",
+      "tag": "Legge elettorale",
+      "title": "Il Senato approva lo Stabilicum e rinvia il testo alla Camera per la terza lettura",
+      "summary": "Il Senato ha approvato in seconda lettura la riforma elettorale denominata Stabilicum con centotredici voti favorevoli e settantuno contrari, tra la protesta delle opposizioni in aula. Il testo delinea un impianto proporzionale con premio alla coalizione che superi il 42 per cento, pari a settanta deputati e trentacinque senatori aggiuntivi entro i tetti di duecentoventi e centotredici seggi, conferma la soglia del 3 per cento per le liste e del 10 per le coalizioni con ripescaggio della migliore lista sottosoglia, reintroduce fino a tre preferenze su sei nomi dopo un capolista bloccato, impone l'indicazione del candidato premier ed eleva a seimila per collegio le firme richieste ai partiti non rappresentati.",
+      "sources": [
+        {
+          "name": "Ansa",
+          "url": "https://www.ansa.it/sito/notizie/politica/2026/09/15/via-libera-del-senato-alla-legge-elettorale-con-113-si_a398356e-998c-482f-a11d-a5256441e9f0.html"
+        },
+        {
+          "name": "Sky TG24",
+          "url": "https://tg24.sky.it/politica/2026/09/15/legge-elettorale-senato-voto"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-14-schlein-primarie-reggio-emilia",
+      "ts": "2026-09-14T16:48:00+02:00",
+      "tag": "Primarie",
+      "title": "Schlein si dichiara disponibile alle primarie di coalizione e chiede di accelerare sul programma",
+      "summary": "Alla Festa dell'Unità di Reggio Emilia la segretaria del Partito Democratico Elly Schlein ha affermato che, se le primarie di coalizione si terranno, il suo partito le vincerà, si è detta pronta a guidare lo schieramento e ha chiesto di accelerare sul programma comune, sostenendo che l'alleanza debba allargarsi anziché restringersi. L'intervento risponde alla pressione di Giuseppe Conte, che subordina l'intesa alla celebrazione delle primarie, e non scioglie le divergenze sul sostegno militare a Kiev. Restano indeterminati modalità, data ed eventuale ballottaggio, elementi da cui dipende l'ipotesi di una coalizione unica nelle simulazioni.",
+      "sources": [
+        {
+          "name": "Ansa",
+          "url": "https://www.ansa.it/sito/notizie/politica/2026/09/13/schlein-noi-pronti-per-il-voto-prima-e-meglio-e.-se-faremo-le-primarie-le-vinceremo_e7972103-a0cf-45f2-a74a-72157aa676f0.html"
+        }
+      ]
+    }
+  ]
+}
